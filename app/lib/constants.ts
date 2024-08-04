@@ -76,3 +76,34 @@ export const PLATFORM_CONFIG: PLATFORM_CONFIG_TYPE = {
   // "worknet":{displayName: "워크넷", logo: "worknet_logo.png" },
   //   { name: "linkedIn", displayName: "링크드인", logo: "linkedin_logo.png" },
 };
+
+// error messages
+const NETWORK_ERROR = '네트워크 오류입니다.';
+const AUTH_ERROR = '아이디 또는 비밀번호가 올바르지 않습니다.';
+const ACTION_RECHECK = '다시 확인해 주세요.';
+const ACTION_RETRY = '잠시 후에 다시 시도해 주세요.';
+const ACTION_CS = '고객센터로 문의해 주세요.';
+
+type m = {
+  reason: {
+    network: typeof NETWORK_ERROR;
+    authentication: typeof AUTH_ERROR;
+  };
+  action: {
+    recheck: typeof ACTION_RECHECK;
+    retry: typeof ACTION_RETRY;
+    cs: typeof ACTION_CS;
+  };
+};
+
+export const ERROR_MESSAGE: m = {
+  reason: {
+    network: NETWORK_ERROR,
+    authentication: AUTH_ERROR,
+  },
+  action: {
+    recheck: ACTION_RECHECK,
+    retry: ACTION_RETRY,
+    cs: ACTION_CS,
+  },
+};
