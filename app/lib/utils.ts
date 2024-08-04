@@ -23,3 +23,22 @@ export function checkCookieSize(name: string, value: string): boolean {
 
   return true;
 }
+
+/* eslint-disable */
+export function validateEmail(email: string) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
+
+export function validatePassword(password: string) {
+  // 최소 8자, 최소 하나의 문자, 하나의 숫자, 하나의 특수문자
+  const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+  return re.test(password);
+}
+
+export function validatePhoneNumber(phoneNumber: string) {
+  const re = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
+  return re.test(phoneNumber);
+}
+/* eslint-enable */
