@@ -5,9 +5,9 @@ import { signinApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import { base64Encode } from '@/app/lib/utils';
 import { setUserAuth, clearUserAuth } from '@/app/lib/auth';
-import Link from 'next/link';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
+import AuthPrompt from '../../components/auth-prompt';
 
 type Inputs = {
   email: string;
@@ -91,12 +91,7 @@ export default function SigninForm() {
         </button>
       </form>
 
-      <p className="mt-4 text-center text-white">
-        계정이 없으신가요?{' '}
-        <Link className="hover:text-gradient" href="/app/auth/signup">
-          회원가입
-        </Link>
-      </p>
+      <AuthPrompt isSignUpPage={false} />
     </div>
   );
 }
