@@ -3,7 +3,7 @@ import PlatformConnection from './components/platform-connection';
 
 export default function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <div className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>https://jiwon-sync.in10s.co/app/sync</div>
 
       <div>
@@ -15,6 +15,6 @@ export default function Index() {
         <h2>채용 플랫폼 연결 상태</h2>
         <PlatformConnection />
       </div>
-    </main>
+    </div>
   );
 }

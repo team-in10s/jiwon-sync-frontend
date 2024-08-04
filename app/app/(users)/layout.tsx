@@ -18,9 +18,7 @@ export default function UserLayout({ children }: { children: ReactNode }) {
         <LogoutButton />
       </nav>
 
-      <main>{children}</main>
-
-      <footer>footer</footer>
+      <div>{children}</div>
     </div>
   );
 }
