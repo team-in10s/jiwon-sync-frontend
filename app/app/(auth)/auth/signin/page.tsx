@@ -1,14 +1,13 @@
-import Link from 'next/link';
 import SigninForm from './components/signin-form';
 
 export default function Index() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>로그인</div>
+    <div className="flex flex-col justify-center">
+      <h1 className="text-gradient mb-8 text-center text-4xl font-bold md:text-6xl">
+        지원전에 Sync
+      </h1>
+
       <SigninForm />
-      <div>
-        아직 회원이 아니신가요? <Link href="/app/auth/signup">회원가입</Link>
-      </div>
-    </main>
+    </div>
   );
 }
