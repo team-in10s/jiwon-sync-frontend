@@ -2,7 +2,8 @@ export const dynamic = 'force-dynamic'; // defaults to auto
 
 export async function POST(request: Request) {
   // TODO: request 타입에 signupUserData 넣을 수 있나 확인
-  const { name, email, password, yearsOfExp, jobTitle, telNo } = await request.json();
+  const { name, email, password, yearsOfExp, jobTitle, customJobTitle, telNo, gender, birthDate } =
+    await request.json();
 
   // TODO: 서버 접근 주소 env로 관리
   const res = await fetch('http://localhost:8000/api/auth/register', {
@@ -16,7 +17,10 @@ export async function POST(request: Request) {
       password,
       years_experience: yearsOfExp,
       job_title: jobTitle,
+      other_job: customJobTitle,
       call_no: telNo,
+      gender,
+      birthdate: birthDate,
       skip_container: 'True',
     }),
   });
