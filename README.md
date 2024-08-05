@@ -34,3 +34,8 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+## 시퀀스 다이어그램
+
+- 프론트엔드, 백엔드 간 커뮤니케이션
+- https://github.com/team-in10s/jiwon-sync-dio/blob/robert/sequence_diagram.puml 을 https://plantuml-editor.kkeisuke.com/에서 실행
