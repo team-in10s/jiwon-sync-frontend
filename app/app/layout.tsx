@@ -18,6 +18,13 @@ export default function AppLayout({ children }: { children: ReactNode }) {
               fontWeight: 600,
             },
           },
+          success: {
+            style: {
+              background: '#4BB543',
+              color: '#fff',
+              fontWeight: 600,
+            },
+          },
         }}
       />
       {children}
