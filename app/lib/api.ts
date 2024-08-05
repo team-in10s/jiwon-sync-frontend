@@ -26,9 +26,12 @@ type signupUserData = {
   name: string;
   email: string;
   password: string;
-  yearsOfExp: number;
-  jobTitle: string;
   telNo: string;
+  yearsOfExp: number;
+  jobTitle: 'marketer' | 'pm' | 'developer' | 'operation' | 'sales' | 'other';
+  customJobTitle?: string;
+  gender: 'male' | 'female' | 'other';
+  birthDate: string;
 };
 
 // TODO 응답값 타입 잡기
