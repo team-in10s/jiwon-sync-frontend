@@ -45,6 +45,7 @@ export default function SignupForm() {
     watch,
     setFocus,
     setError,
+    clearErrors,
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
@@ -60,33 +61,21 @@ export default function SignupForm() {
       return;
     }
 
-    // const {
-    //   name,
-    //   email,
-    //   password,
-    //   telNo,
-    //   yearsOfExp,
-    //   jobTitle,
-    //   customJobTitle = null,
-    //   gender,
-    //   birthDate,
-    // } = data;
-
-    // name: string;
-    // email: string;
-    // password: string;
-    // telNo: string;
-    // yearsOfExp: number;
-    // jobTitle: 'marketer' | 'pm' | 'developer' | 'operation' | 'sales' | 'other';
-    // customJobTitle?: string;
-    // gender: 'male' | 'female' | 'other';
-    // birthDate: string;
-
     try {
       const res = await signupApi(data);
       console.log('apiSignup res? ', res);
 
-      router.push('/app/auth/signin');
+      // res.message -> 성공
+      // res.detail -> 실패 (뭐가 부족해서 가입이 안됨)
+
+      if (res.message) {
+        toast.success('회원가입 성공!');
+        router.push('/app/auth/signin');
+      } else {
+        // TODO: 회원가입 중에 뭐가 부족해서 가입이 안되는것인지 파악하기 쉽게 개선
+        // 클라이언트에서 유효성 검사를 잘해서 부족한 값이 없도록 최대한 촘촘하게 짜는 것이 우선
+        toast.error(res.detail[0].msg);
+      }
     } catch (error) {
       console.log('signup error - ', error);
       toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
@@ -98,6 +87,10 @@ export default function SignupForm() {
   };
 
   const checkEmailDuplication = async () => {
+    if (errors.email) {
+      clearErrors('email');
+    }
+
     const email = watch('email');
 
     if (!validateEmail(email)) {
@@ -126,6 +119,10 @@ export default function SignupForm() {
   };
 
   const checkTelNoDuplication = async () => {
+    if (errors.telNo) {
+      clearErrors('telNo');
+    }
+
     const telNo = watch('telNo');
 
     if (!validatePhoneNumber(telNo)) {
@@ -214,7 +211,9 @@ export default function SignupForm() {
               {errors.email.message || '유효한 이메일 주소를 입력하세요.'}
             </span>
           )}
-          {emailChecked && <span className="text-green-500">사용 가능한 이메일입니다.</span>}
+          {emailChecked && (
+            <span className="text-sm text-green-500">사용 가능한 이메일입니다.</span>
+          )}
         </label>
 
         <label className="mb-4 block">
@@ -263,7 +262,9 @@ export default function SignupForm() {
               {errors.telNo.message || '유효한 전화번호를 입력하세요.'}
             </span>
           )}
-          {telNoChecked && <span className="text-green-500">사용 가능한 전화번호입니다.</span>}
+          {telNoChecked && (
+            <span className="text-sm text-green-500">사용 가능한 전화번호입니다.</span>
+          )}
         </label>
 
         <label className="mb-4 block">
