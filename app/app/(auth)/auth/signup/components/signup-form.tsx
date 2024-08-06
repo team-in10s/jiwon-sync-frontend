@@ -170,7 +170,7 @@ export default function SignupForm() {
   }, [watch]);
 
   return (
-    <div className="card w-full max-w-lg rounded-lg p-8">
+    <div className="card w-full max-w-lg p-8">
       <h2 className="mb-8 text-2xl font-bold text-white">회원가입</h2>
 
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit"  */}
