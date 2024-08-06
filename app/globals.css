@@ -30,3 +30,23 @@
     transition: all 0.3s ease;
   }
 }
+
+@keyframes shine {
+  0% {
+    background-position: -200%;
+  }
+  100% {
+    background-position: 200%;
+  }
+}
+
+.shiny-text {
+  background: linear-gradient(90deg, #00ff9d, #00ccff, #00ff9d);
+  background-size: 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  font-weight: bold;
+  animation: shine 3s linear infinite;
+  display: inline-block;
+}
