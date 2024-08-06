@@ -12,6 +12,7 @@ const config: Config = {
         primary: '#00ff9d',
         secondary: '#1a1a1a',
         error: '#ff6b6b',
+        'gradient-blue': '#00ccff',
       },
     },
   },
