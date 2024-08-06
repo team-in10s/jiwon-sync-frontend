@@ -53,8 +53,6 @@ export async function signupApi(userData: signupUserData) {
 
 // TODO 응답값 타입 잡기
 export async function saveMainResume(resumeData: FormData) {
-  console.log('saveMainResume > resumeData: ', resumeData);
-
   const { credentials } = getUserAuth();
 
   const response = await fetch('/api/resume/main', {

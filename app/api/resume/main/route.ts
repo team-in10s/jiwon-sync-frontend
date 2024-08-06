@@ -18,7 +18,6 @@ export async function POST(request: Request) {
   const res = await fetch('http://localhost:8000/api/resume/main', {
     method: 'POST',
     headers: {
-      //   'Content-Type': 'application/json', false?
       Authorization: authHeader,
     },
     body: formData,
