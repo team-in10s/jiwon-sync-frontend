@@ -7,13 +7,20 @@ import { PLATFORM_CONFIG } from '@/app/lib/constants';
 // TODO: constant로 옮길 수 있을듯?
 // platform과 status를 내려준다
 
-const platforms = Object.keys(PLATFORM_CONFIG).map((platform) => {
-  return {
-    platform,
-    displayName: PLATFORM_CONFIG[platform].displayName,
-    status: null,
-  };
-});
+const platforms = Object.keys(PLATFORM_CONFIG)
+  .filter((platform) => platform !== 'custom' && platform !== 'jiwon')
+  .map((platform) => {
+    return {
+      platform,
+      displayName: PLATFORM_CONFIG[platform].displayName,
+      status: null,
+      imageSrc: PLATFORM_CONFIG[platform].logo
+        ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
+        : null,
+    };
+  });
+
+console.log('platforms? ', platforms);
 
 // TODO: error boundary, suspense
 export default async function PlatformConnection() {
@@ -32,6 +39,8 @@ export default async function PlatformConnection() {
 
   return (
     <div>
+      <h2 className="mb-4 text-xl font-bold">채용 플랫폼 연결 상태</h2>
+
       <ConnectedList list={platformStatus} />
     </div>
   );

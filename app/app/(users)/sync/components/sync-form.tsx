@@ -10,8 +10,8 @@ import OtherPlatform from './other-platform';
 // TODO: constant로 옮길 수 있을듯?
 const options = Object.keys(PLATFORM_CONFIG).map((platform) => {
   return {
-    value: platform,
-    label: PLATFORM_CONFIG[platform].displayName,
+    platform,
+    displayName: PLATFORM_CONFIG[platform].displayName,
     imageSrc: PLATFORM_CONFIG[platform].logo
       ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
       : null,
@@ -41,8 +41,6 @@ export default function SyncForm() {
       </div>
 
       {selectedPlatform === '' ? null : <ResumeInputs selectedPlatform={selectedPlatform} />}
-
-      {/* {isLoading && <FullScreenLoadingIndicator />} */}
     </div>
   );
 }

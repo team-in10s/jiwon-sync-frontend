@@ -2,8 +2,8 @@ import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 
 type Option = {
-  value: string;
-  label: string;
+  platform: string;
+  displayName: string;
   imageSrc: string | null;
 };
 
@@ -49,7 +49,7 @@ export default function PlatformSelect({ options, selectedValue, onChange }: Cus
         onClick={() => setIsOpen(!isOpen)}
         onKeyDown={handleKeyDown}
       >
-        {options.find((option) => option.value === selectedValue)?.label || '플랫폼 선택'}
+        {options.find((option) => option.platform === selectedValue)?.displayName || '플랫폼 선택'}
         <svg
           className={`size-5 transition-transform${isOpen ? 'rotate-180' : ''}`}
           fill="none"
@@ -64,27 +64,24 @@ export default function PlatformSelect({ options, selectedValue, onChange }: Cus
         <ul className="absolute z-10 mt-1 w-full rounded-lg border border-gray-600 bg-gray-800">
           {options.map((option, index) => (
             <li
-              key={option.value}
+              key={option.platform}
               className={`flex cursor-pointer items-center p-2 hover:bg-gray-600 ${
-                selectedValue === option.value ? 'bg-gray-600' : ''
+                selectedValue === option.platform ? 'bg-gray-600' : ''
               } ${index === 0 ? 'rounded-t-lg' : ''} ${index === options.length - 1 ? 'rounded-b-lg' : ''}`}
-              onClick={() => handleOptionClick(option.value)}
-              onKeyDown={(_) => {
-                //
-              }}
+              onClick={() => handleOptionClick(option.platform)}
               role="option"
-              aria-selected={selectedValue === option.value}
+              aria-selected={selectedValue === option.platform}
             >
               {option.imageSrc && (
                 <Image
                   src={option.imageSrc}
-                  alt={option.label}
+                  alt={option.displayName}
                   width={24}
                   height={24}
                   className="mr-2 rounded-md"
                 />
               )}
-              <span className="text-white">{option.label}</span>
+              <span className="text-white">{option.displayName}</span>
             </li>
           ))}
         </ul>

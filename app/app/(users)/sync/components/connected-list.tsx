@@ -1,12 +1,14 @@
 'use client';
 
 // import { connectPlatform } from '../actions';
+import Image from 'next/image';
 
 type PropType = {
   list: {
     platform: string;
     displayName: string;
     status: string | null; // TODO:  status 값 타입 따로 잡기 string 말고,
+    imageSrc: string | null;
   }[];
 };
 
@@ -29,11 +31,26 @@ export default function ConnectedList({ list }: PropType) {
     <div>
       {list.map((statusList) => {
         return (
-          <div key={statusList.platform}>
-            <span>{statusList.displayName} </span>
+          <div
+            className="mb-4 flex items-center justify-between rounded-lg bg-gray-600 p-4"
+            key={statusList.platform}
+          >
+            <div className="flex items-center gap-2">
+              {statusList.imageSrc && (
+                <Image
+                  src={statusList.imageSrc}
+                  alt={statusList.displayName}
+                  width={24}
+                  height={24}
+                  className="rounded-md"
+                />
+              )}
+              <span>{statusList.displayName} </span>
+            </div>
+
             {statusList.status === null ? (
               <button
-                className="bg-slate-300 px-2 py-1"
+                className="btn-gradient rounded-full px-3 py-1 text-sm"
                 onClick={() => {
                   handleConnect(statusList.platform);
                 }}
@@ -41,7 +58,7 @@ export default function ConnectedList({ list }: PropType) {
                 연결하기
               </button>
             ) : (
-              <span>연결 완료</span>
+              <span className="text-sm">연결 완료</span>
             )}
           </div>
         );
