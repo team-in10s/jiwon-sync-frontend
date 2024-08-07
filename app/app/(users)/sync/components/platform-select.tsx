@@ -81,7 +81,7 @@ export default function PlatformSelect({ options, selectedValue, onChange }: Cus
                   alt={option.label}
                   width={24}
                   height={24}
-                  className="mr-2"
+                  className="mr-2 rounded-md"
                 />
               )}
               <span className="text-white">{option.label}</span>
