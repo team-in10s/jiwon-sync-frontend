@@ -5,7 +5,8 @@ import { PLATFORM_CONFIG } from '@/app/lib/constants';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import SaveButton from './save-button';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import FileInput from './file-input';
 
 type Inputs = {
   // resumeFile: FileList;
@@ -23,30 +24,8 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
   } = useForm<Inputs>();
 
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-
-    if (file) {
-      setSelectedFileName(file.name);
-      // setValue('resumeFile', e.target.files!); // Update the form value
-      setValue('resumeFile', file); // Update the form value
-    } else {
-      setSelectedFileName(null);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent<HTMLLabelElement>) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      setSelectedFileName(file.name);
-      // setValue('resumeFile', e.dataTransfer.files!); // Update the form value
-      setValue('resumeFile', file); // Update the form value
-    }
-    setIsDragging(false);
-  };
+  console.log('selectedPlatform? ', selectedPlatform);
 
   const onSubmit: SubmitHandler<Inputs> = async (_) => {
     const submittedFile = getValues('resumeFile');
@@ -54,7 +33,7 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
     const formData = new FormData();
     formData.append('platform', selectedPlatform);
     formData.append('file', submittedFile);
-    formData.append('link', '');
+    // formData.append('link', '');
 
     try {
       const res = await saveMainResume(formData);
@@ -67,8 +46,14 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
       toast.error('메인 이력서 저장에 실패했습니다.');
     } finally {
       resetField('resumeFile');
+      setSelectedFileName(null);
     }
   };
+
+  useEffect(() => {
+    setSelectedFileName(null);
+    resetField('resumeFile');
+  }, [selectedPlatform, resetField]);
 
   return (
     <div>
@@ -79,29 +64,14 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
       </p>
 
       <form onSubmit={handleSubmit(onSubmit)}>
-        <label
-          htmlFor="resumeFile"
-          className={`mb-3 block w-full cursor-pointer rounded-lg border-2 border-dashed border-primary/60 ${isDragging ? 'bg-primary/10' : 'bg-[#2d2d2d]'} px-4 py-8 text-center transition duration-300 ease-in-out hover:border-primary hover:bg-primary/10`}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setIsDragging(true);
-          }}
-          onDragLeave={() => setIsDragging(false)}
-          onDrop={handleDrop}
-        >
-          <input
-            type="file"
-            id="resumeFile"
-            className="hidden"
-            {...register('resumeFile')}
-            onChange={handleFileChange}
-          />
-          <span>
-            {selectedFileName ||
-              `${PLATFORM_CONFIG[selectedPlatform].displayName} 이력서 파일을 여기에 드래그하거나
-            클릭하여 업로드하세요`}
-          </span>
-        </label>
+        <FileInput
+          register={register}
+          setValue={setValue}
+          fieldName="resumeFile"
+          placeholder={`${PLATFORM_CONFIG[selectedPlatform].displayName} 이력서 파일을 여기에 드래그하거나 클릭하여 업로드하세요`}
+          selectedFileName={selectedFileName}
+          setSelectedFileName={setSelectedFileName}
+        />
 
         <SaveButton isSubmitting={isSubmitting} disabled={!selectedFileName} />
       </form>
