@@ -29,7 +29,8 @@ bun dev
 
 ## 시퀀스 다이어그램
 
-- 프론트엔드, 백엔드 간 커뮤니케이션
+- Robert 현기님이 작성해 주셨습니다. ✨
+- 프론트엔드, 백엔드 간 커뮤니케이션이 도식화 되어 있습니다. (2024 8월 초 기준)
 - https://github.com/team-in10s/jiwon-sync-dio/blob/robert/sequence_diagram.puml 을 https://plantuml-editor.kkeisuke.com/에서 실행
 
 ## 깃 커밋 메시지 규칙
