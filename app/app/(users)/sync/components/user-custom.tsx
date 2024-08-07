@@ -57,7 +57,7 @@ export default function UserCustom() {
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="mb-2 block">
-          <span className="block text-sm font-medium text-slate-200">이력서 url</span>
+          {/* <span className="block text-sm font-medium text-slate-200">이력서 url</span> */}
           <input
             className="mt-1 block w-full cursor-pointer rounded-lg border border-gray-600 bg-gray-700 p-2 text-white placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('resumeUrl')}
