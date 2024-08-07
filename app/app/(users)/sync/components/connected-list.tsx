@@ -27,7 +27,6 @@ export default function ConnectedList({ list }: PropType) {
 
   return (
     <div>
-      <div>TODO: 토글버튼 </div>
       {list.map((statusList) => {
         return (
           <div key={statusList.platform}>

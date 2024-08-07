@@ -25,8 +25,6 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
 
   const [selectedFileName, setSelectedFileName] = useState<string | null>(null);
 
-  console.log('selectedPlatform? ', selectedPlatform);
-
   const onSubmit: SubmitHandler<Inputs> = async (_) => {
     const submittedFile = getValues('resumeFile');
 
