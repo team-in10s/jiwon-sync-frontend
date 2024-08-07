@@ -1,12 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import { UseFormSetValue, UseFormRegister, FieldValues } from 'react-hook-form';
+import { UseFormSetValue, UseFormRegister, FieldValues, PathValue, Path } from 'react-hook-form';
 
 type FileInputProps<T extends FieldValues> = {
   register: UseFormRegister<T>;
   setValue: UseFormSetValue<T>;
-  fieldName: keyof T;
+  fieldName: Path<T>;
   placeholder: string;
   selectedFileName: string | null;
   setSelectedFileName: (name: string | null) => void;
@@ -28,7 +28,7 @@ export default function FileInput<T extends FieldValues>({
 
     if (file) {
       setSelectedFileName(file.name);
-      setValue(fieldName, file); // Update the form value
+      setValue(fieldName, file as PathValue<T, Path<T>>); // Update the form value
     } else {
       setSelectedFileName(null);
     }
@@ -39,7 +39,7 @@ export default function FileInput<T extends FieldValues>({
     const file = e.dataTransfer.files?.[0];
     if (file) {
       setSelectedFileName(file.name);
-      setValue(fieldName, file); // Update the form value
+      setValue(fieldName, file as PathValue<T, Path<T>>); // Update the form value
     }
     setIsDragging(false);
   };
