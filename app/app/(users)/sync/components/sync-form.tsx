@@ -27,10 +27,19 @@ export default function SyncForm() {
 
   return (
     <div>
-      <h2>기존 이력서 불러오기</h2>
-      <p>가장 마지막에 업로드한 이력서가 우측 채용 플랫폼들에 자동으로 동기화 됩니다.</p>
+      <h2 className="mb-2 text-xl font-bold">기존 이력서 불러오기</h2>
+      <p className="mb-6">
+        가장 마지막에 업로드한 이력서가 우측 채용 플랫폼들에 자동으로 동기화 됩니다.
+      </p>
 
-      <PlatformSelect options={options} selectedValue={selectedPlatform} onChange={handleChange} />
+      <div className="mb-4">
+        <PlatformSelect
+          options={options}
+          selectedValue={selectedPlatform}
+          onChange={handleChange}
+        />
+      </div>
+
       {selectedPlatform === '' ? null : <ResumeInputs selectedPlatform={selectedPlatform} />}
 
       {/* {isLoading && <FullScreenLoadingIndicator />} */}
