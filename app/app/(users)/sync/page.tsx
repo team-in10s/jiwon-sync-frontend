@@ -13,8 +13,7 @@ export default function Index() {
           <SyncForm />
         </div>
 
-        <div className="card flex-1 bg-slate-300 p-10">
-          <h2 className="mb-4 text-xl font-bold text-white">채용 플랫폼 연결 상태</h2>
+        <div className="card flex-1 p-7">
           <PlatformConnection />
         </div>
       </div>
