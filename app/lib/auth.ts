@@ -30,12 +30,27 @@ export function clearUserAuth() {
   Cookies.remove(CREDENTIALS_COOKIE);
 }
 
-export function getUserAuth() {
+type userInfo = {
+  telNo: string;
+  email: string;
+};
+
+export function getUserAuth(): {
+  user: userInfo | null;
+  credentials: string | null;
+} {
   const userCookie = Cookies.get(USER_COOKIE);
   const credentials = Cookies.get(CREDENTIALS_COOKIE);
 
+  const parsedUser = userCookie ? JSON.parse(userCookie) : null;
+
   return {
-    user: userCookie ? JSON.parse(userCookie) : null,
+    user: parsedUser
+      ? {
+          telNo: parsedUser['call_no'],
+          email: parsedUser['email'],
+        }
+      : null,
     credentials: credentials || null,
   };
 }
