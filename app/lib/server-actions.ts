@@ -1,9 +1,11 @@
 import { getServerAuth } from './server-auth';
 
+const baseUrl = process.env.API_BASE_URL;
+
 export async function getPlatformStatus() {
   const { credentials } = getServerAuth();
 
-  const response = await fetch('http://localhost:3000/api/platform/statuses', {
+  const response = await fetch(`${baseUrl}/platform/statuses`, {
     method: 'GET',
     headers: {
       Authorization: `Basic ${credentials}`,
