@@ -2,19 +2,19 @@
 // TODO: 서버에서 cookie 사용 참고: https://nextjs.org/docs/app/api-reference/functions/cookies
 import { getPlatformStatus } from '@/app/lib/server-actions';
 import ConnectedList from './connected-list';
-import { PLATFORM_CONFIG } from '@/app/lib/constants';
+import { PLATFORM_CONFIG, PlatformName } from '@/app/lib/constants';
 
 // TODO: constant로 옮길 수 있을듯?
 // platform과 status를 내려준다
 
-const platforms = Object.keys(PLATFORM_CONFIG)
+const platforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[])
   .filter((platform) => platform !== 'custom' && platform !== 'jiwon')
   .map((platform) => {
     return {
       platform,
-      displayName: PLATFORM_CONFIG[platform].displayName,
+      displayName: PLATFORM_CONFIG[platform]?.displayName,
       status: null,
-      imageSrc: PLATFORM_CONFIG[platform].logo
+      imageSrc: PLATFORM_CONFIG[platform]?.logo
         ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
         : null,
     };
@@ -40,7 +40,6 @@ export default async function PlatformConnection() {
   return (
     <div>
       <h2 className="mb-4 text-xl font-bold">채용 플랫폼 연결 상태</h2>
-
       <ConnectedList list={platformStatus} />
     </div>
   );
