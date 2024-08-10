@@ -1,20 +1,42 @@
 'use server';
-
+import { revalidatePath } from 'next/cache';
 import { getServerAuth } from '@/app/lib/server-auth';
+import { PlatformName } from '@/app/lib/constants';
 
-export async function connectPlatform(platform: string) {
+export async function connectP(platform: PlatformName) {
   const { credentials } = getServerAuth();
 
-  const response = await fetch(`http://localhost:3000/api/platform/connect/${platform}`, {
+  const res = await fetch(`http://localhost:8000/api/platform/connect/${platform}`, {
     method: 'POST',
     headers: {
+      'Content-Type': 'application/json',
       Authorization: `Basic ${credentials}`,
     },
+    body: JSON.stringify({}),
   });
 
-  if (!response.ok) {
-    throw new Error('platform connecting failed');
-  }
+  const data = await res.json();
+  console.log('플랫폼 연결 server action & data? --------', data);
 
-  return response.json();
+  revalidatePath('/app/sync');
+  // revalidatePath('/app/sync', 'layout');
+  // revalidatePath('/app/sync', 'page');
+  // revalidatePath('/sync');
+
+  return Response.json(data);
 }
+
+// to delete cache
+// const clearCacheByServerAction = async (path?: string) => {
+//   try {
+//     if (path) {
+//       revalidatePath(path);
+//     } else {
+//       revalidatePath('/'); // invalidate everything revalidatePath('/', 'layout');
+
+//       revalidatePath('/[lang]');
+//     }
+//   } catch (error) {
+//     console.error('clearCachesByServerAction=> ', error);
+//   }
+// };
