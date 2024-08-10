@@ -1,3 +1,4 @@
+// import { getServerAuth } from './server-auth';
 import { getUserAuth } from './auth';
 
 // 클라이언트 측에서 호출하는 api layer 모음...?
@@ -113,4 +114,41 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
   }
 
   return response.json() as Promise<CheckResponse>; // { available: boolean };
+}
+
+// platformName?
+export async function connectPlatform(platform: string, connectData?: { requestId: string }) {
+  const { credentials } = getUserAuth();
+
+  const response = await fetch(`/api/platform/connect/${platform}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify(connectData ?? {}),
+  });
+
+  if (!response.ok) {
+    throw new Error('connecting platform failed');
+  }
+
+  return response.json();
+}
+
+export async function getPlatformStatusClient() {
+  console.log('getPlatformStatus called');
+  const { credentials } = getUserAuth();
+
+  const response = await fetch('/api/platform/statuses', {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('get platform status failed');
+  }
+
+  return response.json();
 }
