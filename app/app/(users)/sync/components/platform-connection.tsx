@@ -1,11 +1,21 @@
-// TODO: server action 으로 개선하기.
-// TODO: 서버에서 cookie 사용 참고: https://nextjs.org/docs/app/api-reference/functions/cookies
-import { getPlatformStatus } from '@/app/lib/server-actions';
 import ConnectedList from './connected-list';
 import { PLATFORM_CONFIG, PlatformName } from '@/app/lib/constants';
+import { PlatformConnectionStatus } from '../types';
+import { getPlatformStatus } from '@/app/lib/server-actions';
+import { Suspense } from 'react';
 
-// TODO: constant로 옮길 수 있을듯?
-// platform과 status를 내려준다
+// const platforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[])
+//   .filter((platform) => platform !== 'custom' && platform !== 'jiwon')
+//   .map((platform) => {
+//     return {
+//       platform,
+//       displayName: PLATFORM_CONFIG[platform]?.displayName,
+//       status: null,
+//       imageSrc: PLATFORM_CONFIG[platform]?.logo
+//         ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
+//         : null,
+//     };
+//   });
 
 const platforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[])
   .filter((platform) => platform !== 'custom' && platform !== 'jiwon')
@@ -13,34 +23,56 @@ const platforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[])
     return {
       platform,
       displayName: PLATFORM_CONFIG[platform]?.displayName,
-      status: null,
+      status: 'not_connected' as PlatformConnectionStatus,
       imageSrc: PLATFORM_CONFIG[platform]?.logo
         ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
         : null,
     };
   });
 
-console.log('platforms? ', platforms);
+async function PlatformList() {
+  try {
+    const data: { platform: string; status: PlatformConnectionStatus }[] =
+      await getPlatformStatus();
 
-// TODO: error boundary, suspense
-export default async function PlatformConnection() {
-  console.log('PlatformConnection rendered');
+    const platformStatus = platforms.map((p) => {
+      const m = data.find((d) => d.platform === p.platform);
+      return {
+        ...p,
+        status: (m?.status || 'not_connected') as PlatformConnectionStatus,
+      };
+    });
 
-  // [ { platform: 'aaa', status: 'completed' } ]
-  const data: { platform: string; status: 'complete' }[] = await getPlatformStatus();
+    return <ConnectedList list={platformStatus} />;
+  } catch (error) {
+    console.error('Error fetching platform status:', error);
+    return (
+      <div>
+        <h2 className="mb-4 text-xl font-bold">채용 플랫폼 연결 상태</h2>
+        <div>
+          에러가 발생했습니다.
+          <a
+            href="http://pf.kakao.com/_xjxkJbG/chat"
+            target="_blank"
+            className="text-gray-300 hover:text-white"
+            rel="noreferrer"
+          >
+            지원전에 고객센터
+          </a>
+          로 문의해 주세요.
+        </div>
+      </div>
+    );
+  }
+}
 
-  const platformStatus = platforms.map((p) => {
-    const m = data.find((d) => d.platform === p.platform);
-    if (m) {
-      return { ...p, status: m.status };
-    }
-    return p;
-  });
-
+export default function PlatformConnection() {
   return (
     <div>
       <h2 className="mb-4 text-xl font-bold">채용 플랫폼 연결 상태</h2>
-      <ConnectedList list={platformStatus} />
+      <Suspense fallback={<div>로딩 중...</div>}>
+        <PlatformList />
+      </Suspense>
     </div>
   );
 }
