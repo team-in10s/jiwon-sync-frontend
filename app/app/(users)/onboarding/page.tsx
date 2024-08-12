@@ -1,3 +1,5 @@
+// app/app/(users)/onboarding/page.tsx
+
 import OnboardingSteps from './onboarding-steps';
 
 export default function Index() {

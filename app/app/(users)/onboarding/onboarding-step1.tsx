@@ -1,3 +1,5 @@
+// app/app/(users)/onboarding/onboarding-step1.tsx
+
 type Step1Props = {
   onNext: () => void;
 };

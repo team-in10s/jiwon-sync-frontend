@@ -1,3 +1,5 @@
+// app/app/(users)/onboarding/constants.ts
+
 export const HR_PLATFORMS = [
   { id: 'wanted', name: '원티드' },
   { id: 'jobplanet', name: '잡플래닛' },

@@ -1,3 +1,5 @@
+// app/app/(users)/onboarding/onboarding-step2.tsx
+
 import { useState } from 'react';
 import { HR_PLATFORMS } from './constants';
 
