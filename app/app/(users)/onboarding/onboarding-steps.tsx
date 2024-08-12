@@ -6,10 +6,12 @@ import { useState } from 'react';
 import OnboardingStep1 from './onboarding-step1';
 import OnboardingStep2 from './onboarding-step2';
 import OnboardingStep3 from './onboarding-step3';
+import OnboardingStep4 from './onboarding-step4';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+  const [additionalPlatforms, setAdditionalPlatforms] = useState<string[]>([]);
 
   // Step 렌더링 로직
   const renderStep = () => {
@@ -30,10 +32,18 @@ export default function OnboardingSteps() {
           <OnboardingStep3
             selectedPlatforms={selectedPlatforms}
             onNext={(additionalPlatforms) => {
-              console.log('Additional platforms:', additionalPlatforms);
+              setAdditionalPlatforms(additionalPlatforms);
               setCurrentStep(4);
             }}
             onPrevious={() => setCurrentStep(2)}
+          />
+        );
+      case 4:
+        return (
+          <OnboardingStep4
+            selectedPlatforms={[...selectedPlatforms, ...additionalPlatforms]}
+            onNext={() => setCurrentStep(5)}
+            onPrevious={() => setCurrentStep(3)}
           />
         );
 
