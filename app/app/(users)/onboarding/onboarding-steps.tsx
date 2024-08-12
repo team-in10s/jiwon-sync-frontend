@@ -6,6 +6,9 @@ import OnboardingStep2 from './onboarding-step2';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
+
+  console.log(selectedPlatforms);
 
   // Step 렌더링 로직
   const renderStep = () => {
@@ -16,7 +19,7 @@ export default function OnboardingSteps() {
         return (
           <OnboardingStep2
             onNext={(platforms) => {
-              console.log('Selected platforms:', platforms);
+              setSelectedPlatforms(platforms);
               setCurrentStep(3);
             }}
           />
