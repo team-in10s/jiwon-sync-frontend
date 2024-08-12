@@ -5,12 +5,12 @@ import LogoutButton from '../../components/logout-button';
 import { usePathname } from 'next/navigation';
 
 const links = [
-  { name: '연결하기', href: '/app/sync' },
   {
     name: '이력서 관리',
     href: '/app/resume',
   },
-  { name: '스카우트 제안', href: '/app/recruitment' },
+  { name: '스카우트 관리', href: '/app/recruitment' },
+  { name: '커리어 계정 관리', href: '/app/account-status' },
 ];
 
 export default function NavLinks() {
