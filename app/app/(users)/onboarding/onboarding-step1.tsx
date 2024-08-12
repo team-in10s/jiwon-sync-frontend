@@ -4,7 +4,7 @@ type Step1Props = {
 
 export default function OnboardingStep1({ onNext }: Step1Props) {
   return (
-    <div className="card w-full max-w-2xl p-7">
+    <div className="card w-full max-w-2xl p-8">
       {/* heading */}
       <p className="mb-6 text-center text-2xl font-bold">
         지원전에 커리어 매니저와 함께 <br /> 밀착 매니징 할 커리어 전용 신규 계정을 생성할게요.
