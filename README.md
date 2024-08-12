@@ -31,6 +31,7 @@ bun dev
 
 - [https://github.com/team-in10s/jiwon-sync-dio](https://github.com/team-in10s/jiwon-sync-dio)
 - README 파일을 보고 필요한 파일 설치 후 uvicorn main:app -reload 명령어를 실행합니다.
+- api docs: http://localhost:8000/docs
 
 ## 시퀀스 다이어그램
 
