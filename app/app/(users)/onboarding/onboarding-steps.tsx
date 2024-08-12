@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import OnboardingStep1 from './onboarding-step1';
+import OnboardingStep2 from './onboarding-step2';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -12,7 +13,14 @@ export default function OnboardingSteps() {
       case 1:
         return <OnboardingStep1 onNext={() => setCurrentStep(2)} />;
       case 2:
-        return <div> step 2</div>;
+        return (
+          <OnboardingStep2
+            onNext={(platforms) => {
+              console.log('Selected platforms:', platforms);
+              setCurrentStep(3);
+            }}
+          />
+        );
       // ... 다른 스텝들도 유사하게 구현
       default:
         return <div>완료</div>;
