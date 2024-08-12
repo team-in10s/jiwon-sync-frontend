@@ -1,3 +1,5 @@
+// app/lib/utils.ts
+
 export function base64Encode(str: string): string {
   if (typeof window === 'undefined') {
     // Server-side
@@ -41,4 +43,30 @@ export function validatePhoneNumber(phoneNumber: string) {
   const re = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
   return re.test(phoneNumber);
 }
+
+// 기본적인 URL 유효성 검사를 위한 정규 표현식
+const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+
+export const validateUrl = (url: string): string | null => {
+  if (!url) {
+    return null;
+  }
+
+  if (!URL_REGEX.test(url)) {
+    return '유효한 URL을 입력해주세요.';
+  }
+
+  if (!url.startsWith('http://') && !url.startsWith('https://')) {
+    return 'URL은 http:// 또는 https://로 시작해야 합니다.';
+  }
+
+  return null;
+};
 /* eslint-enable */
+
+export const addHttpsProtocol = (url: string): string => {
+  if (url && !url.startsWith('http://') && !url.startsWith('https://')) {
+    return `https://${url}`;
+  }
+  return url;
+};
