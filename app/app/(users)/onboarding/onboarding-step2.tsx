@@ -1,17 +1,9 @@
 import { useState } from 'react';
+import { HR_PLATFORMS } from './constants';
 
 type Step2Props = {
   onNext: (platforms: string[]) => void;
 };
-
-const platforms = [
-  { id: 'wanted', name: '원티드' },
-  { id: 'jobplanet', name: '잡플래닛' },
-  { id: 'rocketpunch', name: '로켓펀치' },
-  { id: 'incruit', name: '인크루트' },
-  { id: 'saramin', name: '사람인' },
-  { id: 'jobkorea', name: '잡코리아' },
-];
 
 export default function OnboardingStep2({ onNext }: Step2Props) {
   const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
@@ -31,7 +23,7 @@ export default function OnboardingStep2({ onNext }: Step2Props) {
       <p className="mb-12 text-center text-lg">계정 관리는 훨씬 더 쉬워질거에요.</p>
 
       <div className="mb-8 grid grid-cols-2 gap-4">
-        {platforms.map((platform) => (
+        {HR_PLATFORMS.map((platform) => (
           <button
             key={platform.id}
             onClick={() => handleSelection(platform.id)}
