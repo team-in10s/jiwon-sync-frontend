@@ -8,11 +8,12 @@ import OnboardingStep2 from './onboarding-step2';
 import OnboardingStep3 from './onboarding-step3';
 import OnboardingStep4 from './onboarding-step4';
 import OnboardingStep5 from './onboarding-step5';
+import { HrPlatformName } from '@/app/lib/constants';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedPlatforms, setSelectedPlatforms] = useState<string[]>([]);
-  const [additionalPlatforms, setAdditionalPlatforms] = useState<string[]>([]);
+  const [selectedPlatforms, setSelectedPlatforms] = useState<HrPlatformName[]>([]);
+  const [additionalPlatforms, setAdditionalPlatforms] = useState<HrPlatformName[]>([]);
 
   // Step 렌더링 로직
   const renderStep = () => {

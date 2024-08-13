@@ -1,22 +1,24 @@
 // app/app/(users)/onboarding/onboarding-step3.tsx
 
 import { useState } from 'react';
-import { HR_PLATFORMS } from './constants';
+import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
+import CheckSVG from './check-svg';
 
 type Step3Props = {
-  onNext: (additionalPlatforms: string[]) => void;
+  onNext: (additionalPlatforms: HrPlatformName[]) => void;
   onPrevious: () => void;
-  selectedPlatforms: string[];
+  selectedPlatforms: HrPlatformName[];
 };
 
 export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms }: Step3Props) {
-  const [additionalPlatforms, setAdditionalPlatforms] = useState<string[]>([]);
+  const [additionalPlatforms, setAdditionalPlatforms] = useState<HrPlatformName[]>([]);
 
-  const availablePlatforms = HR_PLATFORMS.filter(
-    (platform) => !selectedPlatforms.includes(platform.id)
+  const availablePlatforms = Object.keys(PLATFORM_CONFIG).filter(
+    (key): key is HrPlatformName =>
+      key !== 'jiwon' && key !== 'custom' && !selectedPlatforms.includes(key as HrPlatformName)
   );
 
-  const handleSelection = (platformId: string) => {
+  const handleSelection = (platformId: HrPlatformName) => {
     setAdditionalPlatforms((prev) =>
       prev.includes(platformId) ? prev.filter((p) => p !== platformId) : [...prev, platformId]
     );
@@ -37,16 +39,14 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
           이미 선택하신 채용 플랫폼 : {selectedPlatforms.length}개
         </p>
         <div className="rounded-lg bg-gray-800 p-3 text-white">
-          {HR_PLATFORMS.filter((platform) => selectedPlatforms.includes(platform.id)).map(
-            (platform) => (
-              <span
-                key={platform.id}
-                className="mr-2 inline-block rounded bg-gray-700 px-2 py-1 text-sm"
-              >
-                {platform.name}
-              </span>
-            )
-          )}
+          {selectedPlatforms.map((platformId) => (
+            <span
+              key={platformId}
+              className="mr-2 inline-block rounded bg-gray-700 px-2 py-1 text-sm"
+            >
+              {PLATFORM_CONFIG[platformId as keyof typeof PLATFORM_CONFIG]?.displayName}
+            </span>
+          ))}
         </div>
         <button onClick={onPrevious} className="mt-2 text-sm text-blue-600 hover:underline">
           이전 단계로 돌아가 수정하기
@@ -57,33 +57,25 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
         추가로 선택하실 수 있는 채용 플랫폼 : {additionalPlatforms.length}개
       </p>
       <div className="mb-8 grid grid-cols-2 gap-4">
-        {availablePlatforms.map((platform) => (
-          <button
-            key={platform.id}
-            onClick={() => handleSelection(platform.id)}
-            className={`flex items-center justify-between rounded-lg p-4 text-left transition-colors ${
-              additionalPlatforms.includes(platform.id)
-                ? 'bg-blue-100 text-blue-700'
-                : 'bg-gray-100 text-gray-700'
-            }`}
-          >
-            <span>{platform.name}</span>
-            {additionalPlatforms.includes(platform.id) && (
-              <svg
-                className="size-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                  clipRule="evenodd"
-                />
-              </svg>
-            )}
-          </button>
-        ))}
+        {availablePlatforms.map((platformId) => {
+          const platform = PLATFORM_CONFIG[platformId];
+          if (!platform) return null;
+
+          return (
+            <button
+              key={platformId}
+              onClick={() => handleSelection(platformId)}
+              className={`flex items-center justify-between rounded-lg p-4 text-left transition-colors ${
+                additionalPlatforms.includes(platformId)
+                  ? 'bg-blue-100 text-blue-700'
+                  : 'bg-gray-100 text-gray-700'
+              }`}
+            >
+              <span>{platform.displayName}</span>
+              {additionalPlatforms.includes(platformId) && <CheckSVG />}
+            </button>
+          );
+        })}
       </div>
 
       <div className="flex flex-col items-center justify-center gap-3">
