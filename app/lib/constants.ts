@@ -1,3 +1,5 @@
+// app/lib/constants.ts
+
 // Cookie names
 export const USER_COOKIE = 'user';
 export const CREDENTIALS_COOKIE = 'user_credentials';
@@ -11,8 +13,10 @@ type Term = {
 };
 
 type PlatformConfig = {
+  id: PlatformName;
   displayName: string;
   logo: string | null;
+  authType: 'phone' | 'email' | null;
 };
 
 export type PlatformName =
@@ -24,6 +28,8 @@ export type PlatformName =
   | 'wanted'
   | 'remember'
   | 'custom';
+
+export type HrPlatformName = Exclude<PlatformName, 'jiwon' | 'custom'>;
 
 type PLATFORM_CONFIG_TYPE = {
   [K in PlatformName]?: PlatformConfig;
@@ -796,22 +802,29 @@ export const PLATFORM_TERMS: PLATFORM_TERMS_TYPE = {
 };
 
 export const PLATFORM_CONFIG: PLATFORM_CONFIG_TYPE = {
-  jiwon: { displayName: '지원전에', logo: 'jiwon_logo.png' },
-  saramin: { displayName: '사람인', logo: 'saramin_logo.png' },
+  jiwon: { id: 'jiwon', displayName: '지원전에', logo: 'jiwon_logo.png', authType: null },
+  saramin: { id: 'saramin', displayName: '사람인', logo: 'saramin_logo.png', authType: 'email' },
   jumpit: {
+    id: 'jumpit',
     displayName: '점핏',
     logo: 'jumpit_logo.png',
+    authType: 'email',
   },
   incruit: {
+    id: 'incruit',
     displayName: '인크루트',
     logo: 'incruit_logo.png',
+    authType: 'phone',
   },
-  jobkorea: { displayName: '잡코리아', logo: 'jobkorea_logo.png' },
-  wanted: { displayName: '원티드', logo: 'wanted_logo.png' },
-  remember: { displayName: '리멤버', logo: 'remember_logo.png' },
-  custom: { displayName: '파일 또는 링크 직접 추가', logo: null },
-  // "worknet":{displayName: "워크넷", logo: "worknet_logo.png" },
-  //   { name: "linkedIn", displayName: "링크드인", logo: "linkedin_logo.png" },
+  jobkorea: {
+    id: 'jobkorea',
+    displayName: '잡코리아',
+    logo: 'jobkorea_logo.png',
+    authType: 'phone',
+  },
+  wanted: { id: 'wanted', displayName: '원티드', logo: 'wanted_logo.png', authType: 'phone' },
+  remember: { id: 'remember', displayName: '리멤버', logo: 'remember_logo.png', authType: 'phone' },
+  custom: { id: 'custom', displayName: '파일 또는 링크 직접 추가', logo: null, authType: null },
 };
 
 // error messages
