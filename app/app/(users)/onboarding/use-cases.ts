@@ -1,15 +1,23 @@
 // app/app/(users)/onboarding/use-cases.ts
 
-/* eslint-disable */ // 임시..
-import { uploadResumeService } from './services';
-import { ResumeData } from './types';
+import { connectPlatformService } from './services';
+import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 
-export async function uploadResumeUseCase(resumeData: ResumeData) {
-  try {
-    const result = await uploadResumeService(resumeData);
-    return result;
-  } catch (error) {
-    // Handle or throw error as needed
-    throw error;
+export async function connectPlatformUseCase(
+  platform: HrPlatformName,
+  data?: { requestId: string }
+) {
+  if (!PLATFORM_CONFIG[platform]?.authType) {
+    throw new Error('연결할 수 없는 플랫폼 입니다.');
+  }
+
+  if (PLATFORM_CONFIG[platform]?.authType === 'email') {
+    connectPlatformService(platform);
+    return;
+  }
+
+  if (PLATFORM_CONFIG[platform]?.authType === 'phone') {
+    connectPlatformService(platform, data);
+    return;
   }
 }

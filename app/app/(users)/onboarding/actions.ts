@@ -2,23 +2,41 @@
 
 'use server';
 
-import { uploadResumeUseCase } from './use-cases';
+import { connectPlatformUseCase } from './use-cases';
 import { redirect } from 'next/navigation';
-import { ResumeData } from './types';
+import { HrPlatformName } from '@/app/lib/constants';
+// import { connectPlatformService } from './services';
+import { getServerAuth } from '@/app/lib/server-auth';
 
-export async function uploadResumeAction(resumeData: ResumeData) {
-  try {
-    await uploadResumeUseCase(resumeData);
-    // Redirect to the next step or dashboard after successful upload
-    redirectResumeAction();
-  } catch (error) {
-    // Handle error
-    console.error('Resume upload failed:', error);
-    // You might want to return an error message that can be displayed to the user
-    return { error: 'Resume upload failed. Please try again.' };
-  }
-}
+const API_BASE_URL = process.env.API_BASE_URL; // ~i
 
 export async function redirectResumeAction() {
   redirect('/app/resume');
+}
+
+export async function connectEmailPlatformAction(platform: HrPlatformName) {
+  // connectPlatformUseCase(platform); // 테스트용으로 use case 스킵하고...
+  // connectPlatformService(platform);
+
+  const { credentials } = getServerAuth();
+
+  fetch(`${API_BASE_URL}/platform/connect/${platform}`, {
+    method: 'POST',
+    body: JSON.stringify({}),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${credentials}`,
+    },
+  });
+
+  return { success: true };
+}
+
+export async function connectPhonePlatformAction(
+  platform: HrPlatformName,
+  data: { requestId: string }
+) {
+  //
+  connectPlatformUseCase(platform, data);
+  console.log('connectPlatformAction', platform);
 }

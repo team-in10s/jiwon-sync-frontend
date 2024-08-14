@@ -1,30 +1,25 @@
 // app/app/(users)/onboarding/services.ts
 
-import { ResumeData } from './types';
+import { getServerAuth } from '@/app/lib/server-auth';
 
-const API_URL =
-  process.env.NODE_ENV === 'production'
-    ? 'https://jiwon-sync.in10s.co/api/resume/main'
-    : 'http://localhost:8000/api/resume/main';
+const API_BASE_URL = process.env.API_BASE_URL; // ~i
 
-export async function uploadResumeService(resumeData: ResumeData) {
-  const formData = new FormData();
+export async function connectPlatformService(platform: string, data?: { requestId: string }) {
+  const bodyData = data ? { request_id: data.requestId } : {};
 
-  if (resumeData.url) {
-    formData.append('url', resumeData.url);
-  }
+  const { credentials } = getServerAuth();
 
-  if (resumeData.file) {
-    formData.append('file', resumeData.file);
-  }
-
-  const response = await fetch(API_URL, {
+  const response = await fetch(`${API_BASE_URL}/platform/connect/${platform}`, {
     method: 'POST',
-    body: formData,
+    body: JSON.stringify(bodyData),
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${credentials}`,
+    },
   });
 
   if (!response.ok) {
-    throw new Error('Resume upload failed');
+    throw new Error('connect platform upload failed');
   }
 
   return await response.json();
