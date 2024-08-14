@@ -49,7 +49,9 @@ export default function OnboardingSteps() {
           />
         );
       case 5:
-        return <OnboardingStep5 />;
+        return (
+          <OnboardingStep5 selectedPlatforms={[...selectedPlatforms, ...additionalPlatforms]} />
+        );
 
       default:
         return <div>완료</div>;
