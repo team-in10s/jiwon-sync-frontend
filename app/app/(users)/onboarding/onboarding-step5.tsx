@@ -2,20 +2,25 @@
 
 import { useState, ChangeEvent, useRef } from 'react';
 import { validateUrl, addHttpsProtocol } from '@/app/lib/utils';
-import { uploadResumeAction } from './actions';
-// import { ResumeData } from './types';
+import { ERROR_MESSAGE, HrPlatformName } from '@/app/lib/constants';
+import { saveMainResume } from '@/app/lib/api';
+import { toast } from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
-// type Step5Props = {
-//   onComplete: (resumeData: { url?: string; file?: File }) => void;
-// };
+type Step5Props = {
+  // onComplete: (resumeData: { url?: string; file?: File }) => void;
+  selectedPlatforms: HrPlatformName[];
+};
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
-export default function OnboardingStep5() {
+export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
+  const router = useRouter();
   const [resumeUrl, setResumeUrl] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [urlError, setUrlError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -53,26 +58,50 @@ export default function OnboardingStep5() {
     }
   };
 
+  // 예외: api.ts -> api route handler로 호출
+  // server actions에서는 File 타입을 전달할 수 없어서
   const handleSubmit = async () => {
-    const resumeData: { url?: string; file?: File } = {};
-    if (resumeUrl) resumeData.url = resumeUrl;
-    if (resumeFile) resumeData.file = resumeFile;
+    setIsLoading(true);
 
-    console.log(resumeData);
-    // onComplete(resumeData);
+    const formData = new FormData();
 
     try {
-      const result = await uploadResumeAction(resumeData);
-      if (result && result.error) {
-        // Handle error (e.g., show error message to user)
-        console.error(result.error);
-      } else {
-        // onComplete(resumeData); // No need to call onComplete here, as uploadResumeAction handles navigation
+      const promises = selectedPlatforms.map((platformId) => {
+        formData.append('platform', platformId);
+        if (resumeUrl) formData.append('link', resumeUrl);
+        if (resumeFile) formData.append('file', resumeFile);
+
+        return saveMainResume(formData);
+      });
+
+      const results = await Promise.all(promises);
+
+      let allSuccessful = true;
+
+      results.forEach((result, index) => {
+        if (result.error) {
+          console.error(`Failed to upload resume for ${selectedPlatforms[index]}:`, result.error);
+          allSuccessful = false;
+        } else if (result.detail) {
+          // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
+          toast.error(`${result.detail[0].msg}`);
+          allSuccessful = false;
+        }
+      });
+
+      if (allSuccessful) {
+        toast.success('이력서 업로드 성공!');
+        router.push('/app/account-status');
       }
     } catch (error) {
-      console.error('Failed to upload resume:', error);
-      // Handle error (e.g., show error message to user)
+      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const handleSkipStep5 = async () => {
+    router.push('/app/account-status');
   };
 
   const isSubmitDisabled = ((!resumeUrl || !!urlError) && !resumeFile) || !!fileError;
@@ -116,7 +145,7 @@ export default function OnboardingStep5() {
                 className="hidden"
                 id="resume-file"
                 ref={fileInputRef}
-                accept=".pdf,.doc,.docx" // 허용할 파일 형식을 지정
+                accept=".pdf,.doc,.docx,.hwp" // 허용할 파일 형식을 지정
               />
 
               <span className="block w-full truncate text-gray-400">
@@ -139,12 +168,12 @@ export default function OnboardingStep5() {
       <div className="flex flex-col items-center space-y-4">
         <button
           onClick={handleSubmit}
-          disabled={isSubmitDisabled}
+          disabled={isSubmitDisabled || isLoading}
           className="btn-gradient w-full rounded-full py-3 font-semibold disabled:opacity-50"
         >
-          24시간 내 자동 동기화
+          {isLoading ? '이력서 업로드 중...' : '24시간 내 자동 동기화'}
         </button>
-        <button onClick={() => onComplete({})} className="text-sm text-gray-400 underline">
+        <button onClick={handleSkipStep5} className="text-sm text-gray-400 underline">
           건너뛰기
         </button>
       </div>
