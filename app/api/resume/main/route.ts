@@ -1,5 +1,6 @@
-// TODO: 아래 dynamic 값 리서치 필요
 export const dynamic = 'force-dynamic'; // defaults to auto
+
+const API_BASE_URL = process.env.API_BASE_URL; // ~i
 
 export async function POST(request: Request) {
   const authHeader = request.headers.get('Authorization');
@@ -11,11 +12,10 @@ export async function POST(request: Request) {
     });
   }
 
-  // TODO: request 타입에 signupUserData 넣을 수 있나 확인
   const formData = await request.formData();
 
   // TODO: 서버 접근 주소 env로 관리
-  const res = await fetch('http://localhost:8000/api/resume/main', {
+  const res = await fetch(`${API_BASE_URL}/resume/main`, {
     method: 'POST',
     headers: {
       Authorization: authHeader,

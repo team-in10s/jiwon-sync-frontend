@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { USER_COOKIE } from './app/lib/constants';
 
-const protectedRoutes = ['/app/sync', '/app/resume', '/app/recruitment'];
+const protectedRoutes = ['/app/sync', '/app/resume', '/app/recruitment', '/app/onboarding'];
 const authRoutes = ['/app/auth/signin', '/app/auth/signup'];
 
 export function middleware(request: NextRequest) {
@@ -37,6 +37,7 @@ export const config = {
     '/app/sync/:path*',
     '/app/resume/:path*',
     '/app/recruitment/:path*',
+    '/app/onboarding/:path*',
     '/app/auth/:path*',
   ],
 };
