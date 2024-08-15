@@ -2,12 +2,7 @@ import { getServerAuth } from '@/app/lib/server-auth';
 
 const API_BASE_URL = process.env.API_BASE_URL; // ~i
 
-type ResponseType = {
-  platform: string;
-  status: string;
-}[];
-
-export async function getPlatformStatusService(): Promise<ResponseType> {
+export async function getPlatformStatusService() {
   const { credentials } = getServerAuth();
 
   const response = await fetch(`${API_BASE_URL}/platform/statuses`, {
