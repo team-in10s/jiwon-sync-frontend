@@ -51,9 +51,12 @@ export default function AccountStatusClient({
           }
         },
         onmessage(ev) {
-          console.log('ev ? ', ev); // {data: "{'status': 'failed'}", event: 'message', id: '', retry: undefined}
+          // Replace single quotes with double quotes
+          const jsonString = ev.data.replace(/'/g, '"');
+          const data = JSON.parse(jsonString);
+          console.log('Parsed event data:', data);
 
-          const data = JSON.parse(ev.data);
+          // console.log('data? ', data);
           setPlatformStatus((prevStatus) =>
             prevStatus.map((p) => (p.platform === platform ? { ...p, status: data.status } : p))
           );
