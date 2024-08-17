@@ -1,11 +1,11 @@
 // app/app/(users)/onboarding/onboarding-step4.tsx
 
 import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { useState } from 'react';
 import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indicator';
-import { connectEmailPlatformAction, testRequestPhoneAuthCode, submitAuthCode } from './actions';
-import toast from 'react-hot-toast';
-import PlatformTerms from './platform-terms';
+import { createAccountWithEmailAction } from './actions';
+import EmailPlatform from './email-platform';
+import PhonePlatform from './phone-platform';
 
 type Step4Props = {
   selectedPlatforms: HrPlatformName[];
@@ -53,7 +53,7 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
     setShowsLoadingIndicator(true);
 
     try {
-      const res = await connectEmailPlatformAction(currentPlatform);
+      const res = await createAccountWithEmailAction(currentPlatform);
       console.log('res! ', res); // 바로 리턴되는 response
 
       handleNextPlatform();
@@ -124,131 +124,4 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
       {showsLoadingIndicator && <FullScreenLoadingIndicator />}
     </>
   );
-}
-
-function EmailPlatform({
-  currentPlatform,
-  onConnect,
-}: {
-  currentPlatform: HrPlatformName;
-  onConnect: () => Promise<void>;
-}) {
-  console.log('EmailPlatform rendered');
-
-  return (
-    <div className="bg-slate-700/80 p-4">
-      <p>약관 동의</p>
-      <PlatformTerms currentPlatform={currentPlatform} />
-
-      <button
-        className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-        onClick={onConnect}
-      >
-        약관 동의 후 계정 생성 요청하기
-      </button>
-    </div>
-  );
-}
-
-function PhonePlatform({
-  currentPlatform,
-  onNextPlatform,
-  showLoadingIndicator,
-}: {
-  currentPlatform: HrPlatformName;
-  onNextPlatform: () => void;
-  showLoadingIndicator: Dispatch<SetStateAction<boolean>>;
-}) {
-  console.log('PhonePlatform rendered, current platform: ', currentPlatform);
-
-  const [currentConnectStep, setCurrentConnectStep] = useState(1);
-  const [verifyCode, setVerifyCode] = useState('');
-
-  // let requestId = localStorage.getItem('rq');
-
-  const handleVerifyCode = (e: ChangeEvent<HTMLInputElement>) => {
-    const verifyCode = e.target.value;
-    setVerifyCode(verifyCode);
-  };
-
-  const renderComponent = () => {
-    switch (currentConnectStep) {
-      case 1:
-        return (
-          <div>
-            <p>약관 동의</p>
-            <PlatformTerms currentPlatform={currentPlatform} />
-
-            <button
-              className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-              onClick={async () => {
-                // 인증 코드 요청
-                showLoadingIndicator(true);
-                try {
-                  // const authCodeRes = await requestPhoneAuthCode(currentPlatform);
-                  const authCodeRes = await testRequestPhoneAuthCode(currentPlatform);
-                  console.log('authCodeRes? ', authCodeRes); // conntectedStatus? requestId ?
-
-                  localStorage.setItem('rq', authCodeRes?.requestId);
-
-                  setCurrentConnectStep(2);
-                } catch (error) {
-                  console.log('err >> ', error);
-                  toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다.');
-                }
-                showLoadingIndicator(false);
-              }}
-            >
-              약관 동의 후 인증 코드 요청하기
-            </button>
-          </div>
-        );
-      case 2:
-        return (
-          <div>
-            <div>인증 코드를 입력해 주세요.</div>
-
-            <div className="flex flex-col space-y-2">
-              <input
-                id="auth-code"
-                type="text"
-                inputMode="numeric"
-                value={verifyCode}
-                onChange={handleVerifyCode}
-                placeholder="문자로 전송된 인증 코드를 입력하세요."
-                className={`rounded-md border border-gray-500 bg-gray-700 p-2 text-white`}
-              />
-            </div>
-            <div>
-              <button className="text-sm text-gray-300">인증 코드 재전송</button>
-            </div>
-
-            <button
-              className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-              onClick={async () => {
-                // 인증 코드 입력 후 계정 생성 요청
-                try {
-                  const requestId = localStorage.getItem('rq') || '';
-                  console.log('requestId from localStorage', requestId);
-
-                  await submitAuthCode(requestId, verifyCode);
-
-                  // 다음 플랫폼
-                  onNextPlatform();
-                } catch (error) {
-                  console.log('submitAuthCode > error: ', error);
-                  toast.error('?');
-                }
-              }}
-            >
-              계정 생성 요청하기
-            </button>
-          </div>
-        );
-
-      default:
-        break;
-    }
-  };
-  return <div>{renderComponent()}</div>;
 }
