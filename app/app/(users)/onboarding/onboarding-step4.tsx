@@ -79,34 +79,41 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
   return (
     <>
       <div className="card w-full max-w-2xl p-8">
-        <p className="mb-6 text-center text-2xl font-bold">
-          채용 플랫폼에 계정을 순차적으로 만들고 있어요.
-        </p>
-        <p className="mb-10 text-center">필요한 약관 동의와, 전화번호 인증을 진행해주세요.</p>
+        {/* heading */}
+        <div className="mb-12 text-center">
+          <h2 className="mb-4 text-2xl font-semibold">
+            채용 플랫폼에 계정을 순차적으로 만들고 있어요.
+          </h2>
+          <p className="text-lg">필요한 약관 동의와, 전화번호 인증을 진행해주세요.</p>
+        </div>
 
-        <div className="mb-8">
-          <div className="mb-4 text-center text-xl font-bold">
-            {PLATFORM_CONFIG[currentPlatform]?.displayName}에 계정을 생성합니다.
+        {/* body content */}
+        <div className="mb-12">
+          <div className="mb-6">
+            <div className="mb-4 text-center text-xl font-bold">
+              {PLATFORM_CONFIG[currentPlatform]?.displayName}에 계정을 생성합니다.
+            </div>
+
+            {PLATFORM_CONFIG[currentPlatform]?.authType === 'email' ? (
+              <EmailPlatform
+                currentPlatform={currentPlatform}
+                onConnect={handleConnectPlaformEmailAuth}
+              />
+            ) : (
+              <PhonePlatform
+                showLoadingIndicator={setShowsLoadingIndicator}
+                currentPlatform={currentPlatform}
+                onNextPlatform={handleNextPlatform}
+              />
+            )}
           </div>
 
-          {PLATFORM_CONFIG[currentPlatform]?.authType === 'email' ? (
-            <EmailPlatform
-              currentPlatform={currentPlatform}
-              onConnect={handleConnectPlaformEmailAuth}
-            />
-          ) : (
-            <PhonePlatform
-              showLoadingIndicator={setShowsLoadingIndicator}
-              currentPlatform={currentPlatform}
-              onNextPlatform={handleNextPlatform}
-            />
-          )}
+          <div className="mt-4 text-center text-sm text-gray-500">
+            {currentPlatformIndex + 1} / {sortedPlatforms.length}
+          </div>
         </div>
 
-        <div className="mt-4 text-center text-sm text-gray-500">
-          {currentPlatformIndex + 1} / {sortedPlatforms.length}
-        </div>
-
+        {/* button */}
         <div className="flex justify-between">
           <button onClick={onPrevious} className="text-sm text-blue-600 hover:underline">
             이전 단계로

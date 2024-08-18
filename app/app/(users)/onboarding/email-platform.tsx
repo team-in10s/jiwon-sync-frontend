@@ -19,7 +19,7 @@ export default function EmailPlatform({
         className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
         onClick={onConnect}
       >
-        약관 동의 후 계정 생성 요청하기
+        약관 동의 후 계정 생성하기
       </button>
     </div>
   );

@@ -108,14 +108,17 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
 
   return (
     <div className="card w-full max-w-2xl p-8">
-      <h2 className="mb-6 text-center text-2xl font-bold">
-        각 채용플랫폼에 동기화 할 이력서를 <br /> 업로드해주세요.
-      </h2>
-      <p className="mb-8 text-center">
-        완성되지 않은 이력서도 괜찮아요.
-        <br />
-        이후 추가 편집할 수 있어요.
-      </p>
+      {/* heading */}
+      <div className="mb-12 text-center">
+        <h2 className="mb-6 text-2xl font-semibold">
+          각 채용플랫폼에 동기화 할 이력서를 <br /> 업로드해주세요.
+        </h2>
+        <p className="text-lg">
+          완성되지 않은 이력서도 괜찮아요.
+          <br />
+          업로드 후 추가 편집할 수 있어요.
+        </p>
+      </div>
 
       <div className="mb-6 space-y-4">
         <div className="flex flex-col space-y-2">

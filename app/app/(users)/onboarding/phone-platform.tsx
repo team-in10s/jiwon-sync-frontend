@@ -125,7 +125,7 @@ export default function PhonePlatform({
                 }
               }}
             >
-              계정 생성 요청하기
+              계정 생성하기
             </button>
           </div>
         );
