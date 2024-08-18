@@ -3,6 +3,7 @@ import { connectPhonePlatform, getAuthCodeStatus, getRequestId, submitAuthCode }
 import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import PlatformTerms from './platform-terms';
+import { getUserAuth } from '@/app/lib/auth';
 
 export default function PhonePlatform({
   currentPlatform,
@@ -17,6 +18,7 @@ export default function PhonePlatform({
 
   const [currentConnectStep, setCurrentConnectStep] = useState(1);
   const [verifyCode, setVerifyCode] = useState('');
+  const { user } = getUserAuth();
 
   // let requestId = localStorage.getItem('rq');
 
@@ -62,6 +64,7 @@ export default function PhonePlatform({
                   if (status === 'code_sent') {
                     // 코드가 전송되었음
                     setCurrentConnectStep(2);
+                    toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
                   } else if (status === 'completed') {
                     // 이미 계정이 생성된 플랫폼
                     onNextPlatform();
@@ -83,7 +86,7 @@ export default function PhonePlatform({
       case 2:
         return (
           <div>
-            <div>인증 코드를 입력해 주세요.</div>
+            <div>{user ? `${user?.telNo}으로 발송된 ` : ''}인증 코드를 입력해 주세요.</div>
 
             <div className="flex flex-col space-y-2">
               <input
