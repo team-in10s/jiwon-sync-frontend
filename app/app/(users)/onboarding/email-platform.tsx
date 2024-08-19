@@ -8,8 +8,6 @@ export default function EmailPlatform({
   currentPlatform: HrPlatformName;
   onConnect: () => Promise<void>;
 }) {
-  console.log('EmailPlatform rendered');
-
   return (
     <div className="bg-slate-700/80 p-4">
       <p>약관 동의</p>
