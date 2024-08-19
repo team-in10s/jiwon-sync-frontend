@@ -25,7 +25,14 @@ bun dev
 
 ## 배포
 
-- TODO, aws amplify 배포 예정
+- 2024.8.19 기준
+- AWS Amplify에 배포됨
+- 이 프로젝트 main 브랜치에 커밋이 머지되면 자동으로 빌드 후 배포되는 방식
+- 배포 결과는 jean@in10s.co 메일로 보내지도록 해놓음
+
+## 모니터링 서비스
+
+- TODO
 
 ## 백엔드 Repository
 
