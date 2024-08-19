@@ -10,7 +10,7 @@ export default function StepProgress({ currentStep, totalSteps }: StepProgressPr
     <div className="mb-8 flex w-full items-center">
       <div className="relative h-1 grow rounded-full bg-gray-200">
         <div
-          className="absolute h-1 rounded-full bg-blue-600 transition-all duration-300 ease-in-out"
+          className="absolute h-1 rounded-full bg-primary/70 transition-all duration-300 ease-in-out"
           style={{ width: `${(currentStep / totalSteps) * 100}%` }}
         ></div>
       </div>
