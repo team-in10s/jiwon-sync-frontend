@@ -162,6 +162,7 @@ type SubmitAuthCodeResponse = {
   detail?: Array<{ msg: string }>;
 };
 
+// NODE: db 에 인증코드 저장만함 (인증 코드 맞는지 아닌지 확인하는 부분 x)
 export async function submitAuthCode(
   requestId: string,
   code: string
