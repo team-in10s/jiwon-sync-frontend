@@ -12,7 +12,7 @@ export default function PlatformProgressIndicator({
   currentPlatformIndex,
 }: PlatformProgressIndicatorProps) {
   return (
-    <div className="mb-3 flex items-center justify-between rounded-lg bg-gray-400/20 p-3 text-sm">
+    <div className="mb-3 flex items-center justify-between rounded-lg border border-dashed border-gray-400/40 p-3 text-sm">
       <div className="flex items-center">
         {platforms.map((platform, index) => (
           <div
