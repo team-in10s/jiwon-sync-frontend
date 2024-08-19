@@ -1,6 +1,8 @@
 'use client';
+
+import { clearUserAuth } from '@/app/lib/client-auth';
 import { useRouter } from 'next/navigation';
-import { clearUserAuth } from '@/app/lib/auth';
+import toast from 'react-hot-toast';
 
 export default function LogoutButton() {
   const router = useRouter();
@@ -8,7 +10,7 @@ export default function LogoutButton() {
   const handleLogout = () => {
     clearUserAuth();
 
-    // TODO: 로그아웃 되었습니다 토스트
+    toast.success('로그아웃 되었습니다.');
 
     router.push('/app/auth/signin');
   };
