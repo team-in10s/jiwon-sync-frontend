@@ -1,7 +1,7 @@
 'use client';
 
 import { saveMainResume } from '@/app/lib/api';
-import { PLATFORM_CONFIG } from '@/app/lib/constants';
+import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import SaveButton from './save-button';
@@ -13,7 +13,7 @@ type Inputs = {
   resumeFile: File;
 };
 
-export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: string }) {
+export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: HrPlatformName }) {
   const {
     register,
     handleSubmit,
@@ -55,7 +55,7 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
 
   return (
     <div>
-      <p>{PLATFORM_CONFIG[selectedPlatform].displayName}에서 다른 채용 플랫폼으로 동기화합니다.</p>
+      <p>{PLATFORM_CONFIG[selectedPlatform]?.displayName}에서 다른 채용 플랫폼으로 동기화합니다.</p>
       <p className="mb-1">이력서 내보내기를 통해 PDF 파일을 업로드해주세요.</p>
       <p className="mb-4 text-sm text-gray-300">
         (로그인을 통한 직접 연결은 아직 준비중이에요! 🚧)
@@ -66,7 +66,7 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
           register={register}
           setValue={setValue}
           fieldName="resumeFile"
-          placeholder={`${PLATFORM_CONFIG[selectedPlatform].displayName} 이력서 파일을 여기에 드래그하거나 클릭하여 업로드하세요`}
+          placeholder={`${PLATFORM_CONFIG[selectedPlatform]?.displayName} 이력서 파일을 여기에 드래그하거나 클릭하여 업로드하세요`}
           selectedFileName={selectedFileName}
           setSelectedFileName={setSelectedFileName}
         />
