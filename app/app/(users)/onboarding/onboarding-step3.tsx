@@ -71,7 +71,7 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
                   onClick={() => handleSelection(platformId)}
                   className={`flex items-center justify-between rounded-lg p-4 text-left transition-colors ${
                     additionalPlatforms.includes(platformId)
-                      ? 'bg-blue-100 text-blue-700'
+                      ? 'bg-blue-100 text-blue-400'
                       : 'bg-gray-100 text-gray-700'
                   }`}
                 >
@@ -92,6 +92,7 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
         >
           {totalPlatformNum}개 플랫폼에 새 계정 만들기
         </button>
+
         <button onClick={() => onNext([])} className="text-sm text-gray-500 hover:underline">
           건너뛰기
         </button>

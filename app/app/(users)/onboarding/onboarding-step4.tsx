@@ -72,18 +72,6 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
     setShowsLoadingIndicator(false);
   };
 
-  // const handleConnectPlaformPhoneAuth = async () => {
-  //   setShowsLoadingIndicator(true);
-
-  //   try {
-  //     await requestPhoneAuthCode(currentPlatform);
-  //   } catch (error) {
-  //     //
-  //   }
-
-  //   setShowsLoadingIndicator(false);
-  // };
-
   return (
     <>
       <div className="card w-full max-w-2xl p-8">
@@ -123,7 +111,7 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
 
         {/* button */}
         <div className="flex justify-between">
-          <button onClick={onPrevious} className="text-sm text-blue-600 hover:underline">
+          <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
             이전 단계로
           </button>
           <button
