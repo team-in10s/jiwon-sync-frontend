@@ -53,6 +53,53 @@ export default function PhonePlatform({
     return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
+  const handleRequestAuthCode = async () => {
+    // 인증 코드 요청
+    showLoadingIndicator(true);
+
+    try {
+      // 1. requestID 생성 요청
+      const requestId = await getRequestId(currentPlatform);
+      console.log(requestId);
+
+      localStorage.setItem('rq', requestId);
+
+      // 2. 계정 생성 프로세스 시작 trigger
+      await connectPhonePlatform(requestId, currentPlatform);
+
+      // 3. 인증 코드 발송 결과 체크
+      const { status } = await getAuthCodeStatus(requestId);
+
+      console.log('status: ', status);
+      //   console.log('TODO: status에 따라 다음 UI 보여주기');
+
+      // 4. UI 업데이트
+      if (status === 'code_sent') {
+        // 코드가 전송되었음
+        setCurrentConnectStep(2);
+        startTimer(); // Start the timer
+        toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
+      } else if (status === 'completed') {
+        // 이미 계정이 생성된 플랫폼
+        onNextPlatform();
+      } else {
+        toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
+      }
+    } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'User is not authenticated') {
+          console.error('User is not logged in');
+          toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
+        } else {
+          console.error('Failed:', error.message);
+          toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
+        }
+      }
+    }
+
+    showLoadingIndicator(false);
+  };
+
   const renderComponent = () => {
     switch (currentConnectStep) {
       case 1:
@@ -62,51 +109,7 @@ export default function PhonePlatform({
 
             <button
               className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-              onClick={async () => {
-                // 인증 코드 요청
-                showLoadingIndicator(true);
-
-                try {
-                  // 1. requestID 생성 요청
-                  const requestId = await getRequestId(currentPlatform);
-
-                  localStorage.setItem('rq', requestId);
-
-                  // 2. 계정 생성 프로세스 시작 trigger
-                  await connectPhonePlatform(requestId, currentPlatform);
-
-                  // 3. 인증 코드 발송 결과 체크
-                  const { status } = await getAuthCodeStatus(requestId);
-
-                  console.log('status: ', status);
-                  //   console.log('TODO: status에 따라 다음 UI 보여주기');
-
-                  // 4. UI 업데이트
-                  if (status === 'code_sent') {
-                    // 코드가 전송되었음
-                    setCurrentConnectStep(2);
-                    startTimer(); // Start the timer
-                    toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
-                  } else if (status === 'completed') {
-                    // 이미 계정이 생성된 플랫폼
-                    onNextPlatform();
-                  } else {
-                    toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
-                  }
-                } catch (error) {
-                  if (error instanceof Error) {
-                    if (error.message === 'User is not authenticated') {
-                      console.error('User is not logged in');
-                      toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
-                    } else {
-                      console.error('Failed:', error.message);
-                      toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
-                    }
-                  }
-                }
-
-                showLoadingIndicator(false);
-              }}
+              onClick={handleRequestAuthCode}
             >
               약관 동의 후 인증 코드 요청하기
             </button>
