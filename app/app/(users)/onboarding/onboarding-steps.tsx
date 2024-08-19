@@ -9,6 +9,7 @@ import OnboardingStep3 from './onboarding-step3';
 import OnboardingStep4 from './onboarding-step4';
 import OnboardingStep5 from './onboarding-step5';
 import { HrPlatformName } from '@/app/lib/constants';
+import StepProgress from './step-progress';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -60,10 +61,7 @@ export default function OnboardingSteps() {
 
   return (
     <div>
-      <div className="mb-6">
-        <p>현재 스텝: {currentStep}</p>
-        <p> (TODO: 프로그레스 바 ui...)</p>
-      </div>
+      <StepProgress currentStep={currentStep} totalSteps={5} />
 
       {renderStep()}
     </div>
