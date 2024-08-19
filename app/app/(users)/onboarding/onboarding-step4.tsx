@@ -24,6 +24,8 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
   //     prev.includes(platformId) ? prev.filter((id) => id !== platformId) : [...prev, platformId]
   //   );
   // };
+
+  // NOTE: 이메일로 가입하는 플랫폼 먼저 처리하기위해 배열 순서 sorting
   const sortedPlatforms = [...selectedPlatforms].sort((a, b) => {
     if (PLATFORM_CONFIG[a]?.authType === 'email' && PLATFORM_CONFIG[b]?.authType !== 'email') {
       return -1; // a comes before b
@@ -95,7 +97,6 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
           <button
             onClick={onNext}
             //   disabled={completedPlatforms.length !== selectedPlatforms.length} // 임시 주석처리
-
             className="btn-gradient rounded-full px-16 py-3 font-semibold disabled:opacity-50"
           >
             다음
