@@ -12,9 +12,14 @@ export default function AppFooter() {
           >
             이용약관
           </a>
-          {/* <a href="#" className="text-gray-300 hover:text-white">
+          <a
+            href="https://www.in10s.co/jiwon-sync/privacypolicy"
+            target="_blank"
+            className="text-gray-300 hover:text-white"
+            rel="noreferrer"
+          >
             개인정보처리방침
-          </a> */}
+          </a>
           <a
             href="http://pf.kakao.com/_xjxkJbG/chat"
             target="_blank"
