@@ -9,8 +9,7 @@ export default function EmailPlatform({
   onConnect: () => Promise<void>;
 }) {
   return (
-    <div className="bg-slate-700/80 p-4">
-      <p>약관 동의</p>
+    <div>
       <PlatformTerms currentPlatform={currentPlatform} />
 
       <button

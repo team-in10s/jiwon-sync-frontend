@@ -32,7 +32,6 @@ export default function PhonePlatform({
       case 1:
         return (
           <div>
-            <p>약관 동의</p>
             <PlatformTerms currentPlatform={currentPlatform} />
 
             <button
