@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { PLATFORM_CONFIG } from '@/app/lib/constants';
+import { PLATFORM_CONFIG, PlatformName } from '@/app/lib/constants';
 import PlatformSelect from './platform-select';
 import JiwonPlatform from './jiwon-platform';
 import UserCustom from './user-custom';
@@ -9,19 +9,20 @@ import OtherPlatform from './other-platform';
 
 // TODO: constant로 옮길 수 있을듯?
 const options = Object.keys(PLATFORM_CONFIG).map((platform) => {
+  const hrPlatform = platform as PlatformName;
   return {
-    platform,
-    displayName: PLATFORM_CONFIG[platform].displayName,
-    imageSrc: PLATFORM_CONFIG[platform].logo
-      ? `/assets/platform_logo/${PLATFORM_CONFIG[platform].logo}`
+    platform: hrPlatform,
+    displayName: PLATFORM_CONFIG[hrPlatform]?.displayName,
+    imageSrc: PLATFORM_CONFIG[hrPlatform]?.logo
+      ? `/assets/platform_logo/${PLATFORM_CONFIG[hrPlatform]?.logo}`
       : null,
   };
 });
 
 export default function SyncForm() {
-  const [selectedPlatform, setSelectedPlatform] = useState('');
+  const [selectedPlatform, setSelectedPlatform] = useState<PlatformName>('jiwon');
 
-  const handleChange = (value: string) => {
+  const handleChange = (value: PlatformName) => {
     setSelectedPlatform(value);
   };
 
@@ -40,12 +41,12 @@ export default function SyncForm() {
         />
       </div>
 
-      {selectedPlatform === '' ? null : <ResumeInputs selectedPlatform={selectedPlatform} />}
+      {selectedPlatform && <ResumeInputs selectedPlatform={selectedPlatform} />}
     </div>
   );
 }
 
-function ResumeInputs({ selectedPlatform }: { selectedPlatform: string }) {
+function ResumeInputs({ selectedPlatform }: { selectedPlatform: PlatformName }) {
   switch (selectedPlatform) {
     case 'jiwon':
       return <JiwonPlatform />;

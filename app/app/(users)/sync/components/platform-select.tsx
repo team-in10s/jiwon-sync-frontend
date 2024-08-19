@@ -1,16 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
+import { PlatformName } from '@/app/lib/constants';
 
 type Option = {
-  platform: string;
-  displayName: string;
+  platform: PlatformName;
+  displayName?: string;
   imageSrc: string | null;
 };
 
 type CustomSelectProps = {
   options: Option[];
   selectedValue: string;
-  onChange: (value: string) => void;
+  onChange: (value: PlatformName) => void;
 };
 
 export default function PlatformSelect({ options, selectedValue, onChange }: CustomSelectProps) {
@@ -30,7 +31,7 @@ export default function PlatformSelect({ options, selectedValue, onChange }: Cus
     };
   }, []);
 
-  const handleOptionClick = (value: string) => {
+  const handleOptionClick = (value: PlatformName) => {
     onChange(value);
     setIsOpen(false);
   };
@@ -75,7 +76,7 @@ export default function PlatformSelect({ options, selectedValue, onChange }: Cus
               {option.imageSrc && (
                 <Image
                   src={option.imageSrc}
-                  alt={option.displayName}
+                  alt={option.displayName || ''}
                   width={24}
                   height={24}
                   className="mr-2 rounded-md"
