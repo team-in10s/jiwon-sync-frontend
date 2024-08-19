@@ -6,7 +6,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
-import { getUserAuth } from '@/app/lib/auth';
+import { getUserAuth } from '@/app/lib/client-auth';
 
 type PlatformStatus = {
   platform: HrPlatformName;

@@ -1,5 +1,5 @@
 // import { getServerAuth } from './server-auth';
-import { getUserAuth } from './auth';
+import { getUserAuth } from './client-auth';
 
 // 클라이언트 측에서 호출하는 api layer 모음...?
 

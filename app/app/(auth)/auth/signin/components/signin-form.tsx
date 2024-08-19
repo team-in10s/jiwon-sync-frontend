@@ -4,10 +4,11 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { signinApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import { base64Encode } from '@/app/lib/utils';
-import { setUserAuth, clearUserAuth } from '@/app/lib/auth';
+
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
 import AuthPrompt from '../../components/auth-prompt';
+import { clearUserAuth, setUserAuth } from '@/app/lib/client-auth';
 
 type Inputs = {
   email: string;

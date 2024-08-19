@@ -3,7 +3,7 @@ import { connectPhonePlatform, getAuthCodeStatus, getRequestId, submitAuthCode }
 import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import PlatformTerms from './platform-terms';
-import { getUserAuth } from '@/app/lib/auth';
+import { getUserAuth } from '@/app/lib/client-auth';
 
 export default function PhonePlatform({
   currentPlatform,
