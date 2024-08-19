@@ -31,68 +31,6 @@ export async function createAccountWithEmailAction(platform: HrPlatformName) {
   return { success: true };
 }
 
-// TODO: refactoring
-export async function requestPhoneAuthCode(platform: HrPlatformName) {
-  const { credentials } = getServerAuth();
-
-  try {
-    // 1
-    const response1 = await fetch(`${API_BASE_URL}/platform/auth/${platform}/request`, {
-      method: 'POST',
-      body: JSON.stringify({}),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${credentials}`,
-      },
-    });
-
-    const res1 = await response1.json();
-    console.log('res1? ', res1);
-    /*
-    {
-      message: '인증 요청이 생성되었습니다.',
-      request_id: '8b2f04f9-d01f-4777-92c0-38700af00d3e'
-    }
-    */
-
-    // 2
-    // 주의: 아래 api는 계정 생성 다 끝나면 응답 넘어오는 api임
-    const response2 = await fetch(`${API_BASE_URL}/platform/connect/${platform}`, {
-      method: 'POST',
-      body: JSON.stringify({
-        request_id: res1.request_id,
-      }),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${credentials}`,
-      },
-    });
-
-    const res2 = await response2.json();
-    console.log('res2? ', res2); // { success: 'False' }
-
-    if (res2.success.toLowerCase() !== 'true') {
-      throw new Error('인증 코드를 발송하는 중에 오류가 발생했습니다. (2)');
-    }
-
-    if (res2.request_id && res2.status === 'code_sent') {
-      return {
-        conntectedStatus: 'code_sent', // "인증 번호가 전송되었습니다."
-        requestId: res2.request_id,
-      };
-    }
-
-    if (res2.request_id && res2.status === 'completed') {
-      return {
-        conntectedStatus: 'completed', // "해당 플랫폼에 이미 생성된 계정이 있습니다. "
-        requestId: null,
-      };
-    }
-  } catch (error) {
-    throw new Error('플랫폼에 계정 생성 중 오류가 발생했습니다.');
-  }
-}
-
 export async function getRequestId(platform: HrPlatformName) {
   const { credentials } = getServerAuth();
 
