@@ -5,8 +5,7 @@
 import { redirect } from 'next/navigation';
 import { HrPlatformName } from '@/app/lib/constants';
 import { getServerAuth } from '@/app/lib/server-auth';
-
-const API_BASE_URL = process.env.API_BASE_URL; // ~i
+import { baseFetch, getAuthHeaders } from '@/app/lib/base-api-client';
 
 export async function redirectResumeAction() {
   redirect('/app/resume');
@@ -14,102 +13,121 @@ export async function redirectResumeAction() {
 
 // TODO: refactoring
 export async function createAccountWithEmailAction(platform: HrPlatformName) {
-  // connectPlatformUseCase(platform); // 테스트용으로 use case 스킵하고...
-  // connectPlatformService(platform);
-
   const { credentials } = getServerAuth();
 
-  fetch(`${API_BASE_URL}/platform/connect/${platform}`, {
-    method: 'POST',
-    body: JSON.stringify({}),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${credentials}`,
-    },
-  });
+  if (!credentials) {
+    throw new Error('User is not authenticated');
+  }
 
-  return { success: true };
+  try {
+    const result = await baseFetch(`/platform/connect/${platform}`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: {
+        ...getAuthHeaders(credentials),
+      },
+    });
+
+    console.log('createAccountWithEmailAction response:', result);
+
+    return result;
+  } catch (error) {
+    console.error('Error in createAccountWithEmailAction:', error);
+    if (error instanceof Error) {
+      throw new Error(`Failed to create account: ${error.message}`);
+    }
+    throw new Error('An unknown error occurred while creating the account');
+  }
 }
 
-export async function getRequestId(platform: HrPlatformName) {
+type RequestIdResponse = {
+  message: string;
+  request_id: string;
+};
+
+export async function getRequestId(platform: HrPlatformName): Promise<string> {
   const { credentials } = getServerAuth();
 
-  const response = await fetch(`${API_BASE_URL}/platform/auth/${platform}/request`, {
-    method: 'POST',
-    body: JSON.stringify({}),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${credentials}`,
-    },
-  });
+  try {
+    const result = await baseFetch<RequestIdResponse>(`/platform/auth/${platform}/request`, {
+      method: 'POST',
+      body: JSON.stringify({}),
+      headers: {
+        ...getAuthHeaders(credentials),
+      },
+    });
 
-  if (!response.ok) {
+    console.log('getRequestId response:', result);
+
+    return result.request_id;
+  } catch (error) {
+    console.error('Error in getRequestId:', error);
     throw new Error('인증 요청에 실패하였습니다. (getRequestId)');
   }
-
-  const result = await response.json();
-  console.log('getRequestId response:', result);
-
-  return result.request_id;
-
-  /*
-  {
-    message: '인증 요청이 생성되었습니다.',
-    request_id: '8b2f04f9-d01f-4777-92c0-38700af00d3e'
-  }
-  */
 }
 
-export async function connectPhonePlatform(requestId: string, platform: HrPlatformName) {
-  const { credentials } = getServerAuth();
-  // 주의: 아래 api는 계정 생성 다 끝나면 응답 넘어오는 api임
-  const response = await fetch(`${API_BASE_URL}/platform/connect/${platform}`, {
-    method: 'POST',
-    body: JSON.stringify({
-      request_id: requestId,
-    }),
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${credentials}`,
-    },
-  });
+type ConnectResponse = {
+  msg: string;
+};
 
-  if (!response.ok) {
+export async function connectPhonePlatform(
+  requestId: string,
+  platform: HrPlatformName
+): Promise<ConnectResponse> {
+  const { credentials } = getServerAuth();
+
+  if (!credentials) {
+    throw new Error('User is not authenticated');
+  }
+
+  try {
+    const result = await baseFetch<ConnectResponse>(`/platform/connect/${platform}`, {
+      method: 'POST',
+      body: JSON.stringify({
+        request_id: requestId,
+      }),
+      headers: {
+        ...getAuthHeaders(credentials),
+      },
+    });
+
+    console.log('connectPhonePlatform response:', result);
+
+    return result;
+  } catch (error) {
+    console.error('Error in connectPhonePlatform:', error);
     throw new Error('계정 생성에 실패하였습니다. (connect)');
   }
-
-  const result = await response.json(); // { msg: 'connect started' }
-
-  return result;
 }
 
-export async function getAuthCodeStatus(requestId: string, maxRetries = 5) {
-  console.log('getAuthCodeStatus 호출됨..');
+type AuthCodeStatusResponse = {
+  request_id: string;
+  status: 'code_sent' | 'completed' | 'failed' | 'finished' | string;
+};
+
+export async function getAuthCodeStatus(
+  requestId: string,
+  maxRetries = 5
+): Promise<AuthCodeStatusResponse> {
   let retries = 0;
+
   while (retries < maxRetries) {
     console.log(`반복문 시작... (시도 ${retries + 1}/${maxRetries})`);
 
     try {
-      console.log(`Fetching: ${API_BASE_URL}/platform/auth/${requestId}/code`);
       const { credentials } = getServerAuth();
-      console.log('Credentials obtained');
 
-      const response = await fetch(`${API_BASE_URL}/platform/auth/${requestId}/code`, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Basic ${credentials}`,
-        },
-      });
-      console.log('Fetch response received:', response.status, response.statusText);
-
-      if (!response.ok) {
-        console.error('Response not OK:', response.status, response.statusText);
-        throw new Error(`HTTP error! status: ${response.status}`);
+      if (!credentials) {
+        throw new Error('User is not authenticated');
       }
 
-      console.log('Parsing response JSON');
-      const result = await response.json();
+      const result = await baseFetch<AuthCodeStatusResponse>(`/platform/auth/${requestId}/code`, {
+        method: 'GET',
+        headers: {
+          ...getAuthHeaders(credentials),
+        },
+      });
+
       console.log('getAuthCodeStatus response:', result);
 
       if (
@@ -119,53 +137,68 @@ export async function getAuthCodeStatus(requestId: string, maxRetries = 5) {
         result.status === 'finished'
       ) {
         console.log('Returning result:', result);
-        return {
-          requestId: result.request_id,
-          status: result.status,
-        };
+        return result;
       }
 
-      console.log('Status not final, waiting 4 seconds before next attempt');
+      console.log('Status not final, waiting 3 seconds before next attempt');
       await new Promise((resolve) => setTimeout(resolve, 3000));
     } catch (error) {
       console.error('Error in getAuthCodeStatus:', error);
-      // Decide whether to throw the error or continue with the next iteration
-      // For now, we'll log it and continue
+      if (error instanceof Error && error.message === 'User is not authenticated') {
+        throw error; // Rethrow authentication errors
+      }
+      // For other errors, we'll continue with the next iteration
     }
 
     retries++;
   }
+
   console.error('Max retries reached without getting a final status');
   throw new Error('최대 재시도 횟수를 초과했습니다.');
 }
 
-export async function submitAuthCode(requestId: string, code: string) {
+type SubmitAuthCodeResponse = {
+  success: string;
+  detail?: Array<{ msg: string }>;
+};
+
+export async function submitAuthCode(
+  requestId: string,
+  code: string
+): Promise<{ success: boolean }> {
   const { credentials } = getServerAuth();
 
+  if (!credentials) {
+    throw new Error('User is not authenticated');
+  }
+
   try {
-    const response = await fetch(`${API_BASE_URL}/platform/auth/${requestId}/code`, {
+    const res = await baseFetch<SubmitAuthCodeResponse>(`/platform/auth/${requestId}/code`, {
       method: 'POST',
       body: JSON.stringify({
         auth_code: code,
       }),
       headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Basic ${credentials}`,
+        ...getAuthHeaders(credentials),
       },
     });
 
-    const res = await response.json();
-
     if (res.success.toLowerCase() !== 'true') {
-      throw new Error(
-        `인증에 실패했습니다. 인증 코드를 다시 입력해주세요. (${res['detail'][0]['msg']})`
-      );
+      const errorMessage = res.detail && res.detail[0] ? res.detail[0].msg : '알 수 없는 오류';
+      throw new Error(`인증에 실패했습니다. 인증 코드를 다시 입력해주세요. (${errorMessage})`);
     }
 
     return {
       success: true,
     };
   } catch (error) {
+    if (error instanceof Error) {
+      // If it's our custom error, rethrow it
+      if (error.message.startsWith('인증에 실패했습니다.')) {
+        throw error;
+      }
+    }
+    // For any other errors, throw a generic error
     throw new Error('인증 중 오류가 발생했습니다.');
   }
 }

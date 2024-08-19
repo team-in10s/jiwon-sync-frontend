@@ -41,17 +41,13 @@ export default function PhonePlatform({
                 // 인증 코드 요청
                 showLoadingIndicator(true);
 
-                console.log('Testing getAuthCodeStatus');
-
                 try {
                   // 1. requestID 생성 요청
                   const requestId = await getRequestId(currentPlatform);
-                  console.log(
-                    `플랫폼: ${currentPlatform}에 대한 requestId를 localStorage에 저장함`
-                  );
+
                   localStorage.setItem('rq', requestId);
 
-                  // 2. 그 id로 계정 생성 프로세스 시작 trigger
+                  // 2. 계정 생성 프로세스 시작 trigger
                   await connectPhonePlatform(requestId, currentPlatform);
 
                   // 3. 인증 코드 발송 결과 체크
@@ -72,8 +68,15 @@ export default function PhonePlatform({
                     toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
                   }
                 } catch (error) {
-                  console.log('err >> ', error);
-                  toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (2)');
+                  if (error instanceof Error) {
+                    if (error.message === 'User is not authenticated') {
+                      console.error('User is not logged in');
+                      toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
+                    } else {
+                      console.error('Failed:', error.message);
+                      toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
+                    }
+                  }
                 }
 
                 showLoadingIndicator(false);

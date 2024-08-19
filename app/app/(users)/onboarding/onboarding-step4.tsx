@@ -6,6 +6,7 @@ import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indi
 import { createAccountWithEmailAction } from './actions';
 import EmailPlatform from './email-platform';
 import PhonePlatform from './phone-platform';
+import toast from 'react-hot-toast';
 
 type Step4Props = {
   selectedPlatforms: HrPlatformName[];
@@ -53,12 +54,19 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
     setShowsLoadingIndicator(true);
 
     try {
-      const res = await createAccountWithEmailAction(currentPlatform);
-      console.log('res! ', res); // 바로 리턴되는 response
+      await createAccountWithEmailAction(currentPlatform);
 
       handleNextPlatform();
     } catch (error) {
-      //
+      if (error instanceof Error) {
+        if (error.message === 'User is not authenticated') {
+          console.error('User is not logged in');
+          toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
+        } else {
+          console.error('Failed to create account:', error.message);
+          toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
+        }
+      }
     }
 
     setShowsLoadingIndicator(false);
