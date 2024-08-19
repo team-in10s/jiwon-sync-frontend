@@ -1,12 +1,14 @@
 export const dynamic = 'force-dynamic'; // defaults to auto
 
+const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export async function POST(request: Request) {
   // TODO: request 타입에 signupUserData 넣을 수 있나 확인
   const { name, email, password, yearsOfExp, jobTitle, customJobTitle, telNo, gender, birthDate } =
     await request.json();
 
   // TODO: 서버 접근 주소 env로 관리
-  const res = await fetch('http://localhost:8000/api/auth/register', {
+  const res = await fetch(`${apiUrl}/auth/register`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

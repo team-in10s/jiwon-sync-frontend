@@ -2,6 +2,8 @@ export const dynamic = 'force-dynamic'; // defaults to auto
 
 // TODO: api 호출 주소 env로 개발 모드, 프로덕션 모드일때 나눌 수 있도록 해야함.
 
+const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+
 export async function POST(request: Request) {
   const { email } = await request.json();
   const authHeader = request.headers.get('Authorization');
@@ -13,7 +15,7 @@ export async function POST(request: Request) {
     });
   }
 
-  const res = await fetch('http://localhost:8000/api/auth/login', {
+  const res = await fetch(`${apiUrl}/auth/login`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -26,7 +28,6 @@ export async function POST(request: Request) {
   });
 
   const data = await res.json();
-  console.log('data? --------', data);
 
   return Response.json(data);
 }
