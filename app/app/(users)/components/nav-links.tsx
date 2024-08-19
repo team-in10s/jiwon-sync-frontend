@@ -1,8 +1,13 @@
+// app/app/(users)/components/nav-links.tsx
+
 'use client';
 
 import Link from 'next/link';
 import LogoutButton from '../../components/logout-button';
+import LoginButton from '../../components/login-button';
+import { isUserLoggedIn } from '@/app/lib/client-auth';
 import { usePathname } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const links = [
   {
@@ -15,21 +20,28 @@ const links = [
 
 export default function NavLinks() {
   const pathname = usePathname();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    setIsLoggedIn(isUserLoggedIn());
+  }, []);
 
   return (
     <nav className="hidden space-x-4 text-white md:flex">
-      {links.map((link) => {
-        return (
-          <Link
-            key={link.name}
-            href={link.href}
-            className={`${pathname === link.href && 'underline decoration-indigo-500 decoration-2 underline-offset-4'}`}
-          >
-            {link.name}
-          </Link>
-        );
-      })}
-      <LogoutButton />
+      {isLoggedIn &&
+        links.map((link) => {
+          return (
+            <Link
+              key={link.name}
+              href={link.href}
+              className={`${pathname === link.href && 'underline decoration-indigo-500 decoration-2 underline-offset-4'}`}
+            >
+              {link.name}
+            </Link>
+          );
+        })}
+
+      {isLoggedIn ? <LogoutButton /> : <LoginButton />}
     </nav>
   );
 }

@@ -1,3 +1,5 @@
+// app/app/components/logout-button.tsx
+
 'use client';
 
 import { clearUserAuth } from '@/app/lib/client-auth';

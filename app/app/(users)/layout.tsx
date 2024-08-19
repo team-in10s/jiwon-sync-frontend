@@ -1,3 +1,5 @@
+// app/app/(users)/layout.tsx
+
 import Link from 'next/link';
 import { ReactNode } from 'react';
 import Image from 'next/image';
@@ -16,7 +18,6 @@ export default function UserLayout({ children }: { children: ReactNode }) {
             </div>
             <span className="text-gradient text-xl font-bold">Sync</span>
           </Link>
-          {/* TODO: 로고 부분을 누르면 어디로 가야할까? */}
 
           <NavLinks />
         </div>
