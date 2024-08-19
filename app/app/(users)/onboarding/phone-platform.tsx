@@ -1,7 +1,7 @@
 import { HrPlatformName } from '@/app/lib/constants';
 import { connectPhonePlatform, getAuthCodeStatus, getRequestId, submitAuthCode } from './actions';
 import toast from 'react-hot-toast';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 
@@ -19,12 +19,38 @@ export default function PhonePlatform({
   const [currentConnectStep, setCurrentConnectStep] = useState(1);
   const [verifyCode, setVerifyCode] = useState('');
   const { user } = getUserAuth();
+  const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
 
-  // let requestId = localStorage.getItem('rq');
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+    if (isTimerRunning && timeLeft > 0) {
+      timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+    } else if (timeLeft === 0) {
+      setIsTimerRunning(false);
+    }
+
+    return () => {
+      if (timer) clearInterval(timer);
+    };
+  }, [isTimerRunning, timeLeft]);
 
   const handleVerifyCode = (e: ChangeEvent<HTMLInputElement>) => {
     const verifyCode = e.target.value;
     setVerifyCode(verifyCode);
+  };
+
+  const startTimer = () => {
+    setTimeLeft(180);
+    setIsTimerRunning(true);
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
   };
 
   const renderComponent = () => {
@@ -59,6 +85,7 @@ export default function PhonePlatform({
                   if (status === 'code_sent') {
                     // 코드가 전송되었음
                     setCurrentConnectStep(2);
+                    startTimer(); // Start the timer
                     toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
                   } else if (status === 'completed') {
                     // 이미 계정이 생성된 플랫폼
@@ -88,9 +115,11 @@ export default function PhonePlatform({
       case 2:
         return (
           <div>
-            <div>{user ? `${user?.telNo}으로 발송된 ` : ''}인증 코드를 입력해 주세요.</div>
+            <div className="mb-1 text-sm">
+              {user ? `${user?.telNo}으로 발송된 ` : ''}인증 코드를 입력해 주세요.
+            </div>
 
-            <div className="flex flex-col space-y-2">
+            <div className="mb-1 flex flex-col space-y-2">
               <input
                 id="auth-code"
                 type="text"
@@ -101,8 +130,12 @@ export default function PhonePlatform({
                 className={`rounded-md border border-gray-500 bg-gray-700 p-2 text-white`}
               />
             </div>
-            <div>
-              <button className="text-sm text-gray-300">인증 코드 재전송</button>
+            <div className="text-sm text-gray-300">
+              {timeLeft > 0 ? (
+                <p>발송된 인증 코드는 {formatTime(timeLeft)} 동안 유효해요.</p>
+              ) : (
+                <p className="text-red-500">인증 시간이 만료되었습니다.</p>
+              )}
             </div>
 
             <button
@@ -136,5 +169,6 @@ export default function PhonePlatform({
         break;
     }
   };
+
   return <div>{renderComponent()}</div>;
 }
