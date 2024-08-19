@@ -1,6 +1,12 @@
+import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import AppFooter from './components/app-footer';
 import { Toaster } from 'react-hot-toast';
+
+export const metadata: Metadata = {
+  title: '지원전에 Sync - 커리어에 경쟁력을 더하다',
+  description: '커리어에 경쟁력을 더하다',
+};
 
 // '/app' 내 페이지에 보일 레이아웃이기에 AppLayout 이라고 이름 붙임
 // '/'의 RootLayout과 혼동하지 말것
