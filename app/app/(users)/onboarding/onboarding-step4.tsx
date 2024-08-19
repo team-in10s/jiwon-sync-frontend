@@ -3,10 +3,8 @@
 import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
 import { useState } from 'react';
 import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indicator';
-import { createAccountWithEmailAction } from './actions';
 import EmailPlatform from './email-platform';
 import PhonePlatform from './phone-platform';
-import toast from 'react-hot-toast';
 import PlatformProgressIndicator from './platform-progress-indicator';
 
 type Step4Props = {
@@ -51,28 +49,6 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
     }
   };
 
-  const handleConnectPlaformEmailAuth = async () => {
-    setShowsLoadingIndicator(true);
-
-    try {
-      await createAccountWithEmailAction(currentPlatform);
-
-      handleNextPlatform();
-    } catch (error) {
-      if (error instanceof Error) {
-        if (error.message === 'User is not authenticated') {
-          console.error('User is not logged in');
-          toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
-        } else {
-          console.error('Failed to create account:', error.message);
-          toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
-        }
-      }
-    }
-
-    setShowsLoadingIndicator(false);
-  };
-
   return (
     <>
       <div className="card w-full max-w-2xl p-8">
@@ -97,8 +73,9 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
 
             {PLATFORM_CONFIG[currentPlatform]?.authType === 'email' ? (
               <EmailPlatform
+                showLoadingIndicator={setShowsLoadingIndicator}
                 currentPlatform={currentPlatform}
-                onConnect={handleConnectPlaformEmailAuth}
+                onNextPlatform={handleNextPlatform}
               />
             ) : (
               <PhonePlatform
