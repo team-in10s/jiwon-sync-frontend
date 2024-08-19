@@ -10,7 +10,9 @@ export default function PlatformTerms({ currentPlatform }: { currentPlatform: Hr
             <span>{term.title}</span>
             {term.url && (
               <span className="ml-1 text-sm text-blue-500 underline">
-                <a href={term.url}>보기</a>
+                <a href={term.url} target="_blank" rel="noreferrer">
+                  보기
+                </a>
               </span>
             )}
           </div>

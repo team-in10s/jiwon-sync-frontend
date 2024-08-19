@@ -20,7 +20,7 @@ export default function Index() {
               가능해요!
             </p>
             <p>
-              <a href="#" className="underline underline-offset-2">
+              <a href="#" className="underline underline-offset-2" rel="noreferrer">
                 익스텐션 설치
               </a>
             </p>
