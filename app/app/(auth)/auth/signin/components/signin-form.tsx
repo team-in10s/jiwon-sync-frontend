@@ -39,7 +39,13 @@ export default function SigninForm() {
       if (res.user) {
         setUserAuth(res.user, credentials);
         toast.success('로그인 성공!');
-        router.push('/app/sync');
+
+        // TODO: 온보딩 or 이력서 관리로 보내는 부분
+        // 온보딩으로 보내는 기준
+        // 1. localStorage에 onboarding이 없음
+        // 2. 플랫폼 연결 상태 조회했을때 빈 배열
+
+        router.push('/app/resume');
       } else {
         toast.error(`${ERROR_MESSAGE.reason.authentication} \n ${ERROR_MESSAGE.action.recheck}`);
         setFocus('email');
