@@ -23,12 +23,17 @@ bun dev
 - TODO
 - husky 있구요...
 
-## 배포
+## AWS Amplify 배포 (2024.08 기준)
 
-- 2024.8.19 기준
-- AWS Amplify에 배포됨
+- AWS Amplify에 배포됨 (지역: 서울)
 - 이 프로젝트 main 브랜치에 커밋이 머지되면 자동으로 빌드 후 배포되는 방식
-- 배포 결과는 jean@in10s.co 메일로 보내지도록 해놓음
+- 임시로 배포 결과는 jean@in10s.co 메일로 보내지도록 해놓음
+- 배포 버전 에러 확인하는 방법:
+  - AWS amplify > jiwon-sync-frontend > 호스팅 > 모니터링 > 페이지 내 탭(tab) 중에 컴퓨팅 로그 호스팅 선택 > CloudWatch 로그 스트림
+- 환경 변수 추가 (2단계):
+  1. AWS amplify > jiwon-sync-frontend > 호스팅 > 환경변수에서 환경 변수 추가
+  2. AWS amplify > jiwon-sync-frontend > 호스팅 > 빌드설정에서 amplify.yml 업데이트
+     - 참고: [환경 변수가 서버 측 런타임에 액세스할 수 있도록 만들기](https://docs.aws.amazon.com/ko_kr/amplify/latest/userguide/ssr-environment-variables.html)
 
 ## 모니터링 서비스
 
