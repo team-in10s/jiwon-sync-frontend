@@ -45,7 +45,8 @@ export default function SigninForm() {
         // 1. localStorage에 onboarding이 없음
         // 2. 플랫폼 연결 상태 조회했을때 빈 배열
 
-        router.push('/app/resume');
+        // router.push('/app/resume');
+        router.push('/app/onboarding');
       } else {
         toast.error(`${ERROR_MESSAGE.reason.authentication} \n ${ERROR_MESSAGE.action.recheck}`);
         setFocus('email');
