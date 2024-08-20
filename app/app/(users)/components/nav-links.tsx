@@ -22,9 +22,21 @@ export default function NavLinks() {
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
+  // Check if the current path is '/app/onboarding'
+  const isOnboardingPage = pathname === '/app/onboarding';
+
   useEffect(() => {
     setIsLoggedIn(isUserLoggedIn());
   }, []);
+
+  // If it's the onboarding page, we only want to show the logout button
+  if (isOnboardingPage) {
+    return (
+      <nav className="hidden space-x-4 text-white md:flex">
+        <LogoutButton />
+      </nav>
+    );
+  }
 
   return (
     <nav className="hidden space-x-4 text-white md:flex">
