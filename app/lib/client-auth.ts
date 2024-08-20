@@ -6,7 +6,10 @@ import { checkCookieSize } from './utils';
 const COOKIE_OPTIONS = {
   // expires: 7, // 7 days
   secure: process.env.NODE_ENV === 'production', // ensuring the cookie is only sent over HTTPS connections
-  sameSite: 'strict' as const,
+  // sameSite: 'strict' as const,
+  domain: '.in10s.co',
+  sameSite: 'none' as const,
+  path: '/',
 };
 
 type User = {
@@ -41,7 +44,6 @@ export function getUserAuth(): {
 } {
   const userCookie = Cookies.get(USER_COOKIE);
   const credentials = Cookies.get(CREDENTIALS_COOKIE);
-
   const parsedUser = userCookie ? JSON.parse(userCookie) : null;
 
   return {
