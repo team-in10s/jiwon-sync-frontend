@@ -42,6 +42,13 @@ export default function NavLinks() {
     <nav className="hidden space-x-4 text-white md:flex">
       {isLoggedIn &&
         links.map((link) => {
+          if (link.href.includes('app/recruitment')) {
+            return (
+              <a key={link.name} href="https://jiwon-sync.in10s.co/app?page=scout">
+                {link.name}
+              </a>
+            );
+          }
           return (
             <Link
               key={link.name}
