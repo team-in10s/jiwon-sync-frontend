@@ -147,8 +147,8 @@ export default function PhonePlatform({
                 // 인증 코드 입력 후 계정 생성 요청
                 try {
                   const requestId = localStorage.getItem('rq') || '';
-                  console.log('requestId from localStorage', requestId);
 
+                  // db에 인증 코드 저장
                   await submitAuthCode(requestId, verifyCode);
 
                   // input 비우기
@@ -158,8 +158,9 @@ export default function PhonePlatform({
                   onNextPlatform();
                   setCurrentConnectStep(1);
                 } catch (error) {
-                  console.log('submitAuthCode > error: ', error);
-                  toast.error('?');
+                  if (error instanceof Error) {
+                    toast.error(`인증 코드를 저장하는 도중 에러가 발생했습니다. ${error.message}`);
+                  }
                 }
               }}
             >
