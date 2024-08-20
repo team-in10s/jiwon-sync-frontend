@@ -38,8 +38,6 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
     return 0; // no change in order
   });
 
-  console.log('sortedPlatforms: ', sortedPlatforms);
-
   const currentPlatform = sortedPlatforms[currentPlatformIndex];
   const isLastPlatform = currentPlatformIndex === sortedPlatforms.length - 1;
 
@@ -67,30 +65,32 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
         </div>
 
         {/* body content */}
-        <div className="mb-12">
-          <div className="mb-6">
-            <div className="mb-4 text-center text-xl font-semibold">
-              {PLATFORM_CONFIG[currentPlatform]?.displayName}에 계정을 생성합니다.
-            </div>
-
-            {PLATFORM_CONFIG[currentPlatform]?.authType === 'email' ? (
-              <EmailPlatform
-                showLoadingIndicator={setShowsLoadingIndicator}
-                currentPlatform={currentPlatform}
-                onNextPlatform={handleNextPlatform}
-              />
-            ) : (
-              <PhonePlatform
-                showLoadingIndicator={setShowsLoadingIndicator}
-                currentPlatform={currentPlatform}
-                onNextPlatform={handleNextPlatform}
-              />
-            )}
-          </div>
+        {/* <div className="mb-12"> */}
+        {/* <div className="mb-6"> */}
+        <div className="mb-4 text-center text-xl font-semibold">
+          {PLATFORM_CONFIG[currentPlatform]?.displayName}에 계정을 생성합니다.
         </div>
 
+        {PLATFORM_CONFIG[currentPlatform]?.authType === 'email' ? (
+          <EmailPlatform
+            showLoadingIndicator={setShowsLoadingIndicator}
+            currentPlatform={currentPlatform}
+            onNextPlatform={handleNextPlatform}
+            onPrevious={onPrevious}
+          />
+        ) : (
+          <PhonePlatform
+            showLoadingIndicator={setShowsLoadingIndicator}
+            currentPlatform={currentPlatform}
+            onNextPlatform={handleNextPlatform}
+            onPrevious={onPrevious}
+          />
+        )}
+        {/* </div> */}
+        {/* </div> */}
+
         {/* button */}
-        <div className="flex justify-between">
+        {/* <div className="flex justify-between">
           <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
             이전 단계로
           </button>
@@ -101,7 +101,7 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
           >
             다음
           </button>
-        </div>
+        </div> */}
       </div>
       {showsLoadingIndicator && <FullScreenLoadingIndicator />}
     </>

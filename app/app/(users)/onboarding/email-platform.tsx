@@ -8,10 +8,12 @@ export default function EmailPlatform({
   currentPlatform,
   onNextPlatform,
   showLoadingIndicator,
+  onPrevious,
 }: {
   currentPlatform: HrPlatformName;
   onNextPlatform: () => void;
   showLoadingIndicator: Dispatch<SetStateAction<boolean>>;
+  onPrevious: () => void;
 }) {
   const handleConnectPlaformEmailAuth = async () => {
     showLoadingIndicator(true);
@@ -39,12 +41,17 @@ export default function EmailPlatform({
     <div>
       <PlatformTerms currentPlatform={currentPlatform} />
 
-      <button
-        className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-        onClick={handleConnectPlaformEmailAuth}
-      >
-        약관 동의 후 계정 생성하기
-      </button>
+      <div className="mt-12 flex items-center justify-between">
+        <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
+          이전 단계로
+        </button>
+        <button
+          className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
+          onClick={handleConnectPlaformEmailAuth}
+        >
+          약관 동의 후 계정 생성하기
+        </button>
+      </div>
     </div>
   );
 }

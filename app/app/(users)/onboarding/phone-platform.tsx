@@ -9,14 +9,14 @@ export default function PhonePlatform({
   currentPlatform,
   onNextPlatform,
   showLoadingIndicator,
+  onPrevious,
 }: {
   currentPlatform: HrPlatformName;
   onNextPlatform: () => void;
   showLoadingIndicator: Dispatch<SetStateAction<boolean>>;
+  onPrevious: () => void;
 }) {
-  console.log('PhonePlatform rendered, current platform: ', currentPlatform);
-
-  const [currentConnectStep, setCurrentConnectStep] = useState(1);
+  const [currentConnectStep, setCurrentConnectStep] = useState(2);
   const [verifyCode, setVerifyCode] = useState('');
   const { user } = getUserAuth();
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
@@ -107,12 +107,17 @@ export default function PhonePlatform({
           <div>
             <PlatformTerms currentPlatform={currentPlatform} />
 
-            <button
-              className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-              onClick={handleRequestAuthCode}
-            >
-              약관 동의 후 인증 코드 요청하기
-            </button>
+            <div className="mt-12 flex items-center justify-between">
+              <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
+                이전 단계로
+              </button>
+              <button
+                className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
+                onClick={handleRequestAuthCode}
+              >
+                약관 동의 후 인증 코드 요청하기
+              </button>
+            </div>
           </div>
         );
       case 2:
@@ -122,7 +127,7 @@ export default function PhonePlatform({
               {user ? `${user?.telNo}으로 발송된 ` : ''}인증 코드를 입력해 주세요.
             </div>
 
-            <div className="mb-1 flex flex-col space-y-2">
+            <div className="mb-2 flex flex-col space-y-2">
               <input
                 id="auth-code"
                 type="text"
@@ -142,7 +147,7 @@ export default function PhonePlatform({
             </div>
 
             <button
-              className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
+              className="mt-10 w-full rounded-full border border-primary px-4 py-2 text-sm"
               onClick={async () => {
                 // 인증 코드 입력 후 계정 생성 요청
                 try {
