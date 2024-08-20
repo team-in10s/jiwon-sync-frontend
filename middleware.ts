@@ -8,9 +8,10 @@ export function middleware(request: NextRequest) {
   const userCookie = request.cookies.get(USER_COOKIE);
   const path = request.nextUrl.pathname;
 
-  // '/app'에 접근하면 '/app/sync'로 보내기
+  // '/app'에 접근하면 '/app/onboarding'로 보내기
   if (path === '/app') {
-    return NextResponse.redirect(new URL('/app/sync', request.url));
+    // return NextResponse.redirect(new URL('/app/sync', request.url));
+    return NextResponse.redirect(new URL('/app/onboarding', request.url));
   }
 
   // 로그인을 하지 않은 유저가 로그인이 필요한 경로에 접근했으면
