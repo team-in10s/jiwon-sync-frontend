@@ -16,7 +16,7 @@ export default function PhonePlatform({
   showLoadingIndicator: Dispatch<SetStateAction<boolean>>;
   onPrevious: () => void;
 }) {
-  const [currentConnectStep, setCurrentConnectStep] = useState(2);
+  const [currentConnectStep, setCurrentConnectStep] = useState(1);
   const [verifyCode, setVerifyCode] = useState('');
   const { user } = getUserAuth();
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
@@ -122,7 +122,7 @@ export default function PhonePlatform({
         );
       case 2:
         return (
-          <div>
+          <div className="mt-5">
             <div className="mb-1 text-sm">
               {user ? `${user?.telNo}으로 발송된 ` : ''}인증 코드를 입력해 주세요.
             </div>
