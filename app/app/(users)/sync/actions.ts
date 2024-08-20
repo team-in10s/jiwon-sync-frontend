@@ -3,10 +3,12 @@ import { revalidatePath } from 'next/cache';
 import { getServerAuth } from '@/app/lib/server-auth';
 import { PlatformName } from '@/app/lib/constants';
 
+const apiUrl = process.env.API_BASE_URL;
+
 export async function connectP(platform: PlatformName) {
   const { credentials } = getServerAuth();
 
-  const res = await fetch(`http://localhost:8000/api/platform/connect/${platform}`, {
+  const res = await fetch(`${apiUrl}/platform/connect/${platform}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
