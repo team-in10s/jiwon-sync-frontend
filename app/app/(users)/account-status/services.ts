@@ -1,21 +1,21 @@
+// app/app/(users)/account-status/services.ts
+
+import { baseFetch, getAuthHeaders } from '@/app/lib/base-api-client';
 import { getServerAuth } from '@/app/lib/server-auth';
+import { PlatformStatusItem } from './types';
 
-const API_BASE_URL = process.env.API_BASE_URL; // ~i
-
-export async function getPlatformStatusService() {
+export async function getPlatformStatusService(): Promise<PlatformStatusItem[]> {
   const { credentials } = getServerAuth();
 
-  const response = await fetch(`${API_BASE_URL}/platform/statuses`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      Authorization: `Basic ${credentials}`,
-    },
-  });
+  try {
+    const response = await baseFetch<PlatformStatusItem[]>('/platform/statuses', {
+      method: 'GET',
+      headers: getAuthHeaders(credentials),
+    });
 
-  if (!response.ok) {
-    throw new Error('Resume upload failed');
+    return response;
+  } catch (error) {
+    console.error('Failed to fetch platform statuses:', error);
+    throw new Error('Failed to fetch platform statuses');
   }
-
-  return await response.json();
 }
