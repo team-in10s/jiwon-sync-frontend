@@ -111,7 +111,9 @@ export default function AccountStatusClient({
               {statusInfo && (
                 <span className={`font-medium ${statusInfo.color}`}>{statusInfo.text}</span>
               )}
-              <button className="btn-gradient rounded-3xl px-3 py-1 text-sm">연결하기</button>
+              <button className="btn-gradient rounded-3xl px-3 py-1 text-sm">
+                연결하기 (작업중)
+              </button>
             </div>
           </div>
         );
