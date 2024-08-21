@@ -19,9 +19,17 @@
     line-height: 1.2;
     padding-bottom: 0.1em;
   }
+
   .btn-gradient {
     background: linear-gradient(135deg, var(--primary-color), #00ccff);
     color: var(--secondary-color);
+    transition:
+      transform 0.2s ease-in-out,
+      box-shadow 0.2s ease-in-out;
+  }
+  .btn-gradient:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
   .card {
