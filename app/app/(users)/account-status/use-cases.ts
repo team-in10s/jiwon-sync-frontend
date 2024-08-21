@@ -2,14 +2,10 @@
 
 import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { getPlatformStatusService } from './services';
+import { PlatformStatusItem } from './types';
 
-type PlatformStatus = {
-  platform: HrPlatformName;
-  status: string | null;
-};
-
-export async function getPlatformStatusUseCase(): Promise<PlatformStatus[]> {
-  const response: PlatformStatus[] = await getPlatformStatusService();
+export async function getPlatformStatusUseCase(): Promise<PlatformStatusItem[]> {
+  const response: PlatformStatusItem[] = await getPlatformStatusService();
 
   // Create a map of all HrPlatformNames with initial null status
   const allPlatforms = Object.keys(PLATFORM_CONFIG)
@@ -19,7 +15,7 @@ export async function getPlatformStatusUseCase(): Promise<PlatformStatus[]> {
         acc[platform] = { platform, status: null };
         return acc;
       },
-      {} as Record<HrPlatformName, PlatformStatus>
+      {} as Record<HrPlatformName, PlatformStatusItem>
     );
 
   console.log('allPlatforms?', allPlatforms);

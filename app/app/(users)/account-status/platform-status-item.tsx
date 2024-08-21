@@ -1,16 +1,12 @@
 // app/app/(users)/account-status/components/platform-status-item.tsx
 
 import Image from 'next/image';
-import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
+import { PLATFORM_CONFIG } from '@/app/lib/constants';
 import StatusIndicator from './status-indicator';
 import ConnectButton from './connect-button';
+import { PlatformStatusItem as PlatformStatusItemType } from './types';
 
-type PlatformStatusItemProps = {
-  platform: HrPlatformName;
-  status: string | null;
-};
-
-export default function PlatformStatusItem({ platform, status }: PlatformStatusItemProps) {
+export default function PlatformStatusItem({ platform, status }: PlatformStatusItemType) {
   const imgSrc = `/assets/platform_logo/${PLATFORM_CONFIG[platform]?.logo}`;
   const displayName = PLATFORM_CONFIG[platform]?.displayName;
 

@@ -3,23 +3,18 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { HrPlatformName } from '@/app/lib/constants';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { getUserAuth } from '@/app/lib/client-auth';
 import PlatformStatusItem from './platform-status-item';
-
-type PlatformStatus = {
-  platform: HrPlatformName;
-  status: string | null;
-};
+import { PlatformStatusItem as PlatformStatusItemType } from './types';
 
 export default function AccountStatusClient({
   initialStatus,
 }: {
-  initialStatus: PlatformStatus[];
+  initialStatus: PlatformStatusItemType[];
 }) {
   const { credentials } = getUserAuth();
-  const [platformStatus, setPlatformStatus] = useState<PlatformStatus[]>(initialStatus);
+  const [platformStatus, setPlatformStatus] = useState<PlatformStatusItemType[]>(initialStatus);
 
   useEffect(() => {
     const controllers: AbortController[] = [];

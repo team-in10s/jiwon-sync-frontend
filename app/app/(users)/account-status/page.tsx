@@ -5,6 +5,7 @@ import { getPlatformStatusUseCase } from './use-cases';
 import AccountStatusSkeleton from './account-status-skeleton';
 import AccountStatusClient from './account-status-client';
 import DetailButton from './detail-button';
+import { PlatformStatusItem } from './types';
 
 export default function Index() {
   return (
@@ -39,7 +40,7 @@ export default function Index() {
 }
 
 async function AccountStatus() {
-  const initialAccountStatus = await getPlatformStatusUseCase();
+  const initialAccountStatus: PlatformStatusItem[] = await getPlatformStatusUseCase();
 
   return <AccountStatusClient initialStatus={initialAccountStatus} />;
 }
