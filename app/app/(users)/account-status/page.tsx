@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { getPlatformStatusUseCase } from './use-cases';
 import AccountStatusSkeleton from './account-status-skeleton';
 import AccountStatusClient from './account-status-client';
+import DetailButton from './detail-button';
 
 export default function Index() {
   return (
@@ -19,11 +20,9 @@ export default function Index() {
               커리어 전용 계정은 <span className="font-bold text-primary"> one-id</span>로 로그인
               가능해요!
             </p>
-            <p>
-              <a href="#" className="underline underline-offset-2" rel="noreferrer">
-                익스텐션 설치
-              </a>
-            </p>
+
+            {/* <button className="underline underline-offset-2">자세히 보기</button> */}
+            <DetailButton />
           </div>
 
           <div className="card w-full max-w-2xl p-8">
