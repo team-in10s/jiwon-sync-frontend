@@ -1,6 +1,5 @@
 // app/app/(users)/onboarding/use-cases.ts
 
-import { redirect } from 'next/navigation';
 import { getPlatformStatusService } from '../account-status/services';
 import { PlatformStatusItem } from '../account-status/types';
 import { connectPlatformService } from './services';
@@ -25,14 +24,26 @@ export async function connectPlatformUseCase(
   }
 }
 
-export async function checkAndRedirectPlatformStatus(): Promise<void> {
-  const response: PlatformStatusItem[] = await getPlatformStatusService();
+export type RedirectResult = {
+  shouldRedirect: boolean;
+  destination: string;
+};
 
-  const emptyStatus = response.length === 0; // 계정 생성 시도가 아예 없음
+export async function checkAndRedirectPlatformStatus(): Promise<
+  RedirectResult | PlatformStatusItem[]
+> {
+  try {
+    const response: PlatformStatusItem[] = await getPlatformStatusService();
 
-  if (emptyStatus) {
-    redirect('/app/onboarding');
-  } else {
-    redirect('/app/resume');
+    const emptyStatus = response.length === 0; // 계정 생성 시도가 아예 없음
+
+    if (emptyStatus) {
+      return { shouldRedirect: true, destination: '/app/onboarding' };
+    } else {
+      return { shouldRedirect: true, destination: '/app/resume' };
+    }
+  } catch (error) {
+    console.error('Error in checkPlatformStatus:', error);
+    throw error;
   }
 }
