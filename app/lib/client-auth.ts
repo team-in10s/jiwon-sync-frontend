@@ -4,11 +4,11 @@ import { checkCookieSize } from './utils';
 
 // Cookie options
 const COOKIE_OPTIONS = {
-  // expires: 7, // 7 days
-  secure: process.env.NODE_ENV === 'production', // ensuring the cookie is only sent over HTTPS connections
-  // sameSite: 'strict' as const,
-  domain: '.in10s.co',
-  sameSite: 'none' as const,
+  // ensuring the cookie is only sent over HTTPS connections
+  // This ensures that cookies can be set in non-HTTPS environments during development.
+  secure: process.env.NODE_ENV === 'production' && window.location.protocol === 'https:',
+  // domain: '.in10s.co',
+  sameSite: 'lax' as const, // to allow the cookie to be sent in some cross-site scenarios while still providing some CSRF protection.
   path: '/',
 };
 
