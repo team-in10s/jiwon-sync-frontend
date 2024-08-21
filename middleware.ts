@@ -22,10 +22,10 @@ export function middleware(request: NextRequest) {
   }
 
   // 이미 로그인된 유저가 로그인, 회원가입 페이지 접근하면
-  // sync 화면으로 보내기
+  // resume 화면으로 보내기
   const isAuthRoute = authRoutes.some((route) => path === route);
   if (userCookie && isAuthRoute) {
-    return NextResponse.redirect(new URL('/app/sync', request.url));
+    return NextResponse.redirect(new URL('/app/resume', request.url));
   }
 
   // 그 외 경로는 통과
