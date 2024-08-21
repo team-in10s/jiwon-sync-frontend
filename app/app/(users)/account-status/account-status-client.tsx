@@ -3,11 +3,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
+import { HrPlatformName } from '@/app/lib/constants';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { getStatusInfo } from './utils';
+import PlatformStatusItem from './platform-status-item';
 
 type PlatformStatus = {
   platform: HrPlatformName;
@@ -86,37 +85,7 @@ export default function AccountStatusClient({
     <>
       {platformStatus.map((p) => {
         const { status, platform } = p;
-        const imgSrc = `/assets/platform_logo/${PLATFORM_CONFIG[platform]?.logo}`;
-        const displayName = PLATFORM_CONFIG[platform]?.displayName;
-        const statusInfo = getStatusInfo(status);
-
-        return (
-          <div
-            key={platform}
-            className="my-4 flex items-center justify-between rounded-lg bg-gray-600 p-4"
-          >
-            <div className="flex items-center gap-2.5">
-              {imgSrc && (
-                <Image
-                  src={imgSrc}
-                  alt={displayName || ''}
-                  width={24}
-                  height={24}
-                  className="rounded-md"
-                />
-              )}
-              <span>{displayName} </span>
-            </div>
-            <div className="flex items-center gap-2">
-              {statusInfo && (
-                <span className={`font-medium ${statusInfo.color}`}>{statusInfo.text}</span>
-              )}
-              <button className="btn-gradient rounded-3xl px-3 py-1 text-sm">
-                연결하기 (작업중)
-              </button>
-            </div>
-          </div>
-        );
+        return <PlatformStatusItem key={platform} platform={platform} status={status} />;
       })}
     </>
   );
