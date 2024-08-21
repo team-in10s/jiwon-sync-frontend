@@ -7,10 +7,11 @@ import Image from 'next/image';
 import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { fetchEventSource } from '@microsoft/fetch-event-source';
 import { getUserAuth } from '@/app/lib/client-auth';
+import { getStatusInfo } from './utils';
 
 type PlatformStatus = {
   platform: HrPlatformName;
-  status: string;
+  status: string | null;
 };
 
 export default function AccountStatusClient({
@@ -84,11 +85,14 @@ export default function AccountStatusClient({
   return (
     <>
       {platformStatus.map((p) => {
-        const imgSrc = `/assets/platform_logo/${PLATFORM_CONFIG[p.platform]?.logo}`;
-        const displayName = PLATFORM_CONFIG[p.platform]?.displayName;
+        const { status, platform } = p;
+        const imgSrc = `/assets/platform_logo/${PLATFORM_CONFIG[platform]?.logo}`;
+        const displayName = PLATFORM_CONFIG[platform]?.displayName;
+        const statusInfo = getStatusInfo(status);
+
         return (
           <div
-            key={p.platform}
+            key={platform}
             className="my-4 flex items-center justify-between rounded-lg bg-gray-600 p-4"
           >
             <div className="flex items-center gap-2.5">
@@ -103,7 +107,12 @@ export default function AccountStatusClient({
               )}
               <span>{displayName} </span>
             </div>
-            <div>상태: {p.status}</div>
+            <div className="flex items-center gap-2">
+              {statusInfo && (
+                <span className={`font-medium ${statusInfo.color}`}>{statusInfo.text}</span>
+              )}
+              <button className="btn-gradient rounded-3xl px-3 py-1 text-sm">연결하기</button>
+            </div>
           </div>
         );
       })}
