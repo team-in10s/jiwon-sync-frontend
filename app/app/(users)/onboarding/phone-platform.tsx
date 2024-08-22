@@ -1,9 +1,10 @@
 import { HrPlatformName } from '@/app/lib/constants';
-import { connectPhonePlatform, getAuthCodeStatus, getRequestId, submitAuthCode } from './actions';
+import { getAuthCodeStatus, getRequestId, submitAuthCode } from './actions';
 import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
+import { connectPlatform } from '@/app/lib/api';
 
 export default function PhonePlatform({
   currentPlatform,
@@ -60,15 +61,15 @@ export default function PhonePlatform({
     try {
       // 1. requestID 생성 요청
       const requestId = await getRequestId(currentPlatform);
-      // console.log(requestId);
-
       localStorage.setItem('rq', requestId);
 
       // 2. 계정 생성 프로세스 시작 trigger
-      await connectPhonePlatform(requestId, currentPlatform);
+
+      await connectPlatform(currentPlatform, { requestId });
 
       // 3. 인증 코드 발송 결과 체크
       const result = await getAuthCodeStatus(requestId);
+      // const result = await getAuthCodeStatusTest(requestId);
       if (!result) {
         throw new Error('Failed to get auth code status');
       }
@@ -76,7 +77,6 @@ export default function PhonePlatform({
       const { status } = result;
 
       console.log('status: ', status);
-      //   console.log('TODO: status에 따라 다음 UI 보여주기');
 
       // 4. UI 업데이트
       if (status === 'code_sent') {

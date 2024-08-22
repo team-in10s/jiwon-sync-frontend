@@ -120,13 +120,19 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
 export async function connectPlatform(platform: string, connectData?: { requestId: string }) {
   const { credentials } = getUserAuth();
 
-  const response = await fetch(`/api/platform/connect/${platform}`, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${credentials}`,
-    },
-    body: JSON.stringify(connectData ?? {}),
-  });
+  const bodyData = connectData ? { requestId: connectData.requestId } : {};
+
+  const response = await fetch(
+    `https://secondly-good-walleye.ngrok-free.app/api/platform/connect/${platform}`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Basic ${credentials}`,
+      },
+      body: JSON.stringify(bodyData),
+    }
+  );
 
   if (!response.ok) {
     throw new Error('connecting platform failed');
@@ -148,6 +154,24 @@ export async function getPlatformStatusClient() {
 
   if (!response.ok) {
     throw new Error('get platform status failed');
+  }
+
+  return response.json();
+}
+
+// route handler도 추가 필요
+export async function getAuthCodeStatusTest(requestId: string) {
+  const { credentials } = getUserAuth();
+
+  const response = await fetch(`http://localhost:8000/api/platform/auth/${requestId}/code`, {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('connecting platform failed');
   }
 
   return response.json();
