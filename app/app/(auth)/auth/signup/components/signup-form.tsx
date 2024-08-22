@@ -63,7 +63,6 @@ export default function SignupForm() {
 
     try {
       const res = await signupApi(data);
-      console.log('apiSignup res? ', res);
 
       // res.message -> 성공
       // res.detail -> 실패 (뭐가 부족해서 가입이 안됨)
