@@ -60,7 +60,7 @@ export default function PhonePlatform({
     try {
       // 1. requestID 생성 요청
       const requestId = await getRequestId(currentPlatform);
-      console.log(requestId);
+      // console.log(requestId);
 
       localStorage.setItem('rq', requestId);
 
@@ -149,6 +149,8 @@ export default function PhonePlatform({
             <button
               className="mt-10 w-full rounded-full border border-primary px-4 py-2 text-sm"
               onClick={async () => {
+                if (!verifyCode.trim() || verifyCode.trim() === '') alert('인증 코드를 입력하세요');
+
                 // 인증 코드 입력 후 계정 생성 요청
                 try {
                   const requestId = localStorage.getItem('rq') || '';
