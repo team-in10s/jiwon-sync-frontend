@@ -1,7 +1,7 @@
 import { HrPlatformName } from '@/app/lib/constants';
-import { connectPhonePlatform, getAuthCodeStatus, getRequestId, submitAuthCode } from './actions';
+import { connectPhonePlatform, getRequestId, submitAuthCode } from './actions';
 import toast from 'react-hot-toast';
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 
@@ -22,6 +22,16 @@ export default function PhonePlatform({
   const [timeLeft, setTimeLeft] = useState(180); // 3 minutes in seconds
   const [isTimerRunning, setIsTimerRunning] = useState(false);
 
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     let timer: NodeJS.Timeout;
     if (isTimerRunning && timeLeft > 0) {
@@ -36,6 +46,48 @@ export default function PhonePlatform({
       if (timer) clearInterval(timer);
     };
   }, [isTimerRunning, timeLeft]);
+
+  const startPolling = (requestId: string) => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
+
+    intervalRef.current = setInterval(async () => {
+      try {
+        const response = await fetch(`/api/platform/auth/${requestId}/code`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Basic ${getUserAuth().credentials}`,
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log('Auth code status:', result);
+
+        if (result.status === 'code_sent') {
+          setCurrentConnectStep(2);
+          startTimer();
+          toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
+          clearInterval(intervalRef.current!);
+        } else if (result.status === 'completed') {
+          onNextPlatform();
+          clearInterval(intervalRef.current!);
+        } else if (result.status === 'failed' || result.status === 'finished') {
+          toast.error('인증 코드 발송에 실패했습니다.');
+          clearInterval(intervalRef.current!);
+        }
+      } catch (error) {
+        console.error('Error checking auth code status:', error);
+        toast.error('상태 확인 중 오류가 발생했습니다.');
+        clearInterval(intervalRef.current!);
+      }
+    }, 3000); // Check every 3 seconds
+  };
 
   const handleVerifyCode = (e: ChangeEvent<HTMLInputElement>) => {
     const verifyCode = e.target.value;
@@ -67,29 +119,31 @@ export default function PhonePlatform({
       // 2. 계정 생성 프로세스 시작 trigger
       await connectPhonePlatform(requestId, currentPlatform);
 
-      // 3. 인증 코드 발송 결과 체크
-      const result = await getAuthCodeStatus(requestId);
-      if (!result) {
-        throw new Error('Failed to get auth code status');
-      }
+      startPolling(requestId);
 
-      const { status } = result;
+      // // 3. 인증 코드 발송 결과 체크
+      // const result = await getAuthCodeStatus(requestId);
+      // if (!result) {
+      //   throw new Error('Failed to get auth code status');
+      // }
 
-      console.log('status: ', status);
-      //   console.log('TODO: status에 따라 다음 UI 보여주기');
+      // const { status } = result;
 
-      // 4. UI 업데이트
-      if (status === 'code_sent') {
-        // 코드가 전송되었음
-        setCurrentConnectStep(2);
-        startTimer(); // Start the timer
-        toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
-      } else if (status === 'completed') {
-        // 이미 계정이 생성된 플랫폼
-        onNextPlatform();
-      } else {
-        toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
-      }
+      // console.log('status: ', status);
+      // //   console.log('TODO: status에 따라 다음 UI 보여주기');
+
+      // // 4. UI 업데이트
+      // if (status === 'code_sent') {
+      //   // 코드가 전송되었음
+      //   setCurrentConnectStep(2);
+      //   startTimer(); // Start the timer
+      //   toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
+      // } else if (status === 'completed') {
+      //   // 이미 계정이 생성된 플랫폼
+      //   onNextPlatform();
+      // } else {
+      //   toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
+      // }
     } catch (error) {
       console.error('Error in handleRequestAuthCode:', error);
 
