@@ -103,7 +103,9 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
           </button>
         </div> */}
       </div>
-      {showsLoadingIndicator && <FullScreenLoadingIndicator />}
+      {showsLoadingIndicator && (
+        <FullScreenLoadingIndicator message="길게는 1분 정도 소요될 수 있어요. 조금만 더 기다려주세요!" />
+      )}
     </>
   );
 }
