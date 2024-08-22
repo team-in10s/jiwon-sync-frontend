@@ -68,7 +68,12 @@ export default function PhonePlatform({
       await connectPhonePlatform(requestId, currentPlatform);
 
       // 3. 인증 코드 발송 결과 체크
-      const { status } = await getAuthCodeStatus(requestId);
+      const result = await getAuthCodeStatus(requestId);
+      if (!result) {
+        throw new Error('Failed to get auth code status');
+      }
+
+      const { status } = result;
 
       console.log('status: ', status);
       //   console.log('TODO: status에 따라 다음 UI 보여주기');
@@ -86,6 +91,8 @@ export default function PhonePlatform({
         toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
       }
     } catch (error) {
+      console.error('Error in handleRequestAuthCode:', error);
+
       if (error instanceof Error) {
         if (error.message === 'User is not authenticated') {
           console.error('User is not logged in');

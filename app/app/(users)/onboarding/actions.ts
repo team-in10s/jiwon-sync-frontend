@@ -109,6 +109,7 @@ export async function getAuthCodeStatus(
   requestId: string,
   maxRetries = 5
 ): Promise<AuthCodeStatusResponse> {
+  console.log('getAuthCodeStatus called with requestId:', requestId);
   let retries = 0;
 
   while (retries < maxRetries) {
@@ -116,6 +117,7 @@ export async function getAuthCodeStatus(
 
     try {
       const { credentials } = getServerAuth();
+      console.log('Credentials obtained:', credentials ? 'Yes' : 'No');
 
       if (!credentials) {
         throw new Error('User is not authenticated');
