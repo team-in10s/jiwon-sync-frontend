@@ -142,10 +142,10 @@ export async function getAuthCodeStatus(
       console.log('Status not final, waiting 3 seconds before next attempt');
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error('Error in getAuthCodeStatus:', error);
-      if (error instanceof Error && error.message === 'User is not authenticated') {
-        throw error; // Rethrow authentication errors
-      }
+      // console.error('Error in getAuthCodeStatus:', error);
+      // if (error instanceof Error && error.message === 'User is not authenticated') {
+      //   throw error; // Rethrow authentication errors
+      // }
       // For other errors, we'll continue with the next iteration
     }
 
