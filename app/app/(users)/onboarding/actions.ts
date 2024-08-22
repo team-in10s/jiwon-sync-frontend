@@ -70,7 +70,10 @@ type ConnectResponse = {
   msg: string;
 };
 
-export async function connectPhonePlatform(requestId: string, platform: HrPlatformName) {
+export async function connectPhonePlatform(
+  requestId: string,
+  platform: HrPlatformName
+): Promise<ConnectResponse> {
   const { credentials } = getServerAuth();
 
   if (!credentials) {
@@ -93,7 +96,7 @@ export async function connectPhonePlatform(requestId: string, platform: HrPlatfo
     return result;
   } catch (error) {
     console.error('Error in connectPhonePlatform:', error);
-    // throw new Error('계정 생성에 실패하였습니다. (connect)'); // 임시로 catch 제거
+    throw new Error('계정 생성에 실패하였습니다. (connect)');
   }
 }
 
@@ -142,10 +145,10 @@ export async function getAuthCodeStatus(
       console.log('Status not final, waiting 3 seconds before next attempt');
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      // console.error('Error in getAuthCodeStatus:', error);
-      // if (error instanceof Error && error.message === 'User is not authenticated') {
-      //   throw error; // Rethrow authentication errors
-      // }
+      console.error('Error in getAuthCodeStatus:', error);
+      if (error instanceof Error && error.message === 'User is not authenticated') {
+        throw error; // Rethrow authentication errors
+      }
       // For other errors, we'll continue with the next iteration
     }
 
