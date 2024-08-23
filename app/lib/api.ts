@@ -179,44 +179,35 @@ export async function getPlatformStatusClient() {
   return response.json();
 }
 
-// route handler도 추가 필요
 export async function getAuthCodeStatusTest(requestId: string) {
-  // const { credentials } = getUserAuth();
-
-  // const response = await fetch(`http://localhost:8000/api/platform/auth/${requestId}/code`, {
-  //   method: 'GET',
-  //   headers: {
-  //     Authorization: `Basic ${credentials}`,
-  //   },
-  // });
-
-  // if (!response.ok) {
-  //   throw new Error('connecting platform failed');
-  // }
-
-  // return response.json();
-
-  //
-
   const { credentials } = getUserAuth();
 
   const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
     setTimeout(() => resolve({ status: 'timeout' }), 25000);
   });
 
-  const fetchPromise = fetch(
-    `https://secondly-good-walleye.ngrok-free.app/api/platform/auth/${requestId}/code`,
-    {
-      method: 'GET',
-      headers: {
-        Authorization: `Basic ${credentials}`,
-      },
-    }
-  ).then(async (response) => {
+  // route handler로...
+  const fetchPromise = fetch(`/api/platform/auth/${requestId}/code`, {
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+  }).then(async (response) => {
     if (!response.ok) {
-      throw new Error('get auth code failed');
+      const text = await response.text();
+      console.error('Server response:', text);
+      throw new Error(`get auth code failed: ${response.status} ${response.statusText}`);
     }
-    return response.json();
+    const text = await response.text();
+    console.log('Server response:', text);
+
+    try {
+      return JSON.parse(text);
+    } catch (error) {
+      console.error('Error parsing JSON:', error);
+      throw new Error('Invalid JSON response');
+    }
+
+    // return response.json();
   });
 
   try {
