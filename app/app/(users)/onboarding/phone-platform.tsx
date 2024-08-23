@@ -5,6 +5,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'reac
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
+import PlatformConnectButton from './platform-connect-button';
 
 export default function PhonePlatform({
   currentPlatform,
@@ -136,12 +137,8 @@ export default function PhonePlatform({
               <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
                 이전 단계로
               </button>
-              <button
-                className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-                onClick={handleRequestAuthCode}
-              >
-                약관 동의 후 인증 코드 요청하기
-              </button>
+
+              <PlatformConnectButton onClickConnect={handleRequestAuthCode} />
             </div>
           </div>
         );

@@ -3,6 +3,7 @@ import PlatformTerms from './platform-terms';
 import { Dispatch, SetStateAction } from 'react';
 import { createAccountWithEmailAction } from './actions';
 import toast from 'react-hot-toast';
+import PlatformConnectButton from './platform-connect-button';
 
 export default function EmailPlatform({
   currentPlatform,
@@ -45,12 +46,7 @@ export default function EmailPlatform({
         <button onClick={onPrevious} className="text-sm text-blue-500 hover:underline">
           이전 단계로
         </button>
-        <button
-          className="mt-2 rounded-full border border-primary px-4 py-2 text-sm"
-          onClick={handleConnectPlaformEmailAuth}
-        >
-          약관 동의 후 계정 생성하기
-        </button>
+        <PlatformConnectButton onClickConnect={handleConnectPlaformEmailAuth} />
       </div>
     </div>
   );
