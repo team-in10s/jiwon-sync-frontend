@@ -32,6 +32,10 @@
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
 
+  .btn-elevate:hover {
+    transform: translateY(-1.5px);
+  }
+
   .card {
     background-color: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
