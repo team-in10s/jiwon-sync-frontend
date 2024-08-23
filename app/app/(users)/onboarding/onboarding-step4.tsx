@@ -39,10 +39,10 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
   });
 
   const currentPlatform = sortedPlatforms[currentPlatformIndex];
-  const isLastPlatform = currentPlatformIndex === sortedPlatforms.length - 1;
+  // const isLastPlatform = currentPlatformIndex === sortedPlatforms.length - 1;
 
   const handleNextPlatform = () => {
-    if (isLastPlatform) {
+    if (currentPlatformIndex === sortedPlatforms.length - 1) {
       onNext();
     } else {
       setCurrentPlatformIndex(currentPlatformIndex + 1);
