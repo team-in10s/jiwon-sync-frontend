@@ -81,7 +81,7 @@ export default function PhonePlatform({
       // 3. 인증 코드 발송 결과 체크
       console.log('3. 인증 코드 발송 결과 체크');
       const res2 = await getAuthCodeStatus(requestId);
-      console.log('-- ', res2.status);
+      console.log('-- ', res2);
       const { status } = res2;
 
       // // 4. UI 업데이트
