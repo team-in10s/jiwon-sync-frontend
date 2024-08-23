@@ -80,65 +80,7 @@ export default function PlatformConnectButton({
             <p>핸드폰 인증</p>
           </div>
         )}
-
-        {/* {platform === 'saramin' || platform === 'jumpit' ? (
-            <EmailAuthContent
-              selectedPlatform={platform}
-              onClickConnect={async () => {
-                // // Optimistically update the platform status to 'connecting'
-                // setPlatformStatus((prevStatus) =>
-                //   prevStatus.map((p) =>
-                //     p.platform === selectedPlatform ? { ...p, status: 'connecting' } : p
-                //   )
-                // );
-                // closeModal();
-                // ('use server');
-                // const { credentials } = getUserAuth();
-                // await fetch(`/api/platform/connect/${selectedPlatform}`, {
-                //   method: 'POST',
-                //   headers: {
-                //     Authorization: `Basic ${credentials}`,
-                //   },
-                //   body: JSON.stringify({}),
-                // });
-                // revalidatePath('/app/sync');
-              }}
-            />
-          ) : (
-            <PhoneAuthContent selectedPlatform={selectedPlatform} />
-          )} */}
       </Modal>
     </>
   );
 }
-
-// function ActualButton({ status, handleConnect, platform }) {
-//   return (
-//     <>
-//       {status === 'completed' || status === 'connecting' ? (
-//         <span className="text-sm">{status}</span>
-//       ) : status === 'failed' ? (
-//         <div>
-//           {status}{' '}
-//           <button
-//             className="btn-gradient rounded-full px-3 py-1 text-sm"
-//             onClick={() => {
-//               handleConnect(platform);
-//             }}
-//           >
-//             연결하기
-//           </button>
-//         </div>
-//       ) : (
-//         <button
-//           className="btn-gradient rounded-full px-3 py-1 text-sm"
-//           onClick={() => {
-//             handleConnect(platform);
-//           }}
-//         >
-//           연결하기
-//         </button>
-//       )}
-//     </>
-//   );
-// }
