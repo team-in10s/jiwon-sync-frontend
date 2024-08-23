@@ -120,9 +120,13 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
 export async function connectPlatform(platform: string, connectData?: { requestId: string }) {
   const { credentials } = getUserAuth();
 
-  const bodyData = connectData ? { requestId: connectData.requestId } : {};
+  const bodyData = connectData ? { request_id: connectData.requestId } : {};
 
-  const response = await fetch(
+  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
+    setTimeout(() => resolve({ status: 'timeout' }), 25000);
+  });
+
+  const fetchPromise = fetch(
     `https://secondly-good-walleye.ngrok-free.app/api/platform/connect/${platform}`,
     {
       method: 'POST',
@@ -132,13 +136,29 @@ export async function connectPlatform(platform: string, connectData?: { requestI
       },
       body: JSON.stringify(bodyData),
     }
-  );
+  ).then(async (response) => {
+    if (!response.ok) {
+      throw new Error('connecting platform failed');
+    }
+    return response.json();
+  });
 
-  if (!response.ok) {
-    throw new Error('connecting platform failed');
+  try {
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if ('status' in result && result.status === 'timeout') {
+      console.error('Request timed out after 25 seconds');
+      return { status: 'timeout', error: 'Request timed out' };
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error in connectPlatform:', error);
+    if (error instanceof Error) {
+      return { status: 'error', error: error.message };
+    }
+    return { status: 'error', error: 'An unknown error occurred' };
   }
-
-  return response.json();
 }
 
 export async function getPlatformStatusClient() {

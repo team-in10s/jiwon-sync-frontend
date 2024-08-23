@@ -60,25 +60,31 @@ export default function PhonePlatform({
 
     try {
       // 1. requestID 생성 요청
+      console.log('1. requestID 생성 요청');
       const requestId = await getRequestId(currentPlatform);
       localStorage.setItem('rq', requestId);
 
       // 2. 계정 생성 프로세스 시작 trigger
+      console.log('2. 계정 생성 프로세스 시작');
+      const res1 = await connectPlatform(currentPlatform, { requestId });
+      console.log('-- ', res1);
 
-      await connectPlatform(currentPlatform, { requestId });
-
-      // 3. 인증 코드 발송 결과 체크
-      const result = await getAuthCodeStatus(requestId);
-      // const result = await getAuthCodeStatusTest(requestId);
-      if (!result) {
-        throw new Error('Failed to get auth code status');
+      if (res1.status === 'timeout') {
+        // 다음 플랫폼으로 넘기기
+      } else if (res1.status === 'error') {
+        // 다음 플랫폼으로 넘기기
+      } else {
+        // Handle successful result
+        console.log('Connection successful:', res1);
       }
 
-      const { status } = result;
+      // 3. 인증 코드 발송 결과 체크
+      console.log('3. 인증 코드 발송 결과 체크');
+      const res2 = await getAuthCodeStatus(requestId);
+      console.log('-- ', res2.status);
+      const { status } = res2;
 
-      console.log('status: ', status);
-
-      // 4. UI 업데이트
+      // // 4. UI 업데이트
       if (status === 'code_sent') {
         // 코드가 전송되었음
         setCurrentConnectStep(2);
@@ -88,7 +94,9 @@ export default function PhonePlatform({
         // 이미 계정이 생성된 플랫폼
         onNextPlatform();
       } else {
-        toast.error('플랫폼에 계정 생성 중 오류가 발생했습니다. (1)');
+        // "requested”, “finished”, “failed”
+        // 다음 플랫폼으로 이동
+        onNextPlatform();
       }
     } catch (error) {
       console.error('Error in handleRequestAuthCode:', error);
@@ -97,6 +105,15 @@ export default function PhonePlatform({
         if (error.message === 'User is not authenticated') {
           console.error('User is not logged in');
           toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
+        } else if (error.message === '최대 재시도 횟수를 초과했습니다.') {
+          //
+          // 어떻게 처리할까?
+          // onNextPlatform(); 그냥 넘어갈까?
+          toast.error(error.message);
+        } else if (error.message === '25초를 초과했습니다.') {
+          // 어떻게 처리할까?
+          // onNextPlatform(); 그냥 넘어갈까?
+          toast.error(error.message);
         } else {
           console.error('Failed:', error.message);
           toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);

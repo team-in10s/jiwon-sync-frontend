@@ -107,49 +107,68 @@ type AuthCodeStatusResponse = {
 
 export async function getAuthCodeStatus(
   requestId: string,
-  maxRetries = 3
+  maxRetries = 4
 ): Promise<AuthCodeStatusResponse> {
   console.log('getAuthCodeStatus called with requestId:', requestId);
   let retries = 0;
+
+  const timeoutPromise = new Promise<never>((_, reject) => {
+    setTimeout(() => reject(new Error('25초를 초과했습니다.')), 25000);
+  });
 
   while (retries < maxRetries) {
     console.log(`반복문 시작... (시도 ${retries + 1}/${maxRetries})`);
 
     try {
       const { credentials } = getServerAuth();
-      console.log('Credentials obtained:', credentials ? 'Yes' : 'No');
-
       if (!credentials) {
         throw new Error('User is not authenticated');
       }
 
-      const result = await baseFetch<AuthCodeStatusResponse>(`/platform/auth/${requestId}/code`, {
-        method: 'GET',
-        headers: {
-          ...getAuthHeaders(credentials),
-        },
+      const fetchPromise = fetch(
+        `https://secondly-good-walleye.ngrok-free.app/api/platform/auth/${requestId}/code`,
+        {
+          method: 'GET',
+          headers: {
+            ...getAuthHeaders(credentials),
+          },
+        }
+      ).then(async (response) => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
       });
+
+      const result: AuthCodeStatusResponse = await Promise.race([fetchPromise, timeoutPromise]);
+
+      // {status: 'requested' | 'finished' | 'completed' | 'failed' | 'code_sent }
+      // code_sent: 인증 번호 입력 화면 노출
+      // completed: 다음 플랫폼으로 이동
+      // finished: 레거시..
+      // requested: 확인 중..
+      // failed: 인증 코드 발송에 실패
 
       console.log('getAuthCodeStatus response:', result);
 
-      if (
-        result.status === 'code_sent' ||
-        result.status === 'completed' ||
-        result.status === 'failed' ||
-        result.status === 'finished'
-      ) {
+      if (result.status === 'code_sent' || result.status === 'completed') {
         console.log('Returning result:', result);
         return result;
       }
 
       console.log('Status not final, waiting 3 seconds before next attempt');
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 3000));
     } catch (error) {
       console.error('Error in getAuthCodeStatus:', error);
-      if (error instanceof Error && error.message === 'User is not authenticated') {
-        throw error; // Rethrow authentication errors
+
+      if (error instanceof Error) {
+        if (error.message === 'User is not authenticated') {
+          throw error; // Rethrow authentication errors
+        }
+        if (error.message === '25초를 초과했습니다.') {
+          return { status: 'timeout' } as AuthCodeStatusResponse; // Return a timeout status
+        }
       }
-      // For other errors, we'll continue with the next iteration
     }
 
     retries++;
