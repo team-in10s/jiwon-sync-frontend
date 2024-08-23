@@ -1,10 +1,10 @@
 import { HrPlatformName } from '@/app/lib/constants';
-import { getAuthCodeStatus, getRequestId, submitAuthCode } from './actions';
+import { getRequestId, submitAuthCode } from './actions';
 import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { connectPlatform } from '@/app/lib/api';
+import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
 
 export default function PhonePlatform({
   currentPlatform,
@@ -80,7 +80,8 @@ export default function PhonePlatform({
 
       // 3. 인증 코드 발송 결과 체크
       console.log('3. 인증 코드 발송 결과 체크');
-      const res2 = await getAuthCodeStatus(requestId);
+      // const res2 = await getAuthCodeStatus(requestId);
+      const res2 = await getAuthCodeStatusTest(requestId);
       console.log('-- ', res2);
       const { status } = res2;
 

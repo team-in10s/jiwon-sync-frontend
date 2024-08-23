@@ -181,18 +181,58 @@ export async function getPlatformStatusClient() {
 
 // route handler도 추가 필요
 export async function getAuthCodeStatusTest(requestId: string) {
+  // const { credentials } = getUserAuth();
+
+  // const response = await fetch(`http://localhost:8000/api/platform/auth/${requestId}/code`, {
+  //   method: 'GET',
+  //   headers: {
+  //     Authorization: `Basic ${credentials}`,
+  //   },
+  // });
+
+  // if (!response.ok) {
+  //   throw new Error('connecting platform failed');
+  // }
+
+  // return response.json();
+
+  //
+
   const { credentials } = getUserAuth();
 
-  const response = await fetch(`http://localhost:8000/api/platform/auth/${requestId}/code`, {
-    method: 'GET',
-    headers: {
-      Authorization: `Basic ${credentials}`,
-    },
+  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
+    setTimeout(() => resolve({ status: 'timeout' }), 25000);
   });
 
-  if (!response.ok) {
-    throw new Error('connecting platform failed');
-  }
+  const fetchPromise = fetch(
+    `https://secondly-good-walleye.ngrok-free.app/api/platform/auth/${requestId}/code`,
+    {
+      method: 'GET',
+      headers: {
+        Authorization: `Basic ${credentials}`,
+      },
+    }
+  ).then(async (response) => {
+    if (!response.ok) {
+      throw new Error('get auth code failed');
+    }
+    return response.json();
+  });
 
-  return response.json();
+  try {
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if ('status' in result && result.status === 'timeout') {
+      console.error('Request timed out after 25 seconds');
+      return { status: 'timeout', error: 'Request timed out' };
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error in getAuthCodeStatusTest:', error);
+    if (error instanceof Error) {
+      return { status: 'error', error: error.message };
+    }
+    return { status: 'error', error: 'An unknown error occurred' };
+  }
 }
