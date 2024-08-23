@@ -10,9 +10,10 @@ interface ModalProps {
   onClose: () => void;
   children: ReactNode;
   title?: string;
+  theme?: 'dark';
 }
 
-const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
+const Modal = ({ isOpen, onClose, children, title, theme }: ModalProps) => {
   useEffect(() => {
     // Prevent scrolling when modal is open
     if (isOpen) {
@@ -37,11 +38,13 @@ const Modal = ({ isOpen, onClose, children, title }: ModalProps) => {
 
   return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
+      className="fixed inset-0 z-40 flex items-center justify-center bg-black/50"
       onClick={handleBackdropClick}
       role="dialog"
     >
-      <div className="relative w-1/2 rounded-lg bg-white p-6 shadow-lg lg:w-1/3">
+      <div
+        className={`relative w-1/2 rounded-lg p-6 shadow-lg lg:w-1/3 ${theme ? 'bg-gray-700 text-white' : 'bg-white'}`}
+      >
         <div className="mb-4 flex items-center justify-between">
           {title && <h2 className="text-xl font-bold">{title}</h2>}
           <button onClick={onClose} className="hidden text-gray-500 hover:text-gray-700 md:block">
