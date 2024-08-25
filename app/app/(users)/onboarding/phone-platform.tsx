@@ -65,7 +65,6 @@ export default function PhonePlatform({
       const requestId = await getRequestId(currentPlatform);
       localStorage.setItem('rq', requestId);
 
-      // 2. 계정 생성 프로세스 시작 trigger
       console.log('2. 계정 생성 프로세스 시작');
       const res1 = await connectPlatform(currentPlatform, { requestId });
       console.log('-- ', res1);
@@ -171,7 +170,10 @@ export default function PhonePlatform({
             <button
               className="mt-10 w-full rounded-full border border-primary px-4 py-2 text-sm"
               onClick={async () => {
-                if (!verifyCode.trim() || verifyCode.trim() === '') alert('인증 코드를 입력하세요');
+                if (!verifyCode.trim() || verifyCode.trim() === '') {
+                  alert('인증 코드를 입력하세요');
+                  return;
+                }
 
                 // 인증 코드 입력 후 계정 생성 요청
                 try {
