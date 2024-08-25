@@ -6,7 +6,15 @@ import StatusIndicator from './status-indicator';
 import ConnectButton from './connect-button';
 import { PlatformStatusItem as PlatformStatusItemType } from './types';
 
-export default function PlatformStatusItem({ platform, status }: PlatformStatusItemType) {
+type PlatformStatusItemProps = PlatformStatusItemType & {
+  onConnectClick: () => void;
+};
+
+export default function PlatformStatusItem({
+  platform,
+  status,
+  onConnectClick,
+}: PlatformStatusItemProps) {
   const imgSrc = `/assets/platform_logo/${PLATFORM_CONFIG[platform]?.logo}`;
   const displayName = PLATFORM_CONFIG[platform]?.displayName;
 
@@ -26,7 +34,7 @@ export default function PlatformStatusItem({ platform, status }: PlatformStatusI
       </div>
       <div className="flex items-center gap-2">
         <StatusIndicator status={status} />
-        {status !== 'completed' && <ConnectButton />}
+        {status !== 'completed' && <ConnectButton onClick={onConnectClick} />}
       </div>
     </div>
   );
