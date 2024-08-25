@@ -1,7 +1,12 @@
 // app/app/components/fullscreen-loading-indicator.tsx
 
+import { createPortal } from 'react-dom';
+
 export default function FullScreenLoadingIndicator({ message }: { message?: string }) {
-  return (
+  // Only create the portal on the client side
+  if (typeof window === 'undefined') return null;
+
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray-900 bg-opacity-50">
       <div className="flex flex-col items-center rounded-lg bg-white p-6">
         <svg
@@ -29,6 +34,7 @@ export default function FullScreenLoadingIndicator({ message }: { message?: stri
           <div>{message || ''}</div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
