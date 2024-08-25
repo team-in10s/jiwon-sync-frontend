@@ -1,9 +1,9 @@
 import { HrPlatformName } from '@/app/lib/constants';
 import PlatformTerms from './platform-terms';
 import { Dispatch, SetStateAction } from 'react';
-import { createAccountWithEmailAction } from './actions';
 import toast from 'react-hot-toast';
 import PlatformConnectButton from './platform-connect-button';
+import { connectPlatform } from '@/app/lib/api';
 
 export default function EmailPlatform({
   currentPlatform,
@@ -20,7 +20,8 @@ export default function EmailPlatform({
     showLoadingIndicator(true);
 
     try {
-      await createAccountWithEmailAction(currentPlatform);
+      console.log('1. 계정 생성 프로세스 시작');
+      await connectPlatform(currentPlatform);
 
       onNextPlatform();
     } catch (error) {
