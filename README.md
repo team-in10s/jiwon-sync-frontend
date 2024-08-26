@@ -23,6 +23,12 @@ bun dev
 - TODO
 - husky 있구요...
 
+## 브랜치 관리 (2024.08 기준)
+
+- main 브랜치에 직접 커밋할 수 없습니다.
+- main 브랜치로 PR 을 올려서 승인 후 머지하는 방식으로만 커밋할 수 있습니다.
+- feature 작업 시: staging 브랜치에서 feature 브랜치를 생성합니다.
+
 ## AWS Amplify 배포 (2024.08 기준)
 
 - AWS Amplify에 배포됨 (지역: 서울)
