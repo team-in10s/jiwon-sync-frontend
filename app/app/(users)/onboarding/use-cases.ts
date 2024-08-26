@@ -38,12 +38,13 @@ export async function checkAndRedirectPlatformStatus(): Promise<
     const emptyStatus = response.length === 0; // 계정 생성 시도가 아예 없음
 
     if (emptyStatus) {
-      return { shouldRedirect: true, destination: '/app/onboarding' };
+      return { shouldRedirect: false, destination: '/app/onboarding' };
     } else {
       return { shouldRedirect: true, destination: '/app/resume' };
     }
   } catch (error) {
     console.error('Error in checkPlatformStatus:', error);
-    throw error;
+    // Return a default behavior in case of error
+    return { shouldRedirect: false, destination: '/app/onboarding' };
   }
 }

@@ -1,10 +1,13 @@
+// middleware.ts
+
 import { NextRequest, NextResponse } from 'next/server';
 import { USER_COOKIE } from './app/lib/constants';
+import { checkAndRedirectPlatformStatus } from './app/app/(users)/onboarding/use-cases';
 
 const protectedRoutes = ['/app/sync', '/app/resume', '/app/recruitment', '/app/onboarding'];
 const authRoutes = ['/app/auth/signin', '/app/auth/signup'];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const userCookie = request.cookies.get(USER_COOKIE);
   const path = request.nextUrl.pathname;
 
@@ -12,6 +15,18 @@ export function middleware(request: NextRequest) {
   if (path === '/app') {
     // return NextResponse.redirect(new URL('/app/sync', request.url));
     return NextResponse.redirect(new URL('/app/onboarding', request.url));
+  }
+
+  // '/app/onboarding'
+  if (path === '/app/onboarding') {
+    try {
+      const result = await checkAndRedirectPlatformStatus();
+      if ('shouldRedirect' in result) {
+        return NextResponse.redirect(new URL(result.destination, request.url));
+      }
+    } catch (error) {
+      console.error('Error in middleware:', error);
+    }
   }
 
   // 로그인을 하지 않은 유저가 로그인이 필요한 경로에 접근했으면
