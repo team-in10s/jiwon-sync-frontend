@@ -36,7 +36,7 @@ export default function OtherPlatform({ selectedPlatform }: { selectedPlatform: 
     try {
       const res = await saveMainResume(formData);
       if (res.success) {
-        toast.success('이력서 업로드 완료!');
+        toast.success('이력서 업로드 완료! 24시간 내 동기화 완료 됩니다.');
       } else {
         toast.error(res.detail[0].msg);
       }

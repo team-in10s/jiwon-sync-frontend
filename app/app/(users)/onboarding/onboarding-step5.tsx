@@ -90,7 +90,7 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
       });
 
       if (allSuccessful) {
-        toast.success('이력서 업로드 성공!');
+        toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
         router.push('/app/account-status');
       }
     } catch (error) {
