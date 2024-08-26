@@ -23,7 +23,7 @@ export default function PhonePlatformAccount({
     showLoadingIndicator(true);
 
     try {
-      // 1. requestID 생성 요청
+      // 1. requestID 생성 요청.
       const requestId = await getRequestId(platform);
       localStorage.setItem('rq', requestId);
 
