@@ -18,10 +18,11 @@ export async function middleware(request: NextRequest) {
   }
 
   // '/app/onboarding'
-  if (path === '/app/onboarding') {
+  // Check platform status for all protected routes
+  if (protectedRoutes.some((route) => path.startsWith(route))) {
     try {
-      const result = await checkAndRedirectPlatformStatus();
-      if ('shouldRedirect' in result) {
+      const result = await checkAndRedirectPlatformStatus(path);
+      if (result && result.shouldRedirect) {
         return NextResponse.redirect(new URL(result.destination, request.url));
       }
     } catch (error) {

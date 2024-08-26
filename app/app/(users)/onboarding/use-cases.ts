@@ -29,22 +29,29 @@ export type RedirectResult = {
   destination: string;
 };
 
-export async function checkAndRedirectPlatformStatus(): Promise<
-  RedirectResult | PlatformStatusItem[]
-> {
+export async function checkAndRedirectPlatformStatus(
+  currentPath: string
+): Promise<RedirectResult | null> {
   try {
     const response: PlatformStatusItem[] = await getPlatformStatusService();
 
     const emptyStatus = response.length === 0; // 계정 생성 시도가 아예 없음
 
-    if (emptyStatus) {
-      return { shouldRedirect: false, destination: '/app/onboarding' };
-    } else {
+    // if (emptyStatus) {
+    //   return { shouldRedirect: false, destination: '/app/onboarding' };
+    // } else {
+    //   return { shouldRedirect: true, destination: '/app/resume' };
+    // }
+
+    if (emptyStatus && currentPath !== '/app/onboarding') {
+      return { shouldRedirect: true, destination: '/app/onboarding' };
+    } else if (!emptyStatus && currentPath === '/app/onboarding') {
       return { shouldRedirect: true, destination: '/app/resume' };
+    } else {
+      return null; // No redirect needed
     }
   } catch (error) {
     console.error('Error in checkPlatformStatus:', error);
-    // Return a default behavior in case of error
-    return { shouldRedirect: false, destination: '/app/onboarding' };
+    return null; // In case of error, don't redirect
   }
 }
