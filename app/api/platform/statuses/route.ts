@@ -13,7 +13,6 @@ export async function GET(request: Request) {
     });
   }
 
-  // TODO: 서버 접근 주소 env로 관리
   const res = await fetch(`${apiUrl}/platform/statuses`, {
     method: 'GET',
     headers: {
