@@ -140,8 +140,9 @@ export default function AccountStatusClient({
     retryAttemptsRef.current = {}; // Reset retry attempts
 
     platformStatus.forEach((platformStat) => {
-      if (platformStat.status !== 'completed' && platformStat.status !== 'failed') {
-        setupSSEConnection(platformStat.platform);
+      const { platform, status } = platformStat;
+      if (status && status !== 'completed' && status !== 'failed') {
+        setupSSEConnection(platform);
       }
     });
 
