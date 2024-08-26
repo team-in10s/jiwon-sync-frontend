@@ -4,7 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 import { USER_COOKIE } from './app/lib/constants';
 import { checkAndRedirectPlatformStatus } from './app/app/(users)/onboarding/use-cases';
 
-const protectedRoutes = ['/app/sync', '/app/resume', '/app/recruitment', '/app/onboarding'];
+const protectedRoutes = [
+  '/app/sync',
+  '/app/resume',
+  '/app/recruitment',
+  '/app/onboarding',
+  '/app/account-status',
+];
 const authRoutes = ['/app/auth/signin', '/app/auth/signup'];
 
 export async function middleware(request: NextRequest) {
@@ -56,5 +62,6 @@ export const config = {
     '/app/recruitment/:path*',
     '/app/onboarding/:path*',
     '/app/auth/:path*',
+    '/app/account-status/:path*',
   ],
 };
