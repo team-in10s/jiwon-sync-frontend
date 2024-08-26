@@ -193,12 +193,9 @@ export async function getAuthCodeStatusTest(requestId: string) {
     },
   }).then(async (response) => {
     if (!response.ok) {
-      const text = await response.text();
-      console.error('Server response:', text);
       throw new Error(`get auth code failed: ${response.status} ${response.statusText}`);
     }
     const text = await response.text();
-    console.log('Server response:', text);
 
     try {
       return JSON.parse(text);
