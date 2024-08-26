@@ -2,13 +2,11 @@ import Cookies from 'js-cookie';
 import { CREDENTIALS_COOKIE, USER_COOKIE } from './constants';
 import { checkCookieSize } from './utils';
 
-// Cookie options1
 const COOKIE_OPTIONS = {
   // ensuring the cookie is only sent over HTTPS connections
   // This ensures that cookies can be set in non-HTTPS environments during development.
   secure: true,
-  // domain: process.env.NODE_ENV === 'production' ? '.in10s.co' : undefined,
-  // domain: process.env.NODE_ENV === 'production' ? '.in10s.co' : undefined,
+  domain: process.env.NODE_ENV === 'production' ? '.in10s.co' : undefined,
   sameSite: 'None' as const, // to allow the cookie to be sent in some cross-site scenarios while still providing some CSRF protection.
   path: '/',
 };
