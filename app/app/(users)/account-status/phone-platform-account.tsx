@@ -20,8 +20,6 @@ export default function PhonePlatformAccount({
   const inputRef = useRef<HTMLInputElement>(null);
 
   const handleRequestAuthCode = async () => {
-    setCurrentConnectStep(2);
-
     showLoadingIndicator(true);
 
     try {
