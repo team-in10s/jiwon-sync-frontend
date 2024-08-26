@@ -7,7 +7,7 @@ type ConnectButtonProps = {
 export default function ConnectButton({ onClick }: ConnectButtonProps) {
   return (
     <button onClick={onClick} className="btn-gradient rounded-3xl px-3 py-1 text-sm">
-      연결하기 (작업중)
+      연결하기
     </button>
   );
 }
