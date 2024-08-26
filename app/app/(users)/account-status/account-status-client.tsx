@@ -82,8 +82,9 @@ export default function AccountStatusClient({
         }
       };
 
-      eventSourceRef.current[platform]!.onerror = (error) => {
-        console.error(`SSE error for ${platform}:`, error);
+      eventSourceRef.current[platform]!.onerror = (_) => {
+        console.error(`SSE error for ${platform}:`);
+
         eventSourceRef.current[platform]?.close();
         eventSourceRef.current[platform] = null;
 
