@@ -21,16 +21,35 @@ const links = [
 export default function NavLinks() {
   const pathname = usePathname();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  // Check if the current path is '/app/onboarding'
-  const isOnboardingPage = pathname === '/app/onboarding';
+  const [showOnlyLogoutButton, setShowOnlyLogoutButton] = useState(false);
 
   useEffect(() => {
     setIsLoggedIn(isUserLoggedIn());
-  }, []);
 
-  // If it's the onboarding page, we only want to show the logout button
-  if (isOnboardingPage) {
+    // Check if the current path is '/app/onboarding'
+    const isOnboardingPage = pathname === '/app/onboarding';
+
+    // Check if the current path is '/app/faq' and has '#q2' in the URL
+    const isFaqQ2Page = pathname === '/app/faq' && window.location.hash === '#q2';
+
+    // Combine the conditions
+    setShowOnlyLogoutButton(isOnboardingPage || isFaqQ2Page);
+    // Add event listener for hash changes
+    const handleHashChange = () => {
+      const newIsFaqQ2Page = pathname === '/app/faq' && window.location.hash === '#q2';
+      setShowOnlyLogoutButton(isOnboardingPage || newIsFaqQ2Page);
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+
+    return () => {
+      window.removeEventListener('hashchange', handleHashChange);
+    };
+  }, [pathname]);
+
+  // If it's the onboarding page or FAQ#q2 page,
+  // show the logout button
+  if (showOnlyLogoutButton) {
     return (
       <nav className="hidden space-x-4 text-white md:flex">
         <LogoutButton />
