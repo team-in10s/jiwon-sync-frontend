@@ -1,3 +1,5 @@
+// app/lib/client-auth.ts
+
 import Cookies from 'js-cookie';
 import { CREDENTIALS_COOKIE, USER_COOKIE } from './constants';
 import { checkCookieSize } from './utils';
@@ -28,8 +30,8 @@ export function setUserAuth(user: User, credentials: string) {
 }
 
 export function clearUserAuth() {
-  Cookies.remove(USER_COOKIE);
-  Cookies.remove(CREDENTIALS_COOKIE);
+  Cookies.remove(USER_COOKIE, COOKIE_OPTIONS);
+  Cookies.remove(CREDENTIALS_COOKIE, COOKIE_OPTIONS);
 }
 
 type userInfo = {
