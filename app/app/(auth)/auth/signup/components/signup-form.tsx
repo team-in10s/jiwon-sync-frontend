@@ -10,6 +10,14 @@ import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
 
+// meta pixel click event
+declare global {
+  interface Window {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+    fbq: any;
+  }
+}
+
 type Inputs = {
   name: string;
   email: string;
@@ -68,6 +76,7 @@ export default function SignupForm() {
       // res.detail -> 실패 (뭐가 부족해서 가입이 안됨)
 
       if (res.message) {
+        handleMetaPixelEvent();
         toast.success('회원가입 성공!');
         router.push('/app/auth/signin');
       } else {
@@ -148,6 +157,16 @@ export default function SignupForm() {
     }
   };
 
+  const handleMetaPixelEvent = () => {
+    // Check if fbq is available
+    if (typeof window.fbq !== 'function') return;
+
+    // Track the event
+    window.fbq('track', 'CompleteRegistration');
+
+    console.log('done tracking');
+  };
+
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === 'email') {
@@ -167,6 +186,16 @@ export default function SignupForm() {
     });
     return () => subscription.unsubscribe();
   }, [watch]);
+
+  useEffect(() => {
+    // Check if fbq is available
+    if (typeof window.fbq !== 'function') return;
+
+    // Initialize fbq if not already initialized
+    if (!window.fbq.instance) {
+      window.fbq('init', '1620393688508165');
+    }
+  }, []);
 
   return (
     <div className="card w-full max-w-lg p-8">
