@@ -1,3 +1,5 @@
+// app/app/(auth)/auth/signup/signup-page-tracker.tsx
+
 'use client';
 
 import { useEffect } from 'react';

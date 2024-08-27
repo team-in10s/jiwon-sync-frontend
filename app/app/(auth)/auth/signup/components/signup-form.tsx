@@ -1,3 +1,5 @@
+// app/app/(auth)/auth/signup/components/signup-form.tsx
+
 'use client';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
