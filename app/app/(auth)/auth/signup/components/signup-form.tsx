@@ -12,14 +12,6 @@ import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
 
-// meta pixel click event
-declare global {
-  interface Window {
-    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    fbq: any;
-  }
-}
-
 type Inputs = {
   name: string;
   email: string;
