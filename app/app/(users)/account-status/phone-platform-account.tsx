@@ -3,7 +3,7 @@ import PlatformConnectButton from '../onboarding/platform-connect-button';
 import PlatformTerms from '../onboarding/platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 import { getRequestId, submitAuthCode } from '../onboarding/actions';
-import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
 import toast from 'react-hot-toast';
 
 export default function PhonePlatformAccount({
@@ -28,7 +28,17 @@ export default function PhonePlatformAccount({
       localStorage.setItem('rq', requestId);
 
       // 2. 계정 생성 프로세스 시작 trigger
-      const res1 = await connectPlatform(platform, { requestId });
+      let res1;
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 못함)
+      // If it's a desktop app, execute the signup script
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        res1 = await connectPlatformByDesktop(platform, requestId);
+      } else {
+        res1 = await connectPlatform(platform, requestId);
+      }
+
       if (res1.status === 'timeout') {
         throw new Error('시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
       }
