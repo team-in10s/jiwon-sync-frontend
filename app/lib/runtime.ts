@@ -1,19 +1,16 @@
 // src/lib/runtime.ts
 
+import { HrPlatformName } from './constants';
+
 /* eslint-disable */
 export interface RuntimeInterface {
   executeSignupScript: (
-    task: any,
-    userId: string,
-    userCredentials: string
-  ) => Promise<{ success: boolean; error?: string }>;
-
-  addLowPriorityTask: (task: any) => Promise<{ success: boolean; error?: string }>;
-  openApiDocs: () => Promise<{ success: boolean; error?: string }>;
+    platformName: HrPlatformName,
+    userCredentials: string,
+    requestId?: string | null
+  ) => Promise<any>;
+  addLowPriorityTask: (task: any) => Promise<any>;
+  openApiDocs: () => Promise<any>;
   getApiDocs: () => Promise<any>;
-  testApi: (
-    apiName: string,
-
-    params: any
-  ) => Promise<{ success: boolean; result?: any; error?: string }>;
+  testApi: (apiName: string, params: any) => Promise<any>;
 }
