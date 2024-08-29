@@ -117,6 +117,7 @@ export default function PhonePlatformAccount({
               type="text"
               inputMode="numeric"
               placeholder="문자로 전송된 인증 코드를 입력하세요."
+              autoComplete="off"
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
           </div>
