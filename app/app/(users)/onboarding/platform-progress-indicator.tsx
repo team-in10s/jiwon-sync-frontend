@@ -13,7 +13,7 @@ export default function PlatformProgressIndicator({
 }: PlatformProgressIndicatorProps) {
   return (
     <div className="mb-3 flex items-center justify-between rounded-lg border border-dashed border-gray-400/40 p-3 text-sm">
-      <div className="flex items-center">
+      <div className="flex flex-wrap items-center">
         {platforms.map((platform, index) => (
           <div
             key={platform}
@@ -26,7 +26,8 @@ export default function PlatformProgressIndicator({
           </div>
         ))}
       </div>
-      <div className="text-xs text-gray-400">
+
+      <div className="hidden text-xs text-gray-400 md:block">
         {currentPlatformIndex + 1} / {platforms.length}
       </div>
     </div>
