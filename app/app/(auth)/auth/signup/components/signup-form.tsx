@@ -293,7 +293,7 @@ export default function SignupForm() {
         <label className="mb-4 block">
           <span className="text-white-700 mb-2 block">경력 (년)</span>
           <input
-            min={1}
+            min={0}
             max={50}
             type="number"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
