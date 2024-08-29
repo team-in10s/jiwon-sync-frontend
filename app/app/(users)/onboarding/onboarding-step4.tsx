@@ -51,23 +51,23 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
 
   return (
     <>
-      <div className="card w-full max-w-2xl p-8">
+      <div className="card w-full max-w-2xl p-6 md:p-8">
         {/* heading */}
         <div className="mb-10 text-center">
-          <h2 className="mb-3 text-2xl font-semibold">
+          <h2 className="mb-3 text-xl font-semibold md:text-2xl">
             채용 플랫폼에 계정을 순차적으로 만들고 있어요.
           </h2>
           <PlatformProgressIndicator
             platforms={sortedPlatforms}
             currentPlatformIndex={currentPlatformIndex}
           />
-          <p className="text-lg">필요한 약관 동의와, 전화번호 인증을 진행해주세요.</p>
+          <p className="text-base md:text-lg">필요한 약관 동의와, 전화번호 인증을 진행해주세요.</p>
         </div>
 
         {/* body content */}
         {/* <div className="mb-12"> */}
         {/* <div className="mb-6"> */}
-        <div className="mb-4 text-center text-xl font-semibold">
+        <div className="mb-4 text-center text-lg font-semibold md:text-xl">
           {PLATFORM_CONFIG[currentPlatform]?.displayName}에 계정을 생성합니다.
         </div>
 
