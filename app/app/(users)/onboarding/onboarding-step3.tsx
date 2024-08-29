@@ -27,11 +27,13 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
   const totalPlatformNum = selectedPlatforms.length + additionalPlatforms.length;
 
   return (
-    <div className="card w-full max-w-2xl p-8">
+    <div className="card w-full max-w-2xl p-6 md:p-8">
       {/* heading */}
       <div className="mb-12 text-center">
-        <h2 className="mb-4 text-2xl font-semibold">추가로 사용할 채용 플랫폼을 선택해주세요.</h2>
-        <p className="text-lg">
+        <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+          추가로 사용할 채용 플랫폼을 선택해주세요.
+        </h2>
+        <p className="text-base md:text-lg">
           월 평균 4건 이상의 스카웃 제안을 받는 인재는 <br />
           3개 이상의 채용 플랫폼을 이용하고 있어요!
         </p>
@@ -43,11 +45,11 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
           <p className="mb-2 text-sm text-gray-300">
             기존 사용하던 채용 플랫폼 : {selectedPlatforms.length}개
           </p>
-          <div className="rounded-lg bg-gray-800 p-3 text-white">
+          <div className="rounded-lg bg-gray-800 px-2 py-1 text-white">
             {selectedPlatforms.map((platformId) => (
               <span
                 key={platformId}
-                className="mr-2 inline-block rounded bg-gray-700 px-2 py-1 text-sm"
+                className="my-1 mr-2 inline-block rounded bg-gray-700 px-2 py-1 text-sm"
               >
                 {PLATFORM_CONFIG[platformId as keyof typeof PLATFORM_CONFIG]?.displayName}
               </span>
@@ -58,37 +60,40 @@ export default function OnboardingStep3({ onNext, onPrevious, selectedPlatforms 
           </button>
         </div>
 
-        <div>
-          <p className="mb-2 text-sm text-gray-300">사용하지 않던 플랫폼도 통합관리 해보세요!</p>
-          <div className="mb-8 grid grid-cols-2 gap-4">
-            {availablePlatforms.map((platformId) => {
-              const platform = PLATFORM_CONFIG[platformId];
-              if (!platform) return null;
+        {/* 선택할 플랫폼이 남아 있을 때만 아래 보여줌 */}
+        {availablePlatforms.length > 0 && (
+          <div>
+            <p className="mb-2 text-sm text-gray-300">사용하지 않던 플랫폼도 통합관리 해보세요!</p>
+            <div className="mb-8 grid grid-cols-2 gap-4">
+              {availablePlatforms.map((platformId) => {
+                const platform = PLATFORM_CONFIG[platformId];
+                if (!platform) return null;
 
-              return (
-                <button
-                  key={platformId}
-                  onClick={() => handleSelection(platformId)}
-                  className={`flex items-center justify-between rounded-lg p-4 text-left transition-colors ${
-                    additionalPlatforms.includes(platformId)
-                      ? 'bg-blue-100 text-blue-400'
-                      : 'bg-gray-100 text-gray-700'
-                  }`}
-                >
-                  <span>{platform.displayName}</span>
-                  {additionalPlatforms.includes(platformId) && <CheckSVG />}
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={platformId}
+                    onClick={() => handleSelection(platformId)}
+                    className={`flex items-center justify-between rounded-lg p-4 text-left transition-colors ${
+                      additionalPlatforms.includes(platformId)
+                        ? 'bg-blue-100 text-blue-400'
+                        : 'bg-gray-100 text-gray-700'
+                    }`}
+                  >
+                    <span>{platform.displayName}</span>
+                    {additionalPlatforms.includes(platformId) && <CheckSVG />}
+                  </button>
+                );
+              })}
+            </div>
           </div>
-        </div>
+        )}
       </div>
 
       {/* button */}
       <div className="flex flex-col items-center justify-center gap-3">
         <button
           onClick={() => onNext(additionalPlatforms)}
-          className="btn-gradient rounded-full px-16 py-3 font-semibold"
+          className="btn-gradient rounded-full px-10 py-3 font-semibold md:px-16"
         >
           {totalPlatformNum}개 플랫폼에 새 계정 만들기
         </button>

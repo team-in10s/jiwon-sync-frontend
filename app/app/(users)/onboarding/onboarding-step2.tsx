@@ -27,8 +27,10 @@ export default function OnboardingStep2({ onNext }: Step2Props) {
     <div className="card w-full max-w-2xl p-8">
       {/* heading */}
       <div className="mb-12 text-center">
-        <h2 className="mb-4 text-2xl font-semibold">주로 사용하는 채용 플랫폼을 선택해 주세요.</h2>
-        <p className="text-lg">
+        <h2 className="mb-4 text-xl font-semibold md:text-2xl">
+          주로 사용하는 채용 플랫폼을 선택해 주세요.
+        </h2>
+        <p className="text-base md:text-lg">
           새로 만들어질 통합 계정으로 <br /> 채용 플랫폼 관리는 훨씬 더 쉬워질 거예요.
         </p>
       </div>
