@@ -37,12 +37,6 @@ export async function checkAndRedirectPlatformStatus(
 
     const emptyStatus = response.length === 0; // 계정 생성 시도가 아예 없음
 
-    // if (emptyStatus) {
-    //   return { shouldRedirect: false, destination: '/app/onboarding' };
-    // } else {
-    //   return { shouldRedirect: true, destination: '/app/resume' };
-    // }
-
     if (emptyStatus && currentPath !== '/app/onboarding') {
       return { shouldRedirect: true, destination: '/app/onboarding' };
     } else if (!emptyStatus && currentPath === '/app/onboarding') {

@@ -72,7 +72,8 @@ export default function SignupForm() {
       if (res.message) {
         handleMetaPixelEvent();
         toast.success('회원가입 성공!');
-        router.push('/app/auth/signin');
+        // router.push('/app/auth/signin');
+        router.push('/app/jiwon-download');
       } else {
         // TODO: 회원가입 중에 뭐가 부족해서 가입이 안되는것인지 파악하기 쉽게 개선
         // 클라이언트에서 유효성 검사를 잘해서 부족한 값이 없도록 최대한 촘촘하게 짜는 것이 우선
@@ -292,7 +293,7 @@ export default function SignupForm() {
         <label className="mb-4 block">
           <span className="text-white-700 mb-2 block">경력 (년)</span>
           <input
-            min={1}
+            min={0}
             max={50}
             type="number"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
