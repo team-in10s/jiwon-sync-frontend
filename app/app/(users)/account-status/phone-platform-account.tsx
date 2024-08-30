@@ -36,6 +36,7 @@ export default function PhonePlatformAccount({
         console.log('🖥️ desktop app');
         res1 = await connectPlatformByDesktop(platform, requestId);
       } else {
+        console.log('web');
         res1 = await connectPlatform(platform, requestId);
       }
 
@@ -49,12 +50,15 @@ export default function PhonePlatformAccount({
       // 3. 인증 코드 발송 결과 체크
       const res2 = await getAuthCodeStatusTest(requestId);
       const { status } = res2;
+
       if (status === 'code_sent') {
         setCurrentConnectStep(2);
         toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
       } else if (status === 'completed') {
         toast.error('해당 플랫폼에 이미 계정이 있습니다.');
-        // TODO: "requested”, “finished”, “failed” 에 대한 처리가 필요할지도..
+      } else if (status === 'finished' || status === 'failed') {
+        // status가 finished, failed
+        toast.error(`유효하지 않은 요청입니다. (${status})`);
       }
     } catch (error) {
       if (error instanceof Error) {

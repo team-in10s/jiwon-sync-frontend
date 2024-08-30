@@ -73,6 +73,7 @@ export default function PhonePlatform({
         console.log('🖥️ desktop app');
         res1 = await connectPlatformByDesktop(currentPlatform, requestId);
       } else {
+        console.log('web');
         res1 = await connectPlatform(currentPlatform, requestId);
       }
       console.log('-- ', res1);
@@ -103,8 +104,8 @@ export default function PhonePlatform({
         // 이미 계정이 생성된 플랫폼
         onNextPlatform();
       } else {
-        // "requested”, “finished”, “failed”
-        // 다음 플랫폼으로 이동
+        // finished, failed (requested 일땐 리턴되지 않고 반복문 진행)
+        // 일단 다음 플랫폼으로 이동
         onNextPlatform();
       }
     } catch (error) {
