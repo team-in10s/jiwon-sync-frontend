@@ -173,7 +173,7 @@ export default function SignupForm() {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch, setEmailChecked, setTelNoChecked, setPasswordCriteria]);
 
   return (
     <div className="card w-full max-w-lg p-8">
