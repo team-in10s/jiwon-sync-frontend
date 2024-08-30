@@ -11,6 +11,7 @@ import { validateEmail, validatePhoneNumber } from '@/app/lib/utils';
 import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
+import PasswordCriteria from './password-criteria';
 
 type Inputs = {
   name: string;
@@ -243,14 +244,7 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('password', { required: true })}
           />
-
-          <ul className="mt-2 text-sm text-gray-500">
-            <li className={passwordCriteria.length ? 'text-green-500' : ''}>✔️ 8자 이상</li>
-            <li className={passwordCriteria.uppercase ? 'text-green-500' : ''}>✔️ 대문자 포함</li>
-            <li className={passwordCriteria.lowercase ? 'text-green-500' : ''}>✔️ 소문자 포함</li>
-            <li className={passwordCriteria.number ? 'text-green-500' : ''}>✔️ 숫자 포함</li>
-            <li className={passwordCriteria.special ? 'text-green-500' : ''}>✔️ 특수문자 포함</li>
-          </ul>
+          <PasswordCriteria criteria={passwordCriteria} />
         </label>
 
         <label className="mb-4 block">
