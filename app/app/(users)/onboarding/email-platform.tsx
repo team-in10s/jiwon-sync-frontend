@@ -3,7 +3,7 @@ import PlatformTerms from './platform-terms';
 import { Dispatch, SetStateAction } from 'react';
 import toast from 'react-hot-toast';
 import PlatformConnectButton from './platform-connect-button';
-import { connectPlatform } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop } from '@/app/lib/api';
 
 export default function EmailPlatform({
   currentPlatform,
@@ -21,7 +21,14 @@ export default function EmailPlatform({
 
     try {
       console.log('1. 계정 생성 프로세스 시작');
-      await connectPlatform(currentPlatform);
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 못함)
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        await connectPlatformByDesktop(currentPlatform);
+      } else {
+        await connectPlatform(currentPlatform);
+      }
 
       onNextPlatform();
     } catch (error) {

@@ -1,7 +1,8 @@
-// import { getServerAuth } from './server-auth';
 import { getUserAuth } from './client-auth';
+import { HrPlatformName } from './constants';
+import { createElectronRuntime } from './electron-runtime';
 
-// 클라이언트 측에서 호출하는 api layer 모음...?
+// 클라이언트 측에서 호출하는 api layer 모음
 
 // TODO: 하단 함수마다 중복되는 부분 묶을 방법 찾기 (refactoring)
 // TODO: api 응답값 타입 잡기
@@ -117,10 +118,10 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
 }
 
 // platformName?
-export async function connectPlatform(platform: string, connectData?: { requestId: string }) {
+export async function connectPlatform(platform: string, requestId?: string) {
   const { credentials } = getUserAuth();
 
-  const bodyData = connectData ? { request_id: connectData.requestId } : {};
+  const bodyData = requestId ? { request_id: requestId } : {};
 
   const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
     setTimeout(() => resolve({ status: 'timeout' }), 25000);
@@ -142,6 +143,41 @@ export async function connectPlatform(platform: string, connectData?: { requestI
     }
     return response.json();
   });
+
+  try {
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if ('status' in result && result.status === 'timeout') {
+      console.error('Request timed out after 25 seconds');
+      return { status: 'timeout', error: 'Request timed out' };
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error in connectPlatform:', error);
+    if (error instanceof Error) {
+      return { status: 'error', error: error.message };
+    }
+    return { status: 'error', error: 'An unknown error occurred' };
+  }
+}
+
+export async function connectPlatformByDesktop(platform: HrPlatformName, requestId?: string) {
+  const { credentials } = getUserAuth();
+
+  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
+    setTimeout(() => resolve({ status: 'timeout' }), 25000);
+  });
+
+  const fetchPromise = createElectronRuntime()
+    .executeSignupScript(platform, credentials ?? '', requestId ?? null)
+    .then(async (response) => {
+      console.log(response);
+      if (!response.ok) {
+        throw new Error('connecting platform failed (in desktop)');
+      }
+      return response.json();
+    });
 
   try {
     const result = await Promise.race([fetchPromise, timeoutPromise]);
@@ -203,8 +239,6 @@ export async function getAuthCodeStatusTest(requestId: string) {
       console.error('Error parsing JSON:', error);
       throw new Error('Invalid JSON response');
     }
-
-    // return response.json();
   });
 
   try {

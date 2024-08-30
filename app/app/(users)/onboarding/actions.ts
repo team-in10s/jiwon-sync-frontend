@@ -2,14 +2,9 @@
 
 'use server';
 
-import { redirect } from 'next/navigation';
 import { HrPlatformName } from '@/app/lib/constants';
 import { getServerAuth } from '@/app/lib/server-auth';
 import { baseFetch, getAuthHeaders } from '@/app/lib/base-api-client';
-
-export async function redirectResumeAction() {
-  redirect('/app/resume');
-}
 
 // TODO: refactoring
 export async function createAccountWithEmailAction(platform: HrPlatformName) {
@@ -98,84 +93,6 @@ export async function connectPhonePlatform(
     console.error('Error in connectPhonePlatform:', error);
     throw new Error('계정 생성에 실패하였습니다. (connect)');
   }
-}
-
-type AuthCodeStatusResponse = {
-  request_id: string;
-  status: 'code_sent' | 'completed' | 'failed' | 'finished' | string;
-};
-
-export async function getAuthCodeStatus(
-  requestId: string,
-  maxRetries = 4
-): Promise<AuthCodeStatusResponse> {
-  console.log('getAuthCodeStatus called with requestId:', requestId);
-  let retries = 0;
-
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    setTimeout(() => reject(new Error('25초를 초과했습니다.')), 25000);
-  });
-
-  while (retries < maxRetries) {
-    console.log(`반복문 시작... (시도 ${retries + 1}/${maxRetries})`);
-
-    try {
-      const { credentials } = getServerAuth();
-      if (!credentials) {
-        throw new Error('User is not authenticated');
-      }
-
-      const fetchPromise = fetch(
-        `https://secondly-good-walleye.ngrok-free.app/api/platform/auth/${requestId}/code`,
-        {
-          method: 'GET',
-          headers: {
-            ...getAuthHeaders(credentials),
-          },
-        }
-      ).then(async (response) => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      });
-
-      const result: AuthCodeStatusResponse = await Promise.race([fetchPromise, timeoutPromise]);
-
-      // {status: 'requested' | 'finished' | 'completed' | 'failed' | 'code_sent }
-      // code_sent: 인증 번호 입력 화면 노출
-      // completed: 다음 플랫폼으로 이동
-      // finished: 레거시..
-      // requested: 확인 중..
-      // failed: 인증 코드 발송에 실패
-
-      console.log('getAuthCodeStatus response:', result);
-
-      if (result.status === 'code_sent' || result.status === 'completed') {
-        console.log('Returning result:', result);
-        return result;
-      }
-
-      console.log('Status not final, waiting 3 seconds before next attempt');
-      await new Promise((resolve) => setTimeout(resolve, 3000));
-    } catch (error) {
-      console.error('Error in getAuthCodeStatus:', error);
-
-      if (error instanceof Error) {
-        if (error.message === 'User is not authenticated') {
-          throw error; // Rethrow authentication errors
-        }
-        if (error.message === '25초를 초과했습니다.') {
-          return { status: 'timeout' } as AuthCodeStatusResponse; // Return a timeout status
-        }
-      }
-    }
-
-    retries++;
-  }
-
-  console.error('Max retries reached without getting a final status');
-  throw new Error('최대 재시도 횟수를 초과했습니다.');
 }
 
 type SubmitAuthCodeResponse = {

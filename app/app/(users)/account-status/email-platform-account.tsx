@@ -1,6 +1,6 @@
 // app/app/(users)/account-status/email-platform-account.tsx
 
-import { connectPlatform } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop } from '@/app/lib/api';
 import { Dispatch, SetStateAction } from 'react';
 import toast from 'react-hot-toast';
 import PlatformConnectButton from '../onboarding/platform-connect-button';
@@ -21,7 +21,15 @@ export default function EmailPlatformAccount({
     showLoadingIndicator(true);
 
     try {
-      await connectPlatform(platform);
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 못함)
+      // If it's a desktop app, execute the signup script
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        await connectPlatformByDesktop(platform);
+      } else {
+        await connectPlatform(platform);
+      }
 
       // 모달 닫고 sse 트리거
       onConnectComplete(platform);

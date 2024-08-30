@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
 import PlatformConnectButton from './platform-connect-button';
 
 export default function PhonePlatform({
@@ -66,7 +66,15 @@ export default function PhonePlatform({
       localStorage.setItem('rq', requestId);
 
       console.log('2. 계정 생성 프로세스 시작');
-      const res1 = await connectPlatform(currentPlatform, { requestId });
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 못함)
+      let res1;
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        res1 = await connectPlatformByDesktop(currentPlatform, requestId);
+      } else {
+        res1 = await connectPlatform(currentPlatform, requestId);
+      }
       console.log('-- ', res1);
 
       if (res1.status === 'timeout') {
