@@ -204,7 +204,6 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('name', { required: true })}
           />
-          {/* {errors.email && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">
@@ -217,8 +216,6 @@ export default function SignupForm() {
                 required: true,
                 validate: validateEmail,
               })}
-              // {...register('email', { required: true })}
-              // onChange={() => setEmailChecked(false)}
             />
             <button
               type="button"
@@ -246,7 +243,7 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('password', { required: true })}
           />
-          {/* {errors.password && <span>This field is required</span>} */}
+
           <ul className="mt-2 text-sm text-gray-500">
             <li className={passwordCriteria.length ? 'text-green-500' : ''}>✔️ 8자 이상</li>
             <li className={passwordCriteria.uppercase ? 'text-green-500' : ''}>✔️ 대문자 포함</li>
@@ -267,8 +264,6 @@ export default function SignupForm() {
                 required: true,
                 validate: validatePhoneNumber,
               })}
-              // {...register('telNo', { required: true })}
-              // onChange={() => setTelNoChecked(false)}
             />
 
             <button
@@ -299,7 +294,6 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('yearsOfExp', { required: true })}
           />
-          {/* {errors.password && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">
@@ -320,7 +314,6 @@ export default function SignupForm() {
 
         {isOtherJobTitle && (
           <label className="mb-4 block">
-            {/* <span className="text-white-700 mb-2 block"></span> */}
             <input
               placeholder="직무를 직접 입력해 주세요."
               type="text"
@@ -340,7 +333,6 @@ export default function SignupForm() {
             <option value="female">여성</option>
             <option value="other">기타</option>
           </select>
-          {/* {errors.gender && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">
