@@ -12,6 +12,7 @@ import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
 import PasswordCriteria from './password-criteria';
+import useMetaPixel from '@/app/hooks/use-meta-pixel';
 
 type Inputs = {
   name: string;
@@ -41,6 +42,7 @@ export default function SignupForm() {
     number: false,
     special: false,
   });
+  const { handleMetaPixelEvent } = useMetaPixel();
 
   const {
     register,
@@ -153,16 +155,6 @@ export default function SignupForm() {
     }
   };
 
-  const handleMetaPixelEvent = () => {
-    // Check if fbq is available
-    if (typeof window.fbq !== 'function') return;
-
-    // Track the event
-    window.fbq('track', 'CompleteRegistration');
-
-    console.log('done tracking');
-  };
-
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === 'email') {
@@ -182,16 +174,6 @@ export default function SignupForm() {
     });
     return () => subscription.unsubscribe();
   }, [watch]);
-
-  useEffect(() => {
-    // Check if fbq is available
-    if (typeof window.fbq !== 'function') return;
-
-    // Initialize fbq if not already initialized
-    if (!window.fbq.instance) {
-      window.fbq('init', '1620393688508165');
-    }
-  }, []);
 
   return (
     <div className="card w-full max-w-lg p-8">
