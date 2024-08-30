@@ -215,46 +215,53 @@ export async function getPlatformStatusClient() {
   return response.json();
 }
 
-export async function getAuthCodeStatusTest(requestId: string) {
-  const { credentials } = getUserAuth();
+export async function getAuthCodeStatusTest(requestId: string, maxRetries = 8) {
+  console.log('getAuthCodeStatusTest');
 
-  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
-    setTimeout(() => resolve({ status: 'timeout' }), 25000);
-  });
+  let retries = 0;
 
-  // route handler로...
-  const fetchPromise = fetch(`/api/platform/auth/${requestId}/code`, {
-    headers: {
-      Authorization: `Basic ${credentials}`,
-    },
-  }).then(async (response) => {
-    if (!response.ok) {
-      throw new Error(`get auth code failed: ${response.status} ${response.statusText}`);
-    }
-    const text = await response.text();
-
+  while (retries < maxRetries) {
+    console.log(`${retries + 1}/${maxRetries}`);
     try {
-      return JSON.parse(text);
+      const { credentials } = getUserAuth();
+      if (!credentials) {
+        throw new Error('User is not authenticated');
+      }
+
+      const response = await fetch(`/api/platform/auth/${requestId}/code`, {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.');
+      }
+
+      const result = await response.json();
+      // console.log('result? ', result);
+
+      if (
+        result.status === 'code_sent' ||
+        result.status === 'completed' ||
+        result.status === 'finished' ||
+        result.status === 'failed'
+      ) {
+        return result;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 2500));
     } catch (error) {
-      console.error('Error parsing JSON:', error);
-      throw new Error('Invalid JSON response');
-    }
-  });
+      console.error('Error in getAuthCodeStatusTest:', error);
 
-  try {
-    const result = await Promise.race([fetchPromise, timeoutPromise]);
-
-    if ('status' in result && result.status === 'timeout') {
-      console.error('Request timed out after 25 seconds');
-      return { status: 'timeout', error: 'Request timed out' };
+      if (error instanceof Error) {
+        throw error;
+      }
     }
 
-    return result;
-  } catch (error) {
-    console.error('Error in getAuthCodeStatusTest:', error);
-    if (error instanceof Error) {
-      return { status: 'error', error: error.message };
-    }
-    return { status: 'error', error: 'An unknown error occurred' };
+    retries++;
   }
+
+  console.error('Max retries reached without getting a final status');
+  throw new Error('최대 재시도 횟수를 초과했습니다.');
 }
