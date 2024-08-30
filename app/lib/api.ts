@@ -169,8 +169,6 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
     setTimeout(() => resolve({ status: 'timeout' }), 25000);
   });
 
-  console.log(platform, credentials, requestId);
-
   const fetchPromise = createElectronRuntime()
     .executeSignupScript(platform, credentials ?? '', requestId ?? null)
     .then(async (response) => {
