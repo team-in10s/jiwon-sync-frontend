@@ -1,4 +1,5 @@
 import dynamic from 'next/dynamic';
+import Image from 'next/image';
 
 // 참고: https://nextjs.org/docs/app/building-your-application/optimizing/lazy-loading#importing-named-exports
 const DownloadSection = dynamic(
@@ -18,7 +19,15 @@ export default function JiwonDownloadPage() {
       <div className="flex w-full max-w-lg flex-col items-center gap-14">
         <p className="text-xl md:text-2xl">Windows 10, MacOS 11 이상 지원</p>
 
-        <div className="h-80 w-full bg-gray-700/50">image</div>
+        <div className="relative h-48 w-full md:h-72">
+          <Image
+            src="/assets/jiwon_download/image.png"
+            alt="지원전에 Desktop 다운로드"
+            fill
+            objectFit="contain"
+            className="mx-auto"
+          />
+        </div>
 
         <DownloadSection />
       </div>
