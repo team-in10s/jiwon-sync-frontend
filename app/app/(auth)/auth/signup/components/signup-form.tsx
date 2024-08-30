@@ -72,8 +72,7 @@ export default function SignupForm() {
       if (res.message) {
         handleMetaPixelEvent();
         toast.success('회원가입 성공!');
-        // router.push('/app/auth/signin');
-        router.push('/app/jiwon-download');
+        router.push('/app/auth/signin');
       } else {
         // TODO: 회원가입 중에 뭐가 부족해서 가입이 안되는것인지 파악하기 쉽게 개선
         // 클라이언트에서 유효성 검사를 잘해서 부족한 값이 없도록 최대한 촘촘하게 짜는 것이 우선
