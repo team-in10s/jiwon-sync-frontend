@@ -24,13 +24,15 @@ export default function PhonePlatformAccount({
 
     try {
       // 1. requestID 생성 요청.
+      console.log('1. requestID 생성 요청');
       const requestId = await getRequestId(platform);
       localStorage.setItem('rq', requestId);
 
       // 2. 계정 생성 프로세스 시작 trigger
+      console.log('2. 계정 생성 프로세스 시작');
       let res1;
       // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
-      // (웹에서는 동기화 못함)
+      // (웹에서는 동기화 x)
       // If it's a desktop app, execute the signup script
       if (typeof window !== 'undefined' && window.isDesktopApp) {
         console.log('🖥️ desktop app');
@@ -40,14 +42,19 @@ export default function PhonePlatformAccount({
         res1 = await connectPlatform(platform, requestId);
       }
 
+      // 25초가 지났지만 일단 코드 발송 결과를 계속 체크하는건 어떨지?
       if (res1.status === 'timeout') {
         throw new Error('시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
+        // 고민
+        // 에러 던지지말고 25초가 지났지만 일단 코드 발송 결과를 계속 체크하는건 어떨지?
       }
+
       if (res1.status === 'error') {
         throw new Error('계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.');
       }
 
       // 3. 인증 코드 발송 결과 체크
+      console.log('3. 인증 코드 발송 결과 체크');
       const res2 = await getAuthCodeStatusTest(requestId);
       const { status } = res2;
 
