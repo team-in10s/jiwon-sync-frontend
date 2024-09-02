@@ -1,7 +1,7 @@
 // app/app/(users)/onboarding/onboarding-step5.tsx
 
 import { useState, ChangeEvent, useRef } from 'react';
-import { validateUrl, addHttpsProtocol } from '@/app/lib/utils';
+import { validateUrl } from '@/app/lib/utils';
 import { ERROR_MESSAGE, HrPlatformName } from '@/app/lib/constants';
 import { saveMainResume } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
@@ -19,7 +19,7 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
   const [resumeUrl, setResumeUrl] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
-  const [urlError, setUrlError] = useState<string | null>(null);
+  // const [urlError, setUrlError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -27,14 +27,14 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
   const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
     const newUrl = e.target.value;
     setResumeUrl(newUrl);
-    setUrlError(validateUrl(newUrl));
+    // setUrlError(validateUrl(newUrl));
   };
 
-  const handleUrlBlur = () => {
-    const updatedUrl = addHttpsProtocol(resumeUrl);
-    setResumeUrl(updatedUrl);
-    setUrlError(validateUrl(updatedUrl));
-  };
+  // const handleUrlBlur = () => {
+  //   const updatedUrl = addHttpsProtocol(resumeUrl);
+  //   setResumeUrl(updatedUrl);
+  //   setUrlError(validateUrl(updatedUrl));
+  // };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -61,6 +61,12 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
   // 예외: api.ts -> api route handler로 호출
   // server actions에서는 File 타입을 전달할 수 없어서
   const handleSubmit = async () => {
+    const validateUrlResult = validateUrl(resumeUrl);
+    if (validateUrlResult) {
+      toast.error(validateUrlResult);
+      return;
+    }
+
     setIsLoading(true);
 
     const formData = new FormData();
@@ -104,7 +110,7 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
     router.push('/app/account-status');
   };
 
-  const isSubmitDisabled = ((!resumeUrl || !!urlError) && !resumeFile) || !!fileError;
+  const isSubmitDisabled = (!resumeUrl.trim() && !resumeFile) || !!fileError;
 
   return (
     <div className="card w-full max-w-2xl p-8">
@@ -124,16 +130,13 @@ export default function OnboardingStep5({ selectedPlatforms }: Step5Props) {
         <div className="flex flex-col space-y-2">
           <input
             id="resume-url"
-            type="text"
+            type="url"
             placeholder="이력서 URL 입력 (링크드인, Notion 등)"
             value={resumeUrl}
             onChange={handleUrlChange}
-            onBlur={handleUrlBlur}
-            className={`rounded-md border ${
-              urlError ? 'border-red-500' : 'border-gray-500'
-            } bg-gray-700 p-2 text-white`}
+            className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
           />
-          {urlError && <p className="text-sm text-red-500">{urlError}</p>}
+          {/* {urlError && <p className="text-sm text-red-500">{urlError}</p>} */}
         </div>
 
         <div className="flex flex-col space-y-2">
