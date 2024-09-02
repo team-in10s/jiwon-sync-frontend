@@ -172,11 +172,12 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
   const fetchPromise = createElectronRuntime()
     .executeSignupScript(platform, credentials ?? '', requestId ?? null)
     .then(async (response) => {
-      console.log(response);
-      if (!response.ok) {
+      console.log(response); // {success: true}
+
+      if (!response.success) {
         throw new Error('connecting platform failed (in desktop)');
       }
-      return response.json();
+      return response;
     });
 
   try {
@@ -216,8 +217,6 @@ export async function getPlatformStatusClient() {
 }
 
 export async function getAuthCodeStatusTest(requestId: string, maxRetries = 8) {
-  console.log('getAuthCodeStatusTest');
-
   let retries = 0;
 
   while (retries < maxRetries) {
@@ -239,7 +238,7 @@ export async function getAuthCodeStatusTest(requestId: string, maxRetries = 8) {
       }
 
       const result = await response.json();
-      // console.log('result? ', result);
+      console.log(result.status);
 
       if (
         result.status === 'code_sent' ||
