@@ -98,7 +98,6 @@ export default function AccountStatusClient({
           );
 
           // Set a new timeout and store its ID
-          // setTimeout(() => setupSSEConnection(platform), 2000); // Wait 2 second before retrying
           timeoutIdsRef.current[platform] = window.setTimeout(() => {
             delete timeoutIdsRef.current[platform];
             setupSSEConnection(platform);
@@ -106,10 +105,9 @@ export default function AccountStatusClient({
         } else {
           console.log(`Max retry attempts reached for ${platform}`);
           // Update status to 'failed' after max retries
-          // 근데 필요없어보임..
-          // setPlatformStatus((prevStatus) =>
-          //   prevStatus.map((p) => (p.platform === platform ? { ...p, status: 'failed' } : p))
-          // );
+          setPlatformStatus((prevStatus) =>
+            prevStatus.map((p) => (p.platform === platform ? { ...p, status: 'failed' } : p))
+          );
         }
       };
 
