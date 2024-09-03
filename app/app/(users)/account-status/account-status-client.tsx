@@ -182,8 +182,35 @@ export default function AccountStatusClient({
     [setupSSEConnection, stopSSEConnection]
   );
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setIsModalOpen(false);
+
+    // 모달이 닫힐때마다 해당 페이지 캐시 revalidate
+    await revalidateCurrentPath();
+  };
+
+  const revalidateCurrentPath = async () => {
+    console.log('revalidateCurrentPath');
+
+    const { credentials } = getUserAuth();
+
+    try {
+      const response = await fetch('/api/revalidate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Basic ${credentials}`,
+        },
+        body: JSON.stringify({ path: '/app/account-status' }),
+      });
+      if (response.ok) {
+        console.log('Path revalidated successfully');
+      } else {
+        console.error('Failed to revalidate path');
+      }
+    } catch (error) {
+      console.error('Error revalidating path:', error);
+    }
   };
 
   return (
