@@ -2,8 +2,8 @@ import { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 
-const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
-// const apiUrl = 'https://secondly-good-walleye.ngrok-free.app/api';
+// const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
+const apiUrl = 'https://secondly-good-walleye.ngrok-free.app/api';
 
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
   const authHeader = request.headers.get('Authorization');
