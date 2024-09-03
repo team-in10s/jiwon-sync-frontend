@@ -63,9 +63,15 @@ export default function PhonePlatformAccount({
         toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
       } else if (status === 'completed') {
         toast.error('해당 플랫폼에 이미 계정이 있습니다.');
+
+        // 모달 닫고 sse 트리거
+        onConnectComplete(platform);
       } else if (status === 'finished' || status === 'failed') {
-        // status가 finished, failed
         toast.error(`유효하지 않은 요청입니다. (${status})`);
+
+        // failed 나 finished 일때도 sse 트리거가 필요함 (예: 인크루트)
+        // 모달 닫고 sse 트리거
+        onConnectComplete(platform);
       }
     } catch (error) {
       if (error instanceof Error) {
