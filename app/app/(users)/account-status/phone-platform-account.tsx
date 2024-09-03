@@ -95,7 +95,7 @@ export default function PhonePlatformAccount({
   const handleConnect = async () => {
     const verifyCode = inputRef.current?.value;
     if (!verifyCode || !verifyCode.trim() || verifyCode.trim() === '') {
-      alert('인증 코드를 입력하세요');
+      toast.error('인증 코드를 입력하세요');
       return;
     }
 
