@@ -80,7 +80,6 @@ export default function PhonePlatformAccount({
           toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
         } else if (
           error.message === '최대 재시도 횟수를 초과했습니다.' ||
-          error.message === '25초를 초과했습니다.' ||
           error.message === '시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.' ||
           error.message === '계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.'
         ) {

@@ -116,14 +116,9 @@ export default function PhonePlatform({
           console.error('User is not logged in');
           toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
         } else if (error.message === '최대 재시도 횟수를 초과했습니다.') {
-          //
-          // 어떻게 처리할까?
-          // onNextPlatform(); 그냥 넘어갈까?
-          toast.error(error.message);
-        } else if (error.message === '25초를 초과했습니다.') {
-          // 어떻게 처리할까?
-          // onNextPlatform(); 그냥 넘어갈까?
-          toast.error(error.message);
+          // 어떻게 처리할까? => 일단 다음 단계로 바로 넘어감
+          // toast.error(error.message);
+          onNextPlatform();
         } else {
           console.error('Failed:', error.message);
           toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);
