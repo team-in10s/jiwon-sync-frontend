@@ -45,7 +45,7 @@ export function validatePhoneNumber(phoneNumber: string) {
 }
 
 // 기본적인 URL 유효성 검사를 위한 정규 표현식
-const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/;
+const URL_REGEX = /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w\p{L}\p{N}%\-._~]*)*\/?$/iu;
 
 export const validateUrl = (url: string): string | null => {
   if (!url) {
