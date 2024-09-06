@@ -2,6 +2,7 @@ import { HrPlatformName } from '@/app/lib/constants';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import { connectOrigin } from '../onboarding/actions';
 import toast from 'react-hot-toast';
+import Link from 'next/link';
 
 type Props = {
   onNextStep: () => void;
@@ -88,9 +89,12 @@ export default function OriginalAccount({
         >
           3초 만에 부계정 생성
         </button>
-        <button className="text-sm text-gray-400 underline underline-offset-2">
+        {/* <button className="text-sm text-gray-400 underline underline-offset-2">
           로그인 과정에 문제가 있나요?
-        </button>
+        </button> */}
+        <Link href="/app/faq" className="text-sm text-gray-400 underline underline-offset-2">
+          로그인 과정에 문제가 있나요?
+        </Link>
       </div>
     </div>
   );
