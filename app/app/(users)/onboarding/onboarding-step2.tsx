@@ -139,8 +139,9 @@ export default function OnboardingStep2({
           </div>
         </div>
 
-        <div>
-          <p
+        <div className="flex flex-col items-center">
+          <button
+            className="btn-elevate mt-2 rounded-full border border-primary/60 px-4 py-2 text-sm"
             onClick={() => {
               const currentPlatform = selectedPlatforms[currentPlatformIndex];
               addAdditionalPlatforms(currentPlatform);
@@ -149,7 +150,7 @@ export default function OnboardingStep2({
             }}
           >
             3초 만에 부계정 생성
-          </p>
+          </button>
         </div>
       </div>
 
