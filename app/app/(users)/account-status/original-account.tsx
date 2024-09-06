@@ -4,6 +4,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { connectOriginTest } from '@/app/lib/api';
+import { getPlaceholderOriginLogin } from '@/app/lib/utils';
 
 type Props = {
   onNextStep: () => void;
@@ -17,7 +18,6 @@ export default function OriginalAccount({
   platform,
   onConnectComplete,
 }: Props) {
-  //
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
 
@@ -47,6 +47,7 @@ export default function OriginalAccount({
 
     showLoadingIndicator(false);
   };
+
   return (
     <div>
       <div className="mb-5 rounded-lg bg-gray-400/20 p-5">
@@ -57,7 +58,7 @@ export default function OriginalAccount({
             value={originalId}
             onChange={handleOriginalId}
             required
-            placeholder="이메일 계정을 입력하세요."
+            placeholder={getPlaceholderOriginLogin(platform)}
             className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
           />
         </div>
@@ -84,18 +85,15 @@ export default function OriginalAccount({
       </div>
 
       <div className="flex flex-col items-center justify-center gap-3">
+        <Link href="/app/faq" className="text-sm text-gray-400 underline underline-offset-2">
+          로그인 과정에 문제가 있나요?
+        </Link>
         <button
           onClick={onNextStep}
           className="btn-gradient w-1/2 rounded-full py-2 font-semibold disabled:opacity-50"
         >
           3초 만에 부계정 생성
         </button>
-        {/* <button className="text-sm text-gray-400 underline underline-offset-2">
-          로그인 과정에 문제가 있나요?
-        </button> */}
-        <Link href="/app/faq" className="text-sm text-gray-400 underline underline-offset-2">
-          로그인 과정에 문제가 있나요?
-        </Link>
       </div>
     </div>
   );
