@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
 import PlatformConnectButton from './platform-connect-button';
 
 export default function PhonePlatform({
@@ -66,7 +66,16 @@ export default function PhonePlatform({
       localStorage.setItem('rq', requestId);
 
       console.log('2. 계정 생성 프로세스 시작');
-      const res1 = await connectPlatform(currentPlatform, { requestId });
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 못함)
+      let res1;
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        res1 = await connectPlatformByDesktop(currentPlatform, requestId);
+      } else {
+        console.log('web');
+        res1 = await connectPlatform(currentPlatform, requestId);
+      }
       console.log('-- ', res1);
 
       if (res1.status === 'timeout') {
@@ -95,8 +104,8 @@ export default function PhonePlatform({
         // 이미 계정이 생성된 플랫폼
         onNextPlatform();
       } else {
-        // "requested”, “finished”, “failed”
-        // 다음 플랫폼으로 이동
+        // finished, failed (requested 일땐 리턴되지 않고 반복문 진행)
+        // 일단 다음 플랫폼으로 이동
         onNextPlatform();
       }
     } catch (error) {
@@ -107,14 +116,9 @@ export default function PhonePlatform({
           console.error('User is not logged in');
           toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
         } else if (error.message === '최대 재시도 횟수를 초과했습니다.') {
-          //
-          // 어떻게 처리할까?
-          // onNextPlatform(); 그냥 넘어갈까?
-          toast.error(error.message);
-        } else if (error.message === '25초를 초과했습니다.') {
-          // 어떻게 처리할까?
-          // onNextPlatform(); 그냥 넘어갈까?
-          toast.error(error.message);
+          // 어떻게 처리할까? => 일단 다음 단계로 바로 넘어감
+          // toast.error(error.message);
+          onNextPlatform();
         } else {
           console.error('Failed:', error.message);
           toast.error(`플랫폼에 계정 생성 중 오류가 발생했습니다. (${error.message})`);

@@ -8,7 +8,7 @@ export default function MainLogoLink() {
   return (
     <Link href="/app/resume" className="flex gap-1.5">
       <div className="h-8 w-32">
-        <Image src={mainLogo} alt="지원전에 Sync" unoptimized={true} />
+        <Image src={mainLogo} alt="지원전에 Sync" unoptimized={true} priority />
       </div>
       <span className="text-gradient text-xl font-bold">Sync</span>
     </Link>

@@ -98,7 +98,6 @@ export default function AccountStatusClient({
           );
 
           // Set a new timeout and store its ID
-          // setTimeout(() => setupSSEConnection(platform), 2000); // Wait 2 second before retrying
           timeoutIdsRef.current[platform] = window.setTimeout(() => {
             delete timeoutIdsRef.current[platform];
             setupSSEConnection(platform);
@@ -106,10 +105,9 @@ export default function AccountStatusClient({
         } else {
           console.log(`Max retry attempts reached for ${platform}`);
           // Update status to 'failed' after max retries
-          // 근데 필요없어보임..
-          // setPlatformStatus((prevStatus) =>
-          //   prevStatus.map((p) => (p.platform === platform ? { ...p, status: 'failed' } : p))
-          // );
+          setPlatformStatus((prevStatus) =>
+            prevStatus.map((p) => (p.platform === platform ? { ...p, status: 'failed' } : p))
+          );
         }
       };
 
@@ -172,6 +170,7 @@ export default function AccountStatusClient({
   const handleConnectComplete = useCallback(
     (platform: HrPlatformName) => {
       closeModal();
+
       stopSSEConnection(platform);
 
       // Update the platformStatus state immediately
@@ -184,8 +183,10 @@ export default function AccountStatusClient({
     [setupSSEConnection, stopSSEConnection]
   );
 
-  const closeModal = () => {
+  const closeModal = async () => {
     setIsModalOpen(false);
+
+    // 모달이 닫힐때마다 sse 연결 트리거
   };
 
   return (

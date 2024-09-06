@@ -2,11 +2,10 @@ import { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic'; // defaults to auto
 
+// const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 const apiUrl = 'https://secondly-good-walleye.ngrok-free.app/api';
 
 export async function GET(request: NextRequest, { params }: { params: { slug: string } }) {
-  console.log('getauthcode request received!!');
-
   const authHeader = request.headers.get('Authorization');
 
   if (!authHeader) {
@@ -27,7 +26,6 @@ export async function GET(request: NextRequest, { params }: { params: { slug: st
   });
 
   const data = await res.json();
-  console.log('data? --------', data);
 
   return Response.json(data);
 }

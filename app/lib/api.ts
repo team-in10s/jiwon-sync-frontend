@@ -1,7 +1,8 @@
-// import { getServerAuth } from './server-auth';
 import { getUserAuth } from './client-auth';
+import { HrPlatformName } from './constants';
+import { createElectronRuntime } from './electron-runtime';
 
-// 클라이언트 측에서 호출하는 api layer 모음...?
+// 클라이언트 측에서 호출하는 api layer 모음
 
 // TODO: 하단 함수마다 중복되는 부분 묶을 방법 찾기 (refactoring)
 // TODO: api 응답값 타입 잡기
@@ -117,10 +118,10 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
 }
 
 // platformName?
-export async function connectPlatform(platform: string, connectData?: { requestId: string }) {
+export async function connectPlatform(platform: string, requestId?: string) {
   const { credentials } = getUserAuth();
 
-  const bodyData = connectData ? { request_id: connectData.requestId } : {};
+  const bodyData = requestId ? { request_id: requestId } : {};
 
   const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
     setTimeout(() => resolve({ status: 'timeout' }), 25000);
@@ -161,6 +162,42 @@ export async function connectPlatform(platform: string, connectData?: { requestI
   }
 }
 
+export async function connectPlatformByDesktop(platform: HrPlatformName, requestId?: string) {
+  const { credentials } = getUserAuth();
+
+  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
+    setTimeout(() => resolve({ status: 'timeout' }), 25000);
+  });
+
+  const fetchPromise = createElectronRuntime()
+    .executeSignupScript(platform, credentials ?? '', requestId ?? null)
+    .then(async (response) => {
+      console.log(response); // {success: true}
+
+      if (!response.success) {
+        throw new Error('connecting platform failed (in desktop)');
+      }
+      return response;
+    });
+
+  try {
+    const result = await Promise.race([fetchPromise, timeoutPromise]);
+
+    if ('status' in result && result.status === 'timeout') {
+      console.error('Request timed out after 25 seconds');
+      return { status: 'timeout', error: 'Request timed out' };
+    }
+
+    return result;
+  } catch (error) {
+    console.error('Error in connectPlatform:', error);
+    if (error instanceof Error) {
+      return { status: 'error', error: error.message };
+    }
+    return { status: 'error', error: 'An unknown error occurred' };
+  }
+}
+
 export async function getPlatformStatusClient() {
   console.log('getPlatformStatus called');
   const { credentials } = getUserAuth();
@@ -179,48 +216,51 @@ export async function getPlatformStatusClient() {
   return response.json();
 }
 
-export async function getAuthCodeStatusTest(requestId: string) {
-  const { credentials } = getUserAuth();
+export async function getAuthCodeStatusTest(requestId: string, maxRetries = 13) {
+  let retries = 0;
 
-  const timeoutPromise = new Promise<{ status: 'timeout' }>((resolve) => {
-    setTimeout(() => resolve({ status: 'timeout' }), 25000);
-  });
-
-  // route handler로...
-  const fetchPromise = fetch(`/api/platform/auth/${requestId}/code`, {
-    headers: {
-      Authorization: `Basic ${credentials}`,
-    },
-  }).then(async (response) => {
-    if (!response.ok) {
-      throw new Error(`get auth code failed: ${response.status} ${response.statusText}`);
-    }
-    const text = await response.text();
-
+  while (retries < maxRetries) {
+    console.log(`${retries + 1}/${maxRetries}`);
     try {
-      return JSON.parse(text);
+      const { credentials } = getUserAuth();
+      if (!credentials) {
+        throw new Error('User is not authenticated');
+      }
+
+      const response = await fetch(`/api/platform/auth/${requestId}/code`, {
+        headers: {
+          Authorization: `Basic ${credentials}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.');
+      }
+
+      const result = await response.json();
+      console.log(result.status);
+
+      if (
+        result.status === 'code_sent' ||
+        result.status === 'completed' ||
+        result.status === 'finished' ||
+        result.status === 'failed'
+      ) {
+        return result;
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error('Error parsing JSON:', error);
-      throw new Error('Invalid JSON response');
+      console.error('Error in getAuthCodeStatusTest:', error);
+
+      if (error instanceof Error) {
+        throw error;
+      }
     }
 
-    // return response.json();
-  });
-
-  try {
-    const result = await Promise.race([fetchPromise, timeoutPromise]);
-
-    if ('status' in result && result.status === 'timeout') {
-      console.error('Request timed out after 25 seconds');
-      return { status: 'timeout', error: 'Request timed out' };
-    }
-
-    return result;
-  } catch (error) {
-    console.error('Error in getAuthCodeStatusTest:', error);
-    if (error instanceof Error) {
-      return { status: 'error', error: error.message };
-    }
-    return { status: 'error', error: 'An unknown error occurred' };
+    retries++;
   }
+
+  console.error('Max retries reached without getting a final status');
+  throw new Error('최대 재시도 횟수를 초과했습니다.');
 }

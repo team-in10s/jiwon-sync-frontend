@@ -3,7 +3,7 @@ import PlatformConnectButton from '../onboarding/platform-connect-button';
 import PlatformTerms from '../onboarding/platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 import { getRequestId, submitAuthCode } from '../onboarding/actions';
-import { connectPlatform, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
 import toast from 'react-hot-toast';
 
 export default function PhonePlatformAccount({
@@ -24,27 +24,54 @@ export default function PhonePlatformAccount({
 
     try {
       // 1. requestID 생성 요청.
+      console.log('1. requestID 생성 요청');
       const requestId = await getRequestId(platform);
       localStorage.setItem('rq', requestId);
 
       // 2. 계정 생성 프로세스 시작 trigger
-      const res1 = await connectPlatform(platform, { requestId });
+      console.log('2. 계정 생성 프로세스 시작');
+      let res1;
+      // ⭐️ TODO: 데스크탑 앱 출시되면 무조건 일렉트론 쪽으로 요청 보내기
+      // (웹에서는 동기화 x)
+      // If it's a desktop app, execute the signup script
+      if (typeof window !== 'undefined' && window.isDesktopApp) {
+        console.log('🖥️ desktop app');
+        res1 = await connectPlatformByDesktop(platform, requestId);
+      } else {
+        console.log('web');
+        res1 = await connectPlatform(platform, requestId);
+      }
+
+      // 25초가 지났지만 일단 코드 발송 결과를 계속 체크하는건 어떨지?
       if (res1.status === 'timeout') {
         throw new Error('시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.');
+        // 고민
+        // 에러 던지지말고 25초가 지났지만 일단 코드 발송 결과를 계속 체크하는건 어떨지?
       }
+
       if (res1.status === 'error') {
         throw new Error('계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.');
       }
 
       // 3. 인증 코드 발송 결과 체크
+      console.log('3. 인증 코드 발송 결과 체크');
       const res2 = await getAuthCodeStatusTest(requestId);
       const { status } = res2;
+
       if (status === 'code_sent') {
         setCurrentConnectStep(2);
         toast.success('핸드폰으로 인증 코드가 발송되었습니다.');
       } else if (status === 'completed') {
         toast.error('해당 플랫폼에 이미 계정이 있습니다.');
-        // TODO: "requested”, “finished”, “failed” 에 대한 처리가 필요할지도..
+
+        // 모달 닫고 sse 트리거
+        onConnectComplete(platform);
+      } else if (status === 'finished' || status === 'failed') {
+        toast.error(`유효하지 않은 요청입니다. (${status})`);
+
+        // failed 나 finished 일때도 sse 트리거가 필요함 (예: 인크루트)
+        // 모달 닫고 sse 트리거
+        onConnectComplete(platform);
       }
     } catch (error) {
       if (error instanceof Error) {
@@ -53,7 +80,6 @@ export default function PhonePlatformAccount({
           toast.error('유효하지 않은 유저입니다. 다시 로그인해 주세요.');
         } else if (
           error.message === '최대 재시도 횟수를 초과했습니다.' ||
-          error.message === '25초를 초과했습니다.' ||
           error.message === '시간이 초과되었습니다. 잠시 후 다시 시도해 주세요.' ||
           error.message === '계정 생성 중 오류가 발생했습니다. 카카오톡 채널로 문의해 주세요.'
         ) {
@@ -74,7 +100,7 @@ export default function PhonePlatformAccount({
   const handleConnect = async () => {
     const verifyCode = inputRef.current?.value;
     if (!verifyCode || !verifyCode.trim() || verifyCode.trim() === '') {
-      alert('인증 코드를 입력하세요');
+      toast.error('인증 코드를 입력하세요');
       return;
     }
 
