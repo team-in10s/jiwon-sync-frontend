@@ -1,5 +1,5 @@
 import { HrPlatformName } from '@/app/lib/constants';
-import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
+import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent } from 'react';
 // import { connectOrigin } from '../onboarding/actions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
@@ -30,6 +30,8 @@ export default function OriginalAccount({
   };
 
   const handleOriginalLogin = async () => {
+    if (!originalId.trim() || !originalPw.trim()) return;
+
     // 로딩 인디케이터 띄우기
     showLoadingIndicator(true);
 
@@ -37,7 +39,7 @@ export default function OriginalAccount({
     try {
       await connectOriginTest(platform, originalId, originalPw);
       toast.success(`${platform} 로그인 성공!`);
-      // 모달 닫기 && // sse 호출
+      // 모달 닫기 && sse 호출
       onConnectComplete(platform);
     } catch (error) {
       if (error instanceof Error) {
@@ -50,6 +52,13 @@ export default function OriginalAccount({
 
   const isSubmitDisabled = !originalId.trim() || !originalPw.trim();
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleOriginalLogin();
+    }
+  };
+
   return (
     <div>
       <div className="mb-5 rounded-lg bg-gray-400/20 p-5">
@@ -59,6 +68,7 @@ export default function OriginalAccount({
             type="text"
             value={originalId}
             onChange={handleOriginalId}
+            onKeyDown={handleKeyDown}
             required
             placeholder={getPlaceholderOriginLogin(platform)}
             className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
@@ -71,6 +81,7 @@ export default function OriginalAccount({
             required
             value={originalPw}
             onChange={handleOriginalPw}
+            onKeyDown={handleKeyDown}
             placeholder="비밀번호를 입력하세요."
             className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
           />

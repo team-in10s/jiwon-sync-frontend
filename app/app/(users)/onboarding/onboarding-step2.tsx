@@ -1,6 +1,6 @@
 // app/app/(users)/onboarding/onboarding-step2.tsx
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, KeyboardEvent } from 'react';
 import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
 import PlatformProgressIndicator from './platform-progress-indicator';
 import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indicator';
@@ -40,6 +40,8 @@ export default function OnboardingStep2({
   };
 
   const handleOriginalLogin = async () => {
+    if (!originalId.trim() || !originalPw.trim()) return;
+
     setShowsLoadingIndicator(true);
 
     try {
@@ -88,6 +90,13 @@ export default function OnboardingStep2({
 
   const isSubmitDisabled = !originalId.trim() || !originalPw.trim();
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      handleOriginalLogin();
+    }
+  };
+
   return (
     <>
       <div className="card w-full max-w-2xl p-8">
@@ -112,6 +121,7 @@ export default function OnboardingStep2({
               type="text"
               value={originalId}
               onChange={handleOriginalId}
+              onKeyDown={handleKeyDown}
               required
               placeholder={idPlaceholder}
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
@@ -124,6 +134,7 @@ export default function OnboardingStep2({
               required
               value={originalPw}
               onChange={handleOriginalPw}
+              onKeyDown={handleKeyDown}
               placeholder="비밀번호를 입력하세요."
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
