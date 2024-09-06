@@ -1,10 +1,10 @@
-// app/app/(users)/onboarding/onboarding-step1.tsx
+// app/app/(users)/onboarding/onboarding-step2.tsx
 
 import { useState } from 'react';
 import { PLATFORM_CONFIG, HrPlatformName, PlatformName } from '@/app/lib/constants';
 import CheckSVG from './check-svg';
 
-type Step1Props = {
+type Step2Props = {
   onNext: (platforms: HrPlatformName[]) => void;
 };
 
@@ -14,7 +14,7 @@ function isHrPlatformName(platform: PlatformName): platform is HrPlatformName {
 
 const hrPlatforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[]).filter(isHrPlatformName);
 
-export default function OnboardingStep1({ onNext }: Step1Props) {
+export default function OnboardingStep2({ onNext }: Step2Props) {
   const [selectedPlatforms, setSelectedPlatforms] = useState<HrPlatformName[]>([]);
 
   const handleSelection = (platform: HrPlatformName) => {
@@ -30,7 +30,9 @@ export default function OnboardingStep1({ onNext }: Step1Props) {
         <h2 className="mb-4 text-xl font-semibold md:text-2xl">
           주로 사용하는 채용 플랫폼을 선택해 주세요.
         </h2>
-        <p className="text-base md:text-lg">계정 관리는 훨씬 더 쉬워질 거예요.</p>
+        <p className="text-base md:text-lg">
+          새로 만들어질 통합 계정으로 <br /> 채용 플랫폼 관리는 훨씬 더 쉬워질 거예요.
+        </p>
       </div>
 
       {/* body content */}
@@ -60,7 +62,7 @@ export default function OnboardingStep1({ onNext }: Step1Props) {
         <button
           onClick={() => onNext(selectedPlatforms)}
           disabled={selectedPlatforms.length === 0}
-          className="btn-gradient rounded-full px-16 py-2 font-semibold disabled:opacity-50"
+          className="btn-gradient rounded-full px-16 py-3 font-semibold disabled:opacity-50"
         >
           다음
         </button>

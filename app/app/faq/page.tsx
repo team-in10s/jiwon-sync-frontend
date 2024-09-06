@@ -10,12 +10,14 @@ export default function FaqPage() {
         <div className="w-full max-w-2xl">
           <section className="mb-6 rounded border border-dashed border-primary/30 p-8">
             <h2 className="mb-3 text-xl font-semibold">
-              지원전에가 여러분의 커리어 비서가 되어 귀찮은 작업을 모두 도와드려요.
+              {/* 지원전에가 여러분의 커리어 비서가 되어 귀찮은 작업을 모두 도와드려요. */}
+              채용 플랫폼 로그인에 어려움이 있으신가요?
             </h2>
             <ul className="mb-3 list-item space-y-2 pl-1">
               <li>
-                ✅ 내가 모든 플랫폼에 일일이 직접 입력하지 않아도 돼요. 연결한 플랫폼에 모두
-                이력서를 동기화 할 수 있어요.
+                {/* ✅ 내가 모든 플랫폼에 일일이 직접 입력하지 않아도 돼요. 연결한 플랫폼에 모두
+                이력서를 동기화 할 수 있어요. */}
+                🔴 혹시, 아이디 비밀번호가 기억나지 않으신가요? 플랫폼별 직접 연결할 수 있는
               </li>
               <li>
                 ✅ 연결한 플랫폼은 아이디-비밀번호 없이 로그인버튼 원클릭으로 모든 플랫폼에 자동

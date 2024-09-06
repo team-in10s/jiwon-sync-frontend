@@ -12,6 +12,7 @@ import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indi
 import { EventSourcePolyfill, EventSourcePolyfillInit } from 'event-source-polyfill';
 import EmailPlatformAccount from './email-platform-account';
 import PhonePlatformAccount from './phone-platform-account';
+import OriginalAccount from './original-account';
 
 export default function AccountStatusClient({
   initialStatus,
@@ -26,6 +27,7 @@ export default function AccountStatusClient({
   const eventSourceRef = useRef<{ [key: string]: EventSourcePolyfill | null }>({});
   const retryAttemptsRef = useRef<{ [key: string]: number }>({});
   const timeoutIdsRef = useRef<{ [key: string]: number }>({});
+  const [currentStep, setCurrentStep] = useState(0); // 0, 1
 
   const setupSSEConnection = useCallback(
     (platform: string) => {
@@ -206,22 +208,34 @@ export default function AccountStatusClient({
       <Modal
         isOpen={isModalOpen}
         onClose={closeModal}
-        title={`${PLATFORM_CONFIG[selectedPlatform]?.displayName}에 계정을 생성합니다`}
+        title={`${PLATFORM_CONFIG[selectedPlatform]?.displayName}에  ${currentStep === 0 ? '로그인 합니다' : '계정을 생성합니다'}`}
         theme="dark"
       >
-        {selectedPlatform === 'jumpit' || selectedPlatform === 'saramin' ? (
-          <EmailPlatformAccount
+        {currentStep === 0 && (
+          <OriginalAccount
             platform={selectedPlatform}
+            onNextStep={() => setCurrentStep(1)}
             showLoadingIndicator={setShowsLoadingIndicator}
-            onConnectComplete={handleConnectComplete}
-          />
-        ) : (
-          <PhonePlatformAccount
-            platform={selectedPlatform}
-            showLoadingIndicator={setShowsLoadingIndicator}
-            onConnectComplete={handleConnectComplete}
+            onConnectComplete={(platform) => {
+              setCurrentStep(0);
+              handleConnectComplete(platform);
+            }}
           />
         )}
+        {currentStep === 1 &&
+          (selectedPlatform === 'jumpit' || selectedPlatform === 'saramin' ? (
+            <EmailPlatformAccount
+              platform={selectedPlatform}
+              showLoadingIndicator={setShowsLoadingIndicator}
+              onConnectComplete={handleConnectComplete}
+            />
+          ) : (
+            <PhonePlatformAccount
+              platform={selectedPlatform}
+              showLoadingIndicator={setShowsLoadingIndicator}
+              onConnectComplete={handleConnectComplete}
+            />
+          ))}
       </Modal>
 
       {showsLoadingIndicator && (
