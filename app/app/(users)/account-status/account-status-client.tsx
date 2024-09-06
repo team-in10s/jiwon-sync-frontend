@@ -187,6 +187,7 @@ export default function AccountStatusClient({
 
   const closeModal = async () => {
     setIsModalOpen(false);
+    setCurrentStep(0);
 
     // 모달이 닫힐때마다 sse 연결 트리거
   };
