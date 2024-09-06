@@ -7,6 +7,7 @@ import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indi
 import toast from 'react-hot-toast';
 // import { connectOrigin } from './actions';
 import { connectOriginTest } from '@/app/lib/api';
+import { getPlaceholderOriginLogin } from '@/app/lib/utils';
 
 type Step2Props = {
   onNext: () => void;
@@ -83,6 +84,8 @@ export default function OnboardingStep2({
     setOriginalPw('');
   };
 
+  const idPlaceholder = getPlaceholderOriginLogin(selectedPlatforms[currentPlatformIndex]);
+
   const isSubmitDisabled = !originalId.trim() || !originalPw;
 
   return (
@@ -103,14 +106,14 @@ export default function OnboardingStep2({
             {currentPlatformDisplay}에 로그인합니다.
           </div>
 
-          <div className="mb-2 flex flex-col space-y-2 sm:w-64 md:w-80">
+          <div className="mb-2 flex flex-col space-y-2 sm:min-w-64 md:min-w-96">
             <input
               id="original-id"
               type="text"
               value={originalId}
               onChange={handleOriginalId}
               required
-              placeholder="이메일 계정을 입력하세요."
+              placeholder={idPlaceholder}
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
           </div>
