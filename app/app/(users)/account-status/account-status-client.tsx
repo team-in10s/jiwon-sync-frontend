@@ -189,7 +189,7 @@ export default function AccountStatusClient({
     setIsModalOpen(false);
     setCurrentStep(0);
 
-    // 모달이 닫힐때마다 sse 연결 트리거
+    // 모달이 닫힐때마다 sse 연결 트리거?
   };
 
   return (
