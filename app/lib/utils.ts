@@ -1,5 +1,7 @@
 // app/lib/utils.ts
 
+import { HrPlatformName } from './constants';
+
 export function base64Encode(str: string): string {
   if (typeof window === 'undefined') {
     // Server-side
@@ -69,4 +71,19 @@ export const addHttpsProtocol = (url: string): string => {
     return `https://${url}`;
   }
   return url;
+};
+
+export const getPlaceholderOriginLogin = (platform: HrPlatformName) => {
+  // 리멤버, 점핏, 원티드 -> 이메일 계정을 입력하세요
+  if (platform === 'remember' || platform === 'jumpit' || platform === 'wanted') {
+    return '이메일 계정을 입력하세요.';
+  }
+
+  // 잡코리아, 사람인 -> 아이디를 입력하세요
+  if (platform === 'jobkorea' || platform === 'saramin') {
+    return '아이디를 입력하세요.';
+  }
+
+  // 인크루트 -> 아이디 또는 이메일 계정을 입력하세요
+  return '아이디 또는 이메일 계정을 입력하세요.';
 };
