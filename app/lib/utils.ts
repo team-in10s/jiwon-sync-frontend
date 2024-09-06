@@ -87,3 +87,21 @@ export const getPlaceholderOriginLogin = (platform: HrPlatformName) => {
   // 인크루트 -> 아이디 또는 이메일 계정을 입력하세요
   return '아이디 또는 이메일 계정을 입력하세요.';
 };
+
+export const getPasswordGuide = (platform: HrPlatformName) => {
+  // 원티드: 영문 대소문자, 숫자, 특수문자를 3가지 이상으로 조합해 8자 이상 16자 이하로 입력해주세요.
+  // 사람인: 8~16자리 영문 대소문자, 숫자, 특수문자 중 3가지 이상 조합으로 만들어주세요.
+  if (platform === 'wanted' || platform === 'saramin')
+    return '8~16자리, 영문 대소문자, 숫자, 특수문자 중 3가지 이상 조합';
+
+  // 리멤버: 영문/숫자/특수문자 중 2가지 이상 조합하여 8자 이상 입력해 주세요.
+  if (platform === 'remember') return '8자리 이상, 영문/숫자/특수문자 중 2가지 이상 조합';
+
+  // 점핏: 영문, 숫자, 특수문자를 포함하여 8~16자리를 입력해주세요.
+  // 잡코리아: 8~16자의 영문, 숫자, 특수문자 조합으로 입력해 주세요.
+  if (platform === 'jumpit' || platform === 'jobkorea')
+    return '8~16자리, 영문, 숫자, 특수문자 조합';
+
+  // 인크루트: 8~20자의 영문, 숫자, 특수문자를 조합하여 입력해주세요.
+  return '8~20자리, 영문, 숫자, 특수문자를 조합';
+};

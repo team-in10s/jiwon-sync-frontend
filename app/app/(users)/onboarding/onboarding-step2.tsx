@@ -7,7 +7,7 @@ import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indi
 import toast from 'react-hot-toast';
 // import { connectOrigin } from './actions';
 import { connectOriginTest } from '@/app/lib/api';
-import { getPlaceholderOriginLogin } from '@/app/lib/utils';
+import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 
 type Step2Props = {
   onNext: () => void;
@@ -117,7 +117,7 @@ export default function OnboardingStep2({
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
           </div>
-          <div className="mb-2 flex flex-col space-y-2">
+          <div className="mb-2 flex flex-col space-y-1">
             <input
               id="original-pw"
               type="password"
@@ -127,9 +127,12 @@ export default function OnboardingStep2({
               placeholder="비밀번호를 입력하세요."
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
+            <p className="text-sm text-gray-300">
+              * 비밀번호 규칙: {getPasswordGuide(selectedPlatforms[currentPlatformIndex])}
+            </p>
           </div>
 
-          <div className="flex flex-col items-center space-y-2">
+          <div className="mt-4 flex flex-col items-center space-y-2">
             <button
               onClick={handleOriginalLogin}
               disabled={isSubmitDisabled}
