@@ -290,10 +290,10 @@ export async function connectOriginTest(platform: HrPlatformName, id: string, pw
       platform_pw: pw,
     }),
   });
-  const result = await response.json(); //  { msg: "ID/PW incorrect", success: false }
+  const result = await response.json(); //  { message: "ID/PW incorrect", success: false }
 
   if (!result.success) {
-    throw new Error(`${formMessageConnectOrigin(result.msg)}`);
+    throw new Error(`${formMessageConnectOrigin(result.message)}`);
   }
 
   return result; // {success: 'true'}
