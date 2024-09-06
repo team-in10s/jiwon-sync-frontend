@@ -1,8 +1,9 @@
 import { HrPlatformName } from '@/app/lib/constants';
 import { ChangeEvent, Dispatch, SetStateAction, useState } from 'react';
-import { connectOrigin } from '../onboarding/actions';
+// import { connectOrigin } from '../onboarding/actions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
+import { connectOriginTest } from '@/app/lib/api';
 
 type Props = {
   onNextStep: () => void;
@@ -34,7 +35,7 @@ export default function OriginalAccount({
 
     // 로그인 api 호출
     try {
-      await connectOrigin(platform, originalId, originalPw);
+      await connectOriginTest(platform, originalId, originalPw);
       toast.success(`${platform} 로그인 성공!`);
       // 모달 닫기 && // sse 호출
       onConnectComplete(platform);

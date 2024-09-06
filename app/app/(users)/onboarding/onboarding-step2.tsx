@@ -5,7 +5,8 @@ import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
 import PlatformProgressIndicator from './platform-progress-indicator';
 import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indicator';
 import toast from 'react-hot-toast';
-import { connectOrigin } from './actions';
+// import { connectOrigin } from './actions';
+import { connectOriginTest } from '@/app/lib/api';
 
 type Step2Props = {
   onNext: () => void;
@@ -42,7 +43,7 @@ export default function OnboardingStep2({
 
     try {
       const currentPlatform = selectedPlatforms[currentPlatformIndex];
-      await connectOrigin(currentPlatform, originalId, originalPw);
+      await connectOriginTest(currentPlatform, originalId, originalPw);
 
       toast.success(`${currentPlatformDisplay} 로그인 성공!`);
 
