@@ -48,6 +48,8 @@ export default function OriginalAccount({
     showLoadingIndicator(false);
   };
 
+  const isSubmitDisabled = !originalId.trim() || !originalPw.trim();
+
   return (
     <div>
       <div className="mb-5 rounded-lg bg-gray-400/20 p-5">
@@ -76,7 +78,8 @@ export default function OriginalAccount({
 
         <div className="flex flex-col items-center space-y-2">
           <button
-            className="btn-elevate mt-2 w-1/2 rounded-full border border-primary py-2 text-sm"
+            disabled={isSubmitDisabled}
+            className="btn-elevate mt-2 w-1/2 rounded-full border border-primary py-2 text-sm disabled:opacity-50"
             onClick={handleOriginalLogin}
           >
             로그인 하기

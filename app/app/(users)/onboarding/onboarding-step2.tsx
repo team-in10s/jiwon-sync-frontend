@@ -86,7 +86,7 @@ export default function OnboardingStep2({
 
   const idPlaceholder = getPlaceholderOriginLogin(selectedPlatforms[currentPlatformIndex]);
 
-  const isSubmitDisabled = !originalId.trim() || !originalPw;
+  const isSubmitDisabled = !originalId.trim() || !originalPw.trim();
 
   return (
     <>
