@@ -34,7 +34,9 @@ export default function PlatformStatusItem({
       </div>
       <div className="flex items-center gap-2">
         <StatusIndicator status={status} />
-        {status !== 'completed' && <ConnectButton onClick={onConnectClick} />}
+        {status !== 'completed' && status !== 'connecting' && (
+          <ConnectButton onClick={onConnectClick} />
+        )}
       </div>
     </div>
   );
