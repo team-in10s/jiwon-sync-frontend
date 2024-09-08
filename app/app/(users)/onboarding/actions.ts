@@ -132,12 +132,11 @@ export async function submitAuthCode(
     };
   } catch (error) {
     if (error instanceof Error) {
-      // If it's our custom error, rethrow it
       if (error.message.startsWith('인증에 실패했습니다.')) {
         throw error;
       }
     }
-    // For any other errors, throw a generic error
+
     throw new Error('인증 중 오류가 발생했습니다.');
   }
 }
