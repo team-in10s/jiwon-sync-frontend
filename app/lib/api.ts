@@ -1,3 +1,4 @@
+import { PlatformStatusItem } from '../app/(users)/account-status/types';
 import { getUserAuth } from './client-auth';
 import { HrPlatformName } from './constants';
 import { createElectronRuntime } from './electron-runtime';
@@ -198,7 +199,7 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
   }
 }
 
-export async function getPlatformStatusClient() {
+export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   console.log('getPlatformStatus called');
   const { credentials } = getUserAuth();
 
