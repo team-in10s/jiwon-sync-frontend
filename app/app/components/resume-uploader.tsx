@@ -1,18 +1,18 @@
 import React, { useState, useRef, ChangeEvent } from 'react';
 import CustomSelect from '../(users)/onboarding/custom-select';
 
-export type Tab = '플랫폼 연결' | '파일 업로드' | '이력서 링크';
+export type TabType = '플랫폼 연결' | '파일 업로드' | '이력서 링크';
 
 type ResumeUploaderProps = {
   onFileChange: (file: File | null) => void;
   onUrlChange: (url: string) => void;
   onPlatformSelect: (platform: string) => void;
   optionsForSelect: { value: string; label: string }[];
-  onTabChange: (tab: Tab) => void;
-  currentTab: Tab;
+  onTabChange: (tab: TabType) => void;
+  currentTab: TabType;
 };
 
-const tabs: Tab[] = ['플랫폼 연결', '파일 업로드', '이력서 링크'];
+const tabs: TabType[] = ['플랫폼 연결', '파일 업로드', '이력서 링크'];
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
 
@@ -64,7 +64,7 @@ export default function ResumeUploader({
     onPlatformSelect(value);
   };
 
-  const handleTabChange = (tab: Tab) => {
+  const handleTabChange = (tab: TabType) => {
     onTabChange(tab);
   };
 

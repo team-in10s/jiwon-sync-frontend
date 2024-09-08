@@ -6,7 +6,7 @@ import { ERROR_MESSAGE, HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/consta
 import { saveMainResume } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import ResumeUploader, { Tab } from '../../components/resume-uploader';
+import ResumeUploader, { TabType } from '../../components/resume-uploader';
 
 type Step5Props = {
   loggedInPlatforms: HrPlatformName[];
@@ -21,7 +21,7 @@ export default function OnboardingStep5({
   const [resumeUrl, setResumeUrl] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [currentTab, setCurrentTab] = useState<Tab>('플랫폼 연결');
+  const [currentTab, setCurrentTab] = useState<TabType>('플랫폼 연결');
   const [selectedPlatform, setSelectedPlatform] = useState<string>('');
 
   const allPlatforms = [...loggedInPlatforms, ...platformsForSecondAccount];
@@ -224,7 +224,7 @@ export default function OnboardingStep5({
     router.push('/app/account-status');
   };
 
-  const handleTabChange = (tab: Tab) => {
+  const handleTabChange = (tab: TabType) => {
     setCurrentTab(tab);
   };
 
@@ -241,76 +241,6 @@ export default function OnboardingStep5({
           업로드 후 추가 편집할 수 있어요.
         </p>
       </div>
-
-      {/* <div className="mb-6 space-y-4">
-        <div className="flex justify-between border-b border-b-gray-100/60">
-          {tabs.map((t) => {
-            return (
-              <button
-                key={t}
-                onClick={() => {
-                  setCurrentTab(t);
-                }}
-                className={`${currentTab === t ? 'border-b-2 border-b-gray-100/80' : ''} pb-1`}
-              >
-                {t}
-              </button>
-            );
-          })}
-        </div>
-        <div>
-          {currentTab === '플랫폼 연결' && (
-            <div>
-              <CustomSelect options={optionsForSelect} onSelect={handleSelect} />
-              <p className="mt-2">에서 기본 이력서를 연동합니다.</p>
-            </div>
-          )}
-          {currentTab === '파일 업로드' && (
-            <div className="flex flex-col space-y-2">
-              <div className="flex items-center space-x-2">
-                <label
-                  htmlFor="resume-file"
-                  className="grow cursor-pointer rounded-md border border-dashed border-gray-500 bg-gray-700 p-2 text-white"
-                >
-                  <input
-                    type="file"
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="resume-file"
-                    ref={fileInputRef}
-                    accept=".pdf,.doc,.docx,.hwp" // 허용할 파일 형식을 지정
-                  />
-
-                  <span className="block w-full truncate text-gray-400">
-                    {resumeFile ? resumeFile.name : '파일 선택 (최대 10MB)'}
-                  </span>
-                </label>
-                {resumeFile && (
-                  <button
-                    onClick={handleFileRemove}
-                    className="rounded-md bg-red-500 px-2 py-1 text-sm text-white hover:bg-red-600"
-                  >
-                    삭제
-                  </button>
-                )}
-              </div>
-              {fileError && <p className="text-sm text-red-500">{fileError}</p>}
-            </div>
-          )}
-          {currentTab === '이력서 링크' && (
-            <div className="flex flex-col space-y-2">
-              <input
-                id="resume-url"
-                type="url"
-                placeholder="이력서 URL 입력 (링크드인, Notion 등)"
-                value={resumeUrl}
-                onChange={handleUrlChange}
-                className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
-              />
-            </div>
-          )}
-        </div>
-      </div> */}
 
       <ResumeUploader
         onFileChange={handleFileChange}
