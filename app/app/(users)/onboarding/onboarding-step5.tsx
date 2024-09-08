@@ -1,22 +1,17 @@
 // app/app/(users)/onboarding/onboarding-step5.tsx
 
-import { useState, ChangeEvent, useRef } from 'react';
+import { useState } from 'react';
 import { validateUrl } from '@/app/lib/utils';
 import { ERROR_MESSAGE, HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { saveMainResume } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
-import CustomSelect from './custom-select';
+import ResumeUploader, { Tab } from '../../components/resume-uploader';
 
 type Step5Props = {
   loggedInPlatforms: HrPlatformName[];
   platformsForSecondAccount: HrPlatformName[];
 };
-
-const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB in bytes
-
-type Tab = '플랫폼 연결' | '파일 업로드' | '이력서 링크';
-const tabs: Tab[] = ['플랫폼 연결', '파일 업로드', '이력서 링크'];
 
 export default function OnboardingStep5({
   loggedInPlatforms,
@@ -25,12 +20,9 @@ export default function OnboardingStep5({
   const router = useRouter();
   const [resumeUrl, setResumeUrl] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [fileError, setFileError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [currrentTab, setCurrrentTab] = useState<Tab>(tabs[0]);
+  const [currentTab, setCurrentTab] = useState<Tab>('플랫폼 연결');
   const [selectedPlatform, setSelectedPlatform] = useState<string>('');
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const allPlatforms = [...loggedInPlatforms, ...platformsForSecondAccount];
 
@@ -38,31 +30,16 @@ export default function OnboardingStep5({
     return { value: p, label: PLATFORM_CONFIG[p]?.displayName || '' };
   });
 
-  const handleUrlChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newUrl = e.target.value;
-    setResumeUrl(newUrl);
+  const handleFileChange = (file: File | null) => {
+    setResumeFile(file);
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      if (file.size > MAX_FILE_SIZE) {
-        setFileError('파일 크기는 10MB를 초과할 수 없습니다.');
-        setResumeFile(null);
-      } else {
-        setFileError(null);
-        setResumeFile(file);
-      }
-    }
+  const handleUrlChange = (url: string) => {
+    setResumeUrl(url);
   };
 
-  const handleFileRemove = (e: React.MouseEvent) => {
-    e.preventDefault();
-    setResumeFile(null);
-    setFileError(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
+  const handlePlatformSelect = (platform: string) => {
+    setSelectedPlatform(platform);
   };
 
   const resumeByPlatform = async () => {
@@ -224,20 +201,20 @@ export default function OnboardingStep5({
     setIsLoading(false);
   };
 
-  // NOTE: 예외, api.ts -> api route handler로 호출
+  // NOTE: api.ts -> api route handler로 호출
   // server actions에서는 File 타입을 전달할 수 없어서
   const handleSubmit = async () => {
-    if (currrentTab === '플랫폼 연결') {
+    if (currentTab === '플랫폼 연결') {
       await resumeByPlatform();
       return;
     }
 
-    if (currrentTab === '이력서 링크') {
+    if (currentTab === '이력서 링크') {
       await resumeByLink();
       return;
     }
 
-    if (currrentTab === '파일 업로드') {
+    if (currentTab === '파일 업로드') {
       await resumeByFile();
       return;
     }
@@ -247,8 +224,8 @@ export default function OnboardingStep5({
     router.push('/app/account-status');
   };
 
-  const handleSelect = (value: string) => {
-    setSelectedPlatform(value);
+  const handleTabChange = (tab: Tab) => {
+    setCurrentTab(tab);
   };
 
   return (
@@ -265,32 +242,30 @@ export default function OnboardingStep5({
         </p>
       </div>
 
-      <div className="mb-6 space-y-4">
-        {/* tab.. */}
+      {/* <div className="mb-6 space-y-4">
         <div className="flex justify-between border-b border-b-gray-100/60">
           {tabs.map((t) => {
             return (
               <button
                 key={t}
                 onClick={() => {
-                  setCurrrentTab(t);
+                  setCurrentTab(t);
                 }}
-                className={`${currrentTab === t ? 'border-b-2 border-b-gray-100/80' : ''} pb-1`}
+                className={`${currentTab === t ? 'border-b-2 border-b-gray-100/80' : ''} pb-1`}
               >
                 {t}
               </button>
             );
           })}
         </div>
-        {/* menu for each tab */}
         <div>
-          {currrentTab === '플랫폼 연결' && (
+          {currentTab === '플랫폼 연결' && (
             <div>
               <CustomSelect options={optionsForSelect} onSelect={handleSelect} />
               <p className="mt-2">에서 기본 이력서를 연동합니다.</p>
             </div>
           )}
-          {currrentTab === '파일 업로드' && (
+          {currentTab === '파일 업로드' && (
             <div className="flex flex-col space-y-2">
               <div className="flex items-center space-x-2">
                 <label
@@ -322,7 +297,7 @@ export default function OnboardingStep5({
               {fileError && <p className="text-sm text-red-500">{fileError}</p>}
             </div>
           )}
-          {currrentTab === '이력서 링크' && (
+          {currentTab === '이력서 링크' && (
             <div className="flex flex-col space-y-2">
               <input
                 id="resume-url"
@@ -335,7 +310,16 @@ export default function OnboardingStep5({
             </div>
           )}
         </div>
-      </div>
+      </div> */}
+
+      <ResumeUploader
+        onFileChange={handleFileChange}
+        onUrlChange={handleUrlChange}
+        onPlatformSelect={handlePlatformSelect}
+        optionsForSelect={optionsForSelect}
+        onTabChange={handleTabChange}
+        currentTab={currentTab}
+      />
 
       <div className="flex flex-col items-center space-y-4">
         <button
