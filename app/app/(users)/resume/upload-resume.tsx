@@ -75,18 +75,21 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
     if (currentTab === '플랫폼 연결') {
       if (!selectedPlatform) {
         toast.error('플랫폼을 선택하세요.');
+        setIsLoading(false);
         return;
       }
       success = await uploadResumeByPlatform(selectedPlatform, platforms);
     } else if (currentTab === '이력서 링크') {
       if (!resumeUrl) {
         toast.error('링크를 입력하세요.');
+        setIsLoading(false);
         return;
       }
       success = await uploadResumeByLink(resumeUrl, platforms);
     } else if (currentTab === '파일 업로드') {
       if (!resumeFile) {
         toast.error('파일을 선택하세요.');
+        setIsLoading(false);
         return;
       }
       success = await uploadResumeByFile(resumeFile, platforms);
