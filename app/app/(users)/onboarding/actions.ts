@@ -96,7 +96,7 @@ export async function connectPhonePlatform(
 }
 
 type SubmitAuthCodeResponse = {
-  success: string;
+  success: boolean;
   detail?: Array<{ msg: string }>;
 };
 
@@ -122,7 +122,10 @@ export async function submitAuthCode(
       },
     });
 
-    if (res.success.toLowerCase() !== 'true') {
+    // console.log('submitAuthCode response:', res);
+    // { success: true, message: null }
+
+    if (!res.success) {
       const errorMessage = res.detail && res.detail[0] ? res.detail[0].msg : '알 수 없는 오류';
       throw new Error(`인증에 실패했습니다. 인증 코드를 다시 입력해주세요. (${errorMessage})`);
     }
