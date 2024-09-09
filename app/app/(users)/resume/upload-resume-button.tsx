@@ -2,32 +2,27 @@
 
 import { useState } from 'react';
 import Modal from '../../components/modal';
+import UploadResume from './upload-resume';
 
 export default function UploadResumeButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const openModal = async () => {
+  const openModal = () => {
     setIsModalOpen(true);
   };
 
-  const closeModal = async () => {
+  const closeModal = () => {
     setIsModalOpen(false);
   };
+
   return (
     <>
-      <Modal isOpen={isModalOpen} onClose={closeModal} title="hhhhh" theme="dark">
-        <div>
-          <div>gkgkkgkg</div>
-        </div>
+      <Modal isOpen={isModalOpen} onClose={closeModal} title="이력서 업로드" theme="dark">
+        <UploadResume onFinish={closeModal} />
       </Modal>
 
       <button
-        onClick={() => {
-          // 모달 띄우기
-          openModal();
-          // 이력서 파일 또는 링크 인풋
-          //
-        }}
+        onClick={openModal}
         className="basis-4/5 rounded-lg bg-gray-600 p-4 font-semibold hover:bg-gray-700"
       >
         📁 이력서 파일 또는 링크 업데이트
