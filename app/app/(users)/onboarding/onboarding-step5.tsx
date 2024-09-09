@@ -1,12 +1,15 @@
 // app/app/(users)/onboarding/onboarding-step5.tsx
 
 import { useState } from 'react';
-import { validateUrl } from '@/app/lib/utils';
-import { ERROR_MESSAGE, HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
-import { saveMainResume } from '@/app/lib/api';
+import { HrPlatformName, PLATFORM_CONFIG } from '@/app/lib/constants';
 import { toast } from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
 import ResumeUploader, { TabType } from '../../components/resume-uploader';
+import {
+  uploadResumeByFile,
+  uploadResumeByLink,
+  uploadResumeByPlatform,
+} from '@/app/lib/resume-upload-helpers';
 
 type Step5Props = {
   loggedInPlatforms: HrPlatformName[];
@@ -42,181 +45,192 @@ export default function OnboardingStep5({
     setSelectedPlatform(platform);
   };
 
-  const resumeByPlatform = async () => {
-    if (!selectedPlatform) {
-      toast.error('플랫폼을 선택하세요.');
-      return;
-    }
+  // 플랫폼에서 기본 이력서 가져오기
+  // const uploadResumeByPlatform = async () => {
+  //   if (!selectedPlatform) {
+  //     toast.error('플랫폼을 선택하세요.');
+  //     return;
+  //   }
 
-    const formData = new FormData();
-    /*
-      {
-        platform: 대상 플랫폼
-        link: 기본 이력서 가져올 플랫폼
-      }
-      */
-    formData.append('link', selectedPlatform);
+  //   const formData = new FormData();
+  //   /*
+  //     {
+  //       platform: 대상 플랫폼
+  //       link: 기본 이력서 가져올 플랫폼
+  //     }
+  //     */
+  //   formData.append('link', selectedPlatform);
 
-    const filteredPlatforms = allPlatforms.filter((p) => p !== selectedPlatform);
+  //   const filteredPlatforms = allPlatforms.filter((p) => p !== selectedPlatform);
 
-    if (filteredPlatforms.length === 0) {
-      toast.error('연결된 플랫폼이 1곳 밖에 없습니다. 이력서를 연동할 다른 플랫폼이 없습니다');
-      return;
-    }
+  //   if (filteredPlatforms.length === 0) {
+  //     toast.error('연결된 플랫폼이 1곳 밖에 없습니다. 이력서를 연동할 다른 플랫폼이 없습니다');
+  //     return;
+  //   }
 
-    // 셀렉트박스에서 선택한 플랫폼 제외하고 나머지 플랫폼 돌면서 api 요청
-    const promises = filteredPlatforms.map((platformId) => {
-      formData.append('platform', platformId);
-      return saveMainResume(formData);
-    });
+  //   // 셀렉트박스에서 선택한 플랫폼 제외하고 나머지 플랫폼 돌면서 api 요청
+  //   const promises = filteredPlatforms.map((platformId) => {
+  //     formData.append('platform', platformId);
+  //     return saveMainResume(formData);
+  //   });
 
-    setIsLoading(true);
-    try {
-      const results = await Promise.all(promises);
+  //   try {
+  //     const results = await Promise.all(promises);
 
-      let allSuccessful = true;
+  //     let allSuccessful = true;
 
-      results.forEach((result, index) => {
-        if (result.error) {
-          console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
-          allSuccessful = false;
-        } else if (result.detail) {
-          // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
-          toast.error(`${result.detail[0].msg}`);
-          allSuccessful = false;
-        }
-      });
+  //     results.forEach((result, index) => {
+  //       if (result.error) {
+  //         console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
+  //         allSuccessful = false;
+  //       } else if (result.detail) {
+  //         // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
+  //         toast.error(`${result.detail[0].msg}`);
+  //         allSuccessful = false;
+  //       }
+  //     });
 
-      if (allSuccessful) {
-        toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
-        router.push('/app/account-status');
-      }
-    } catch (error) {
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
-    }
-    setIsLoading(false);
-  };
+  //     if (allSuccessful) {
+  //       toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
+  //       router.push('/app/account-status');
+  //     }
+  //   } catch (error) {
+  //     toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+  //   }
+  // };
 
-  const resumeByLink = async () => {
-    // 링크 없으면 링크 추가하라고 토스트
-    if (!resumeUrl) {
-      toast.error('링크를 입력하세요.');
-      return;
-    }
+  // // 링크 업로드
+  // const uploadResumeByLink = async () => {
+  //   // 링크 없으면 링크 추가하라고 토스트
+  //   if (!resumeUrl) {
+  //     toast.error('링크를 입력하세요.');
+  //     return;
+  //   }
 
-    // 링크 유효성 검사
-    const validateUrlResult = validateUrl(resumeUrl);
-    if (validateUrlResult) {
-      toast.error(validateUrlResult);
-      return;
-    }
+  //   // 링크 유효성 검사
+  //   const validateUrlResult = validateUrl(resumeUrl);
+  //   if (validateUrlResult) {
+  //     toast.error(validateUrlResult);
+  //     return;
+  //   }
 
-    const formData = new FormData();
-    /*
-      {
-        platform: 대상 플랫폼
-        link: 이력서 링크
-      }
-      */
-    // 바디에 링크만 담아서 api 요청
-    formData.append('link', resumeUrl);
-    const promises = allPlatforms.map((platformId) => {
-      formData.append('platform', platformId);
-      return saveMainResume(formData);
-    });
+  //   const formData = new FormData();
+  //   /*
+  //     {
+  //       platform: 대상 플랫폼
+  //       link: 이력서 링크
+  //     }
+  //     */
+  //   // 바디에 링크만 담아서 api 요청
+  //   formData.append('link', resumeUrl);
+  //   const promises = allPlatforms.map((platformId) => {
+  //     formData.append('platform', platformId);
+  //     return saveMainResume(formData);
+  //   });
 
-    setIsLoading(true);
-    try {
-      const results = await Promise.all(promises);
+  //   try {
+  //     const results = await Promise.all(promises);
 
-      let allSuccessful = true;
+  //     let allSuccessful = true;
 
-      results.forEach((result, index) => {
-        if (result.error) {
-          console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
-          allSuccessful = false;
-        } else if (result.detail) {
-          // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
-          toast.error(`${result.detail[0].msg}`);
-          allSuccessful = false;
-        }
-      });
+  //     results.forEach((result, index) => {
+  //       if (result.error) {
+  //         console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
+  //         allSuccessful = false;
+  //       } else if (result.detail) {
+  //         // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
+  //         toast.error(`${result.detail[0].msg}`);
+  //         allSuccessful = false;
+  //       }
+  //     });
 
-      if (allSuccessful) {
-        toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
-        router.push('/app/account-status');
-      }
-    } catch (error) {
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
-    }
-    setIsLoading(false);
-  };
+  //     if (allSuccessful) {
+  //       toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
+  //       router.push('/app/account-status');
+  //     }
+  //   } catch (error) {
+  //     toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+  //   }
+  // };
 
-  const resumeByFile = async () => {
-    // 파일 없으면 등록하라고 토스트
-    if (!resumeFile) {
-      toast.error('파일을 선택하세요.');
-      return;
-    }
+  // // 파일 업로드
+  // const uploadResumeByFile = async () => {
+  //   // 파일 없으면 등록하라고 토스트
+  //   if (!resumeFile) {
+  //     toast.error('파일을 선택하세요.');
+  //     return;
+  //   }
 
-    const formData = new FormData();
-    /*
-      {
-        platform: 대상 플랫폼
-        file: 이력서 파일
-      }
-      */
-    // 바디에 파일만 담아서 api 요청
-    formData.append('file', resumeFile);
+  //   const formData = new FormData();
+  //   /*
+  //     {
+  //       platform: 대상 플랫폼
+  //       file: 이력서 파일
+  //     }
+  //     */
+  //   // 바디에 파일만 담아서 api 요청
+  //   formData.append('file', resumeFile);
 
-    const promises = allPlatforms.map((platformId) => {
-      formData.append('platform', platformId);
-      return saveMainResume(formData);
-    });
+  //   const promises = allPlatforms.map((platformId) => {
+  //     formData.append('platform', platformId);
+  //     return saveMainResume(formData);
+  //   });
 
-    setIsLoading(true);
-    try {
-      const results = await Promise.all(promises);
+  //   try {
+  //     const results = await Promise.all(promises);
 
-      let allSuccessful = true;
+  //     let allSuccessful = true;
 
-      results.forEach((result, index) => {
-        if (result.error) {
-          console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
-          allSuccessful = false;
-        } else if (result.detail) {
-          // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
-          toast.error(`${result.detail[0].msg}`);
-          allSuccessful = false;
-        }
-      });
+  //     results.forEach((result, index) => {
+  //       if (result.error) {
+  //         console.error(`Failed to upload resume for ${allPlatforms[index]}:`, result.error);
+  //         allSuccessful = false;
+  //       } else if (result.detail) {
+  //         // 응답값에 detail: ... 이 있는 경우도 에러로 처리. (api 문서 참고)
+  //         toast.error(`${result.detail[0].msg}`);
+  //         allSuccessful = false;
+  //       }
+  //     });
 
-      if (allSuccessful) {
-        toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
-        router.push('/app/account-status');
-      }
-    } catch (error) {
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
-    }
-    setIsLoading(false);
-  };
+  //     if (allSuccessful) {
+  //       toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
+  //       router.push('/app/account-status');
+  //     }
+  //   } catch (error) {
+  //     toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+  //   }
+  // };
 
   // NOTE: api.ts -> api route handler로 호출
   // server actions에서는 File 타입을 전달할 수 없어서
   const handleSubmit = async () => {
+    setIsLoading(true);
+    let success = false;
+
     if (currentTab === '플랫폼 연결') {
-      await resumeByPlatform();
-      return;
+      if (!selectedPlatform) {
+        toast.error('플랫폼을 선택하세요.');
+        return;
+      }
+      success = await uploadResumeByPlatform(selectedPlatform, allPlatforms);
+    } else if (currentTab === '이력서 링크') {
+      if (!resumeUrl) {
+        toast.error('링크를 입력하세요.');
+        return;
+      }
+      success = await uploadResumeByLink(resumeUrl, allPlatforms);
+    } else if (currentTab === '파일 업로드') {
+      if (!resumeFile) {
+        toast.error('파일을 선택하세요.');
+        return;
+      }
+      success = await uploadResumeByFile(resumeFile, allPlatforms);
     }
 
-    if (currentTab === '이력서 링크') {
-      await resumeByLink();
-      return;
-    }
+    setIsLoading(false);
 
-    if (currentTab === '파일 업로드') {
-      await resumeByFile();
-      return;
+    if (success) {
+      router.push('/app/account-status');
     }
   };
 
