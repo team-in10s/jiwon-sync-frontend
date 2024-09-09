@@ -1,6 +1,5 @@
 import Link from 'next/link';
 import UploadResumeButton from './upload-resume-button';
-import { Suspense } from 'react';
 
 export default function ResumePage() {
   return (
@@ -14,15 +13,14 @@ export default function ResumePage() {
         </Link>
         <UploadResumeButton />
       </section>
-      <Suspense fallback={<div className="bg-yellow-400">로딩 중...</div>}>
-        <iframe
-          src="https://tally.so/r/3E0RA2"
-          width="100"
-          height="100"
-          className="h-dvh w-dvw"
-          title="이력서 관리 랜딩페이지"
-        ></iframe>
-      </Suspense>
+
+      <iframe
+        src="https://tally.so/r/3E0RA2"
+        width="100"
+        height="100"
+        className="h-dvh w-dvw"
+        title="이력서 관리 랜딩페이지"
+      ></iframe>
     </div>
   );
 }
