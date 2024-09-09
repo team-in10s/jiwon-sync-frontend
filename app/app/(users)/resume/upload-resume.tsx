@@ -14,7 +14,8 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
   const [currentTab, setCurrentTab] = useState<TabType>('플랫폼 연결');
   const [resumeUrl, setResumeUrl] = useState('');
   const [resumeFile, setResumeFile] = useState<File | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isFetchingStatus, setIsFetchingStatus] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [completedPlatforms, setCompletedPlatforms] = useState<
     { value: HrPlatformName; label: string }[]
@@ -22,7 +23,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
 
   useEffect(() => {
     const fetchPlatformStatus = async () => {
-      setIsLoading(true);
+      setIsFetchingStatus(true);
       setError(null);
       try {
         const statusResult = await getPlatformStatusClient();
@@ -41,7 +42,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
         setError('플랫폼 상태를 불러오는 데 실패했습니다.');
         toast.error('플랫폼 상태를 불��오는 데 실패했습니다. 나중에 다시 시도해주세요.');
       } finally {
-        setIsLoading(false);
+        setIsFetchingStatus(false);
       }
     };
 
@@ -99,8 +100,6 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
     setIsLoading(false);
 
     if (success) {
-      console.log('success: ', success);
-      toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
       // close modal
       onFinish();
     }
@@ -111,7 +110,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
       <div className="mb-8">
         <p className="mb-1">연결된 플랫폼:</p>
 
-        {isLoading ? (
+        {isFetchingStatus ? (
           <p>로딩 중...</p>
         ) : error ? (
           <p className="text-red-500">{error}</p>
