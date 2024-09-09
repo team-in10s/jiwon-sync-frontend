@@ -78,6 +78,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
         setIsLoading(false);
         return;
       }
+
       success = await uploadResumeByPlatform(selectedPlatform, platforms);
     } else if (currentTab === '이력서 링크') {
       if (!resumeUrl) {
@@ -105,20 +106,10 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
     }
   };
 
-  // Create options for the platform select
-  // const optionsForSelect = Object.keys(PLATFORM_CONFIG)
-  //   .filter((key): key is HrPlatformName => key !== 'jiwon' && key !== 'custom')
-  //   .map((platform) => ({
-  //     value: platform,
-  //     label: PLATFORM_CONFIG[platform]?.displayName || '',
-  //   }));
-
   return (
     <div>
       <div className="mb-8">
-        <p className="mb-1">
-          이력서가 업데이트될 플랫폼 (TODO: 기존 계정 로그인 or 부계정 플랫폼 구분x):
-        </p>
+        <p className="mb-1">연결된 플랫폼:</p>
 
         {isLoading ? (
           <p>로딩 중...</p>
