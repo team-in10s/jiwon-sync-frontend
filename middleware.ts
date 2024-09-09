@@ -2,7 +2,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { USER_COOKIE } from './app/lib/constants';
-import { checkAndRedirectPlatformStatus } from './app/app/(users)/onboarding/use-cases';
+// import { checkAndRedirectPlatformStatus } from './app/app/(users)/onboarding/use-cases';
 
 const protectedRoutes = [
   '/app/sync',
@@ -44,16 +44,17 @@ export async function middleware(request: NextRequest) {
 
   // '/app/onboarding' 에 접근했을때 플랫폼 동기화 이력 확인 후
   // Check platform status for all protected routes
-  if (protectedRoutes.some((route) => path.startsWith(route))) {
-    try {
-      const result = await checkAndRedirectPlatformStatus(path);
-      if (result && result.shouldRedirect) {
-        return NextResponse.redirect(new URL(result.destination, request.url));
-      }
-    } catch (error) {
-      console.error('Error in middleware:', error);
-    }
-  }
+
+  // if (protectedRoutes.some((route) => path.startsWith(route))) {
+  //   try {
+  //     const result = await checkAndRedirectPlatformStatus(path);
+  //     if (result && result.shouldRedirect) {
+  //       return NextResponse.redirect(new URL(result.destination, request.url));
+  //     }
+  //   } catch (error) {
+  //     console.error('Error in middleware:', error);
+  //   }
+  // }
 
   // 그 외 경로는 통과
   return NextResponse.next();
