@@ -68,6 +68,13 @@ export default function ResumeUploader({
     onTabChange(tab);
   };
 
+  const truncateFileName = (fileName: string, maxLength: number = 20) => {
+    if (fileName.length <= maxLength) return fileName;
+    const extension = fileName.split('.').pop();
+    const nameWithoutExtension = fileName.substring(0, fileName.lastIndexOf('.'));
+    return `${nameWithoutExtension.substring(0, maxLength - 3 - (extension?.length || 0))}...${extension}`;
+  };
+
   return (
     <div className="mb-6 space-y-4">
       <div className="flex justify-between border-b border-b-gray-100/60">
@@ -104,7 +111,7 @@ export default function ResumeUploader({
                   accept=".pdf,.doc,.docx,.hwp"
                 />
                 <span className="block w-full truncate text-gray-400">
-                  {resumeFile ? resumeFile.name : '파일 선택 (최대 10MB)'}
+                  {resumeFile ? truncateFileName(resumeFile.name) : '파일 선택 (최대 10MB)'}
                 </span>
               </label>
               {resumeFile && (
