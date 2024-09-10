@@ -41,6 +41,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             fbq('track', 'PageView');
           `}
         </Script>
+
+        {/* Google Tag (gtag.js) */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-DCLR3LV8MZ"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-DCLR3LV8MZ');
+          `}
+        </Script>
       </head>
       <body>
         {children}

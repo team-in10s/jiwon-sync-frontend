@@ -11,6 +11,8 @@ import { validateEmail, validatePhoneNumber } from '@/app/lib/utils';
 import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
+import PasswordCriteria from './password-criteria';
+import useMetaPixel from '@/app/hooks/use-meta-pixel';
 
 type Inputs = {
   name: string;
@@ -40,6 +42,7 @@ export default function SignupForm() {
     number: false,
     special: false,
   });
+  const { handleMetaPixelEvent } = useMetaPixel();
 
   const {
     register,
@@ -73,6 +76,7 @@ export default function SignupForm() {
         handleMetaPixelEvent();
         toast.success('회원가입 성공!');
         router.push('/app/auth/signin');
+        // router.push('/app/jiwon-download'); // TODO: 나중에 데스크탑 앱 배포하면 사용
       } else {
         // TODO: 회원가입 중에 뭐가 부족해서 가입이 안되는것인지 파악하기 쉽게 개선
         // 클라이언트에서 유효성 검사를 잘해서 부족한 값이 없도록 최대한 촘촘하게 짜는 것이 우선
@@ -151,16 +155,6 @@ export default function SignupForm() {
     }
   };
 
-  const handleMetaPixelEvent = () => {
-    // Check if fbq is available
-    if (typeof window.fbq !== 'function') return;
-
-    // Track the event
-    window.fbq('track', 'CompleteRegistration');
-
-    console.log('done tracking');
-  };
-
   useEffect(() => {
     const subscription = watch((value, { name }) => {
       if (name === 'email') {
@@ -179,17 +173,7 @@ export default function SignupForm() {
       }
     });
     return () => subscription.unsubscribe();
-  }, [watch]);
-
-  useEffect(() => {
-    // Check if fbq is available
-    if (typeof window.fbq !== 'function') return;
-
-    // Initialize fbq if not already initialized
-    if (!window.fbq.instance) {
-      window.fbq('init', '1620393688508165');
-    }
-  }, []);
+  }, [watch, setEmailChecked, setTelNoChecked, setPasswordCriteria]);
 
   return (
     <div className="card w-full max-w-lg p-8">
@@ -203,7 +187,6 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('name', { required: true })}
           />
-          {/* {errors.email && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">
@@ -216,8 +199,6 @@ export default function SignupForm() {
                 required: true,
                 validate: validateEmail,
               })}
-              // {...register('email', { required: true })}
-              // onChange={() => setEmailChecked(false)}
             />
             <button
               type="button"
@@ -245,14 +226,7 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('password', { required: true })}
           />
-          {/* {errors.password && <span>This field is required</span>} */}
-          <ul className="mt-2 text-sm text-gray-500">
-            <li className={passwordCriteria.length ? 'text-green-500' : ''}>✔️ 8자 이상</li>
-            <li className={passwordCriteria.uppercase ? 'text-green-500' : ''}>✔️ 대문자 포함</li>
-            <li className={passwordCriteria.lowercase ? 'text-green-500' : ''}>✔️ 소문자 포함</li>
-            <li className={passwordCriteria.number ? 'text-green-500' : ''}>✔️ 숫자 포함</li>
-            <li className={passwordCriteria.special ? 'text-green-500' : ''}>✔️ 특수문자 포함</li>
-          </ul>
+          <PasswordCriteria criteria={passwordCriteria} />
         </label>
 
         <label className="mb-4 block">
@@ -266,8 +240,6 @@ export default function SignupForm() {
                 required: true,
                 validate: validatePhoneNumber,
               })}
-              // {...register('telNo', { required: true })}
-              // onChange={() => setTelNoChecked(false)}
             />
 
             <button
@@ -298,7 +270,6 @@ export default function SignupForm() {
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
             {...register('yearsOfExp', { required: true })}
           />
-          {/* {errors.password && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">
@@ -319,7 +290,6 @@ export default function SignupForm() {
 
         {isOtherJobTitle && (
           <label className="mb-4 block">
-            {/* <span className="text-white-700 mb-2 block"></span> */}
             <input
               placeholder="직무를 직접 입력해 주세요."
               type="text"
@@ -339,7 +309,6 @@ export default function SignupForm() {
             <option value="female">여성</option>
             <option value="other">기타</option>
           </select>
-          {/* {errors.gender && <span>This field is required</span>} */}
         </label>
 
         <label className="mb-4 block">

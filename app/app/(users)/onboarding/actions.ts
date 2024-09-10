@@ -96,7 +96,7 @@ export async function connectPhonePlatform(
 }
 
 type SubmitAuthCodeResponse = {
-  success: string;
+  success: boolean;
   detail?: Array<{ msg: string }>;
 };
 
@@ -122,7 +122,10 @@ export async function submitAuthCode(
       },
     });
 
-    if (res.success.toLowerCase() !== 'true') {
+    // console.log('submitAuthCode response:', res);
+    // { success: true, message: null }
+
+    if (!res.success) {
       const errorMessage = res.detail && res.detail[0] ? res.detail[0].msg : '알 수 없는 오류';
       throw new Error(`인증에 실패했습니다. 인증 코드를 다시 입력해주세요. (${errorMessage})`);
     }
@@ -132,12 +135,45 @@ export async function submitAuthCode(
     };
   } catch (error) {
     if (error instanceof Error) {
-      // If it's our custom error, rethrow it
       if (error.message.startsWith('인증에 실패했습니다.')) {
         throw error;
       }
     }
-    // For any other errors, throw a generic error
+
     throw new Error('인증 중 오류가 발생했습니다.');
   }
+}
+
+const formMessageConnectOrigin = (msg?: string) => {
+  if (msg === 'ID/PW incorrect') return '아이디 또는 비밀번호를 다시 확인해 주세요.';
+  if (msg === 'Server Error') return '로그인에 실패했어요. 잠시 후 다시 시도해 주세요.';
+  return '알 수 없는 오류입니다. 카카오톡 고객센터로 문의해 주세요.';
+};
+
+export async function connectOrigin(platform: HrPlatformName, id: string, pw: string) {
+  const { credentials } = getServerAuth();
+
+  if (!credentials) {
+    throw new Error('User is not authenticated');
+  }
+
+  const apiUrl = 'https://secondly-good-walleye.ngrok-free.app/api';
+  const response = await fetch(`${apiUrl}/platform/connect-origin/${platform}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify({
+      platform_id: id,
+      platform_pw: pw,
+    }),
+  });
+  const result = await response.json(); //  { msg: "ID/PW incorrect", success: false }
+
+  if (!result.success) {
+    throw new Error(`${formMessageConnectOrigin(result.msg)}`);
+  }
+
+  return result; // {success: 'true'}
 }
