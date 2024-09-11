@@ -28,8 +28,20 @@ export default function OnboardingStep2({
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
 
+  // NOTE: 'saramin'을 마지막으로 정렬하는 함수
+  const sortPlatforms = (platforms: HrPlatformName[]) => {
+    return [...platforms].sort((a, b) => {
+      if (a === 'saramin') return 1;
+      if (b === 'saramin') return -1;
+      return 0;
+    });
+  };
+
+  // sortedPlatforms를 정렬한 새로운 배열 생성
+  const sortedPlatforms = sortPlatforms(selectedPlatforms);
+
   const currentPlatformDisplay =
-    PLATFORM_CONFIG[selectedPlatforms[currentPlatformIndex]]?.displayName;
+    PLATFORM_CONFIG[sortedPlatforms[currentPlatformIndex]]?.displayName;
 
   const handleOriginalId = (e: ChangeEvent<HTMLInputElement>) => {
     setOriginalId(e.target.value);
@@ -45,7 +57,7 @@ export default function OnboardingStep2({
     setShowsLoadingIndicator(true);
 
     try {
-      const currentPlatform = selectedPlatforms[currentPlatformIndex];
+      const currentPlatform = sortedPlatforms[currentPlatformIndex];
       await connectOriginTest(currentPlatform, originalId, originalPw);
 
       toast.success(`${currentPlatformDisplay} 로그인 성공!`);
@@ -63,7 +75,7 @@ export default function OnboardingStep2({
   };
 
   const handleTryNext = () => {
-    const isLastPlatform = selectedPlatforms.length - 1 === currentPlatformIndex;
+    const isLastPlatform = sortedPlatforms.length - 1 === currentPlatformIndex;
 
     // 이게 마지막 플랫폼이면 다음 스텝으로
     if (isLastPlatform) {
@@ -86,7 +98,7 @@ export default function OnboardingStep2({
     setOriginalPw('');
   };
 
-  const idPlaceholder = getPlaceholderOriginLogin(selectedPlatforms[currentPlatformIndex]);
+  const idPlaceholder = getPlaceholderOriginLogin(sortedPlatforms[currentPlatformIndex]);
 
   const isSubmitDisabled = !originalId.trim() || !originalPw.trim();
 
@@ -104,7 +116,7 @@ export default function OnboardingStep2({
         <div className="mb-12 text-center">
           <h2 className="mb-4 text-xl font-semibold md:text-2xl">채용 플랫폼 계정을 연결합니다.</h2>
           <PlatformProgressIndicator
-            platforms={selectedPlatforms}
+            platforms={sortedPlatforms}
             currentPlatformIndex={currentPlatformIndex}
           />
         </div>
@@ -139,7 +151,7 @@ export default function OnboardingStep2({
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
             />
             <p className="text-sm text-gray-300">
-              * 비밀번호 규칙: {getPasswordGuide(selectedPlatforms[currentPlatformIndex])}
+              * 비밀번호 규칙: {getPasswordGuide(sortedPlatforms[currentPlatformIndex])}
             </p>
           </div>
 
@@ -161,7 +173,7 @@ export default function OnboardingStep2({
           <button
             className="btn-elevate mt-2 rounded-full border border-primary/60 px-4 py-2 text-sm"
             onClick={() => {
-              const currentPlatform = selectedPlatforms[currentPlatformIndex];
+              const currentPlatform = sortedPlatforms[currentPlatformIndex];
               addAdditionalPlatforms(currentPlatform);
 
               handleTryNext();
