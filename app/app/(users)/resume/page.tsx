@@ -70,7 +70,9 @@ export default function ResumePage() {
         //   className="h-dvh w-dvw"
         //   title="이력서 관리 랜딩페이지"
         // ></iframe>
-        <div>로딩 중...</div>
+        <div className="mt-10">
+          <p className="text-gray-400">기존 이력서 불러오는 중...</p>
+        </div>
       )}
 
       {showModal && (
