@@ -18,7 +18,8 @@ export default function ResumePage() {
           setShowModal(true);
         }
         // JSON 데이터 파싱 및 URL 파라미터 생성
-        const baseUrl = 'https://tally.so/r/n9v45X';
+        const baseUrl =
+          'https://tally.so/embed/n9v45X?hideTitle=1&transparentBackground=1&dynamicHeight=1';
         if (status.resumeJson) {
           const resumeData = JSON.parse(status.resumeJson);
           const params = new URLSearchParams();
@@ -29,7 +30,7 @@ export default function ResumePage() {
           });
 
           // Tally 폼 URL 생성
-          setTallyUrl(`${baseUrl}?${params.toString()}`);
+          setTallyUrl(`${baseUrl}&${params.toString()}`);
         } else {
           setTallyUrl(baseUrl);
         }
