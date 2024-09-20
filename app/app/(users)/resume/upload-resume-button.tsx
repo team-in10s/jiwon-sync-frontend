@@ -25,7 +25,8 @@ export default function UploadResumeButton() {
         onClick={openModal}
         className="basis-4/5 rounded-lg bg-gray-600 p-4 font-semibold hover:bg-gray-700"
       >
-        📁 이력서 파일 또는 링크 업데이트
+        📁 이력서 파일 또는 링크 업로드
+        <p className="text-gray-400 text-sm">아래 양식에 자동 업데이트됩니다.</p>
       </button>
     </>
   );

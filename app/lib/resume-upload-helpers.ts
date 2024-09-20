@@ -41,7 +41,13 @@ export const uploadResumeByPlatform = async (
 };
 
 const uploadResume = async (formData: FormData, platforms: HrPlatformName[]) => {
-  const promises = platforms.map((platformId) => {
+  // 이력서를 가져온 플랫폼이 jiwon이 아니면, jiwon 플랫폼도 업로드할 플랫폼에 추가
+  let extendedPlatforms: (HrPlatformName | 'jiwon')[] = platforms;
+  if (formData.get('link') != 'jiwon') {
+    extendedPlatforms = [...platforms, 'jiwon'];
+  }
+
+  const promises = extendedPlatforms.map((platformId) => {
     const platformFormData = new FormData();
     for (const [key, value] of formData.entries()) {
       platformFormData.append(key, value);

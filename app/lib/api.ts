@@ -73,7 +73,6 @@ export async function saveMainResume(resumeData: FormData) {
   return response.json();
 }
 
-// TODO 응답값 타입 잡기
 export async function getMainResumeStatus() {
   const { credentials } = getUserAuth();
   const response = await fetch('/api/resume/main/status', {
