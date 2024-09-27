@@ -655,11 +655,19 @@
       // CTA 버튼 클릭 시 실행 환경에 따라 url 셋팅
       ctaButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          const isDev =
-            window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-          const targetUrl = isDev ? 'http://localhost:3000/app' : 'https://jiwon-sync.in10s.co/app';
+          let targetUrl;
+          const hostname = window.location.hostname;
+
+          if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            targetUrl = 'http://localhost:3000/app';
+          } else if (hostname === 'staging.jiwon-sync.in10s.co') {
+            targetUrl = 'https://staging.jiwon-sync.in10s.co/app';
+          } else {
+            targetUrl = 'https://jiwon-sync.in10s.co/app';
+          }
 
           location.href = targetUrl;
+
           // location.href = 'https://jiwon-sync.in10s.co/app';
           // reservationModal.style.display = "block";
 
