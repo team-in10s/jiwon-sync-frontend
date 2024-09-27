@@ -28,7 +28,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
       try {
         const statusResult = await getPlatformStatusClient();
         const completed = statusResult
-          .filter((item) => item.status === 'completed')
+          .filter((item) => item.platform !== 'jumpit' && item.status === 'completed')
           .map((item) => {
             return {
               value: item.platform,
@@ -40,7 +40,7 @@ export default function UploadResume({ onFinish }: { onFinish: () => void }) {
       } catch (err) {
         console.error('Error fetching platform status:', err);
         setError('플랫폼 상태를 불러오는 데 실패했습니다.');
-        toast.error('플랫폼 상태를 불��오는 데 실패했습니다. 나중에 다시 시도해주세요.');
+        toast.error('플랫폼 상태를 불러오는 데 실패했습니다. 나중에 다시 시도해주세요.');
       } finally {
         setIsFetchingStatus(false);
       }
