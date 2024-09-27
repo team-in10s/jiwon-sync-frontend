@@ -634,10 +634,15 @@
       const reservationForm = document.getElementById('reservationForm');
       const ctaButtons = document.querySelectorAll('#ctaButton, #ctaButton2, #ctaButtonHero');
 
-      // CTA 버튼 클릭 시 사전 예약 모달 열기
+      // CTA 버튼 클릭 시 실행 환경에 따라 url 셋팅
       ctaButtons.forEach((button) => {
         button.addEventListener('click', () => {
-          location.href = 'https://jiwon-sync.in10s.co/app';
+          const isDev =
+            window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+          const targetUrl = isDev ? 'http://localhost:3000/app' : 'https://jiwon-sync.in10s.co/app';
+
+          location.href = targetUrl;
+          // location.href = 'https://jiwon-sync.in10s.co/app';
           // reservationModal.style.display = "block";
 
           // 메타 픽셀 이벤트 추가
