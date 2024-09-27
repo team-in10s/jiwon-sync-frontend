@@ -6,7 +6,6 @@ import { getServerAuth } from './server-auth';
 const baseUrl = process.env.API_BASE_URL;
 
 export async function getPlatformStatus(needRevalidate?: 'needRevalidate') {
-  console.log('getPlatformStatus called');
   const { credentials } = getServerAuth();
 
   const response = await fetch(`${baseUrl}/platform/statuses`, {
