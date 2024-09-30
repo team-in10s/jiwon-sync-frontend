@@ -9,7 +9,7 @@ export async function getPlatformStatusUseCase(): Promise<PlatformStatusItem[]> 
 
   // Create a map of all HrPlatformNames with initial null status
   const allPlatforms = Object.keys(PLATFORM_CONFIG)
-    .filter((key): key is HrPlatformName => key !== 'jiwon' && key !== 'custom')
+    .filter((key): key is HrPlatformName => key !== 'jiwon' && key !== 'custom' && key !== 'jumpit')
     .reduce(
       (acc, platform) => {
         acc[platform] = { platform, status: null };

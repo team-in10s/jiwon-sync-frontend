@@ -199,7 +199,6 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
 }
 
 export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
-  console.log('getPlatformStatus called');
   const { credentials } = getUserAuth();
 
   const response = await fetch('/api/platform/statuses', {

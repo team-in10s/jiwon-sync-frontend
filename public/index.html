@@ -1,5 +1,5 @@
 <!-- [기존의 랜딩페이지 html] -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ko">
   <head>
     <meta charset="UTF-8" />
@@ -9,15 +9,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
       rel="stylesheet"
     />
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       rel="stylesheet"
     />
-      <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <style>
       :root {
         --primary-color: #00ff9d;
@@ -26,7 +23,7 @@
         --text-color: #ffffff;
       }
       body {
-        font-family: "Noto Sans KR", sans-serif;
+        font-family: 'Noto Sans KR', sans-serif;
         background-color: var(--secondary-color);
         color: var(--text-color);
       }
@@ -96,7 +93,7 @@
         border-radius: 10px;
       }
       .interactive-demo::before {
-        content: "";
+        content: '';
         position: absolute;
         top: -50%;
         left: -50%;
@@ -130,160 +127,177 @@
       }
 
       .image-slideshow {
-          position: relative;
-          width: 100%;
-          overflow: hidden;
-          height: 30rem;
-          max-height: 475px;
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        height: 30rem;
+        max-height: 475px;
       }
 
       .fade-image {
-          opacity: 0;
-          transition: opacity 0.5s ease-in-out;
+        opacity: 0;
+        transition: opacity 0.5s ease-in-out;
       }
 
       .fade-image.active {
-          opacity: 1;
+        opacity: 1;
       }
 
       .dot-indicators {
-          text-align: center;
-          margin-top: 20px;
+        text-align: center;
+        margin-top: 20px;
       }
 
       .dot {
-          display: inline-block;
-          width: 10px;
-          height: 10px;
-          border-radius: 50%;
-          background-color: var(--primary-color);
-          margin: 0 5px;
-          opacity: 0.5;
-          transition: opacity 0.3s ease;
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background-color: var(--primary-color);
+        margin: 0 5px;
+        opacity: 0.5;
+        transition: opacity 0.3s ease;
       }
 
       .dot.active {
-          opacity: 1;
+        opacity: 1;
       }
 
       #mainRevSlideshow {
-          height: 47vh;
-          display: flex;
-          justify-content: center;
-          align-items: center;
+        height: 47vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       #mainRevSlideshow .fade-image {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: contain;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
       }
 
       #usageSlideshow {
-          margin: 0 auto;
-          position: relative;
+        margin: 0 auto;
+        position: relative;
       }
 
       .gradient-box {
-          position: relative;
-          background: linear-gradient(135deg, var(--primary-color), #00ccff);
-          padding: 2rem;
-          border-radius: 1rem;
-          overflow: hidden;
+        position: relative;
+        background: linear-gradient(135deg, var(--primary-color), #00ccff);
+        padding: 2rem;
+        border-radius: 1rem;
+        overflow: hidden;
       }
 
       .usage-title {
-          font-size: 1.5rem;
-          font-weight: bold;
-          color: var(--secondary-color);
-          margin-bottom: 0.5rem;
-          position: relative;
-          z-index: 10;
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: var(--secondary-color);
+        margin-bottom: 0.5rem;
+        position: relative;
+        z-index: 10;
       }
 
       .usage-description {
-          font-size: 1rem;
-          color: white;
-          margin-bottom: 1rem;
-          position: relative;
-          z-index: 10;
+        font-size: 1rem;
+        color: white;
+        margin-bottom: 1rem;
+        position: relative;
+        z-index: 10;
       }
 
       .usage-image {
-          width: auto;
-          height: 20rem;
-          object-fit: contain;
-          position: relative;
-          z-index: 5;
+        width: auto;
+        height: 20rem;
+        object-fit: contain;
+        position: relative;
+        z-index: 5;
       }
 
-
       #usageSlideshow .fade-image {
-          position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: auto;
-          object-fit: contain;
-          text-align: -webkit-center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: auto;
+        object-fit: contain;
+        text-align: -webkit-center;
       }
 
       @media (max-width: 768px) {
-          #usageSlideshow {
-              max-width: 100%;
-          }
+        #usageSlideshow {
+          max-width: 100%;
+        }
       }
     </style>
-      <!-- Clarity Code -->
-      <script type="text/javascript">
-          (function(c,l,a,r,i,t,y){
-              c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-              t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-              y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-          })(window, document, "clarity", "script", "n4lt84or2b");
-      </script>
-      <!-- Meta Pixel Code -->
-      <script>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
+    <!-- Clarity Code -->
+    <script type="text/javascript">
+      (function (c, l, a, r, i, t, y) {
+        c[a] =
+          c[a] ||
+          function () {
+            (c[a].q = c[a].q || []).push(arguments);
+          };
+        t = l.createElement(r);
+        t.async = 1;
+        t.src = 'https://www.clarity.ms/tag/' + i;
+        y = l.getElementsByTagName(r)[0];
+        y.parentNode.insertBefore(t, y);
+      })(window, document, 'clarity', 'script', 'n4lt84or2b');
+    </script>
+    <!-- Meta Pixel Code -->
+    <script>
+      !(function (f, b, e, v, n, t, s) {
+        if (f.fbq) return;
+        n = f.fbq = function () {
+          n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments);
+        };
+        if (!f._fbq) f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
       fbq('init', '1620393688508165');
       fbq('track', 'PageView');
-      </script>
-      <noscript><img height="1" width="1" style="display:none"
-      src="https://www.facebook.com/tr?id=1620393688508165&ev=PageView&noscript=1"
-      /></noscript>
-      <!-- End Meta Pixel Code -->
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSD286PKSS"></script>
-      <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
+    </script>
+    <noscript
+      ><img
+        height="1"
+        width="1"
+        style="display: none"
+        src="https://www.facebook.com/tr?id=1620393688508165&ev=PageView&noscript=1"
+    /></noscript>
+    <!-- End Meta Pixel Code -->
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-KSD286PKSS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
 
-        gtag('config', 'G-KSD286PKSS');
-      </script>
+      gtag('config', 'G-KSD286PKSS');
+    </script>
   </head>
   <body>
-
     <header
-      class="fixed w-full z-50 bg-secondary-color bg-opacity-80 backdrop-filter backdrop-blur-md"
+      class="bg-secondary-color fixed z-50 w-full bg-opacity-80 backdrop-blur-md backdrop-filter"
     >
-      <nav
-        class="container mx-auto px-4 py-4 flex justify-between items-center"
-      >
+      <nav class="container mx-auto flex items-center justify-between px-4 py-4">
         <img src="assets/index/main_logo.png" alt="지원전에 로고" class="h-8" />
         <button
           id="ctaButton"
-          class="btn-primary px-4 py-2 rounded-full text-secondary-color font-bold"
+          class="btn-primary text-secondary-color rounded-full px-4 py-2 font-bold"
         >
           시작하기
         </button>
@@ -292,80 +306,76 @@
 
     <main>
       <section
-        class="hero min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary-color to-gray-900"
+        class="hero from-secondary-color flex min-h-screen items-center justify-center bg-gradient-to-br to-gray-900"
       >
         <div class="container mx-auto px-4 text-center">
-          <h1
-            class="text-4xl md:text-6xl font-bold mb-4 text-gradient"
-            data-aos="fade-up"
-          >
+          <h1 class="text-gradient mb-4 text-4xl font-bold md:text-6xl" data-aos="fade-up">
             수많은 채용 플랫폼<br />커리어를 한 곳에서 관리.
           </h1>
-          <p class="text-xl mb-8" data-aos="fade-up" data-aos-delay="200">
+          <p class="mb-8 text-xl" data-aos="fade-up" data-aos-delay="200">
             한 번의 업데이트로, 무한한 기회를 잡으세요.
           </p>
           <button
             id="ctaButtonHero"
-            class="btn-primary px-8 py-4 rounded-full text-xl font-bold text-secondary-color"
+            class="btn-primary text-secondary-color rounded-full px-8 py-4 text-xl font-bold"
             data-aos="zoom-in"
             data-aos-delay="400"
           >
             지금 시작하기
           </button>
 
-            <div class="mt-10 aos" data-aos="fade-up" data-aos-delay="600">
-                <div class="image-slideshow" id="mainRevSlideshow">
-                    <img src="assets/index/main_rev1.png" alt="지원전에 사용 예시 1" class="fade-image">
-                    <img src="assets/index/main_rev2.png" alt="지원전에 사용 예시 2" class="fade-image">
-                    <img src="assets/index/main_rev3.png" alt="지원전에 사용 예시 3" class="fade-image">
-                </div>
+          <div class="aos mt-10" data-aos="fade-up" data-aos-delay="600">
+            <div class="image-slideshow" id="mainRevSlideshow">
+              <img src="assets/index/main_rev1.png" alt="지원전에 사용 예시 1" class="fade-image" />
+              <img src="assets/index/main_rev2.png" alt="지원전에 사용 예시 2" class="fade-image" />
+              <img src="assets/index/main_rev3.png" alt="지원전에 사용 예시 3" class="fade-image" />
             </div>
+          </div>
         </div>
       </section>
 
-      <section class="problems py-20 bg-secondary-color">
+      <section class="problems bg-secondary-color py-20">
         <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-bold mb-8 text-center text-gradient">
-            중요한 커리어 관리<span class="hidden-mobile">, </span
-            ><br class="hidden-pc" />이런 불편함은 없으셨나요?
+          <h2 class="text-gradient mb-8 text-center text-3xl font-bold">
+            중요한 커리어 관리<span class="hidden-mobile">, </span><br class="hidden-pc" />이런
+            불편함은 없으셨나요?
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
             <div
-              class="card p-6 rounded-lg flex flex-col md:flex-row items-center md:items-start"
+              class="card flex flex-col items-center rounded-lg p-6 md:flex-row md:items-start"
               data-aos="flip-right"
             >
               <img
                 src="assets/index/problem1.png"
-                class="text-primary text-4xl mb-4 md:mb-0 md:mr-4"
+                class="mb-4 text-4xl text-primary md:mb-0 md:mr-4"
                 style="width: 3.25rem"
               />
               <div>
-                <p class="text-lg mb-4">
-                  "여러 채용사이트마다 이력서를 따로 업데이트해야 해서 너무
-                  귀찮아요."
+                <p class="mb-4 text-lg">
+                  "여러 채용사이트마다 이력서를 따로 업데이트해야 해서 너무 귀찮아요."
                 </p>
-                <p class="text-sm hidden-mobile">
-                  평균적으로 구직자들은 5개 이상의 채용 플랫폼을 사용하며, 각
-                  플랫폼마다 개별적으로 정보를 업데이트해야 합니다.
+                <p class="hidden-mobile text-sm">
+                  평균적으로 구직자들은 5개 이상의 채용 플랫폼을 사용하며, 각 플랫폼마다 개별적으로
+                  정보를 업데이트해야 합니다.
                 </p>
               </div>
             </div>
             <div
-              class="card p-6 rounded-lg flex flex-col md:flex-row items-center md:items-start"
+              class="card flex flex-col items-center rounded-lg p-6 md:flex-row md:items-start"
               data-aos="flip-right"
             >
               <img
                 src="assets/index/problem2.png"
-                class="text-primary text-4xl mb-4 md:mb-0 md:mr-4"
+                class="mb-4 text-4xl text-primary md:mb-0 md:mr-4"
                 style="width: 3.25rem"
               />
               <div>
-                <p class="text-lg mb-4">
+                <p class="mb-4 text-lg">
                   "스카우트 제안을 놓치지 않고 효과적으로 관리하고 싶어요."
                 </p>
-                <p class="text-sm hidden-mobile">
-                  구직자의 60%가 중요한 스카우트 제안을 놓친 경험이 있으며,
-                  80%는 제안을 체계적으로 관리하는 데 어려움을 겪고 있습니다.
+                <p class="hidden-mobile text-sm">
+                  구직자의 60%가 중요한 스카우트 제안을 놓친 경험이 있으며, 80%는 제안을 체계적으로
+                  관리하는 데 어려움을 겪고 있습니다.
                 </p>
               </div>
             </div>
@@ -374,132 +384,113 @@
       </section>
 
       <section
-        class="solution py-28 bg-gradient-primary from-primary-color to-blue-400 text-secondary-color"
+        class="solution bg-gradient-primary from-primary-color text-secondary-color to-blue-400 py-28"
       >
         <div class="container mx-auto px-4 text-center">
-          <h2 class="text-3xl font-bold mb-8">
-            "지원전에 Sync"로 단 두 단계만에 해결하세요!
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div
-              data-aos="fade-right"
-              class="bg-white bg-opacity-20 p-6 rounded-lg"
-            >
+          <h2 class="mb-8 text-3xl font-bold">"지원전에 Sync"로 단 두 단계만에 해결하세요!</h2>
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div data-aos="fade-right" class="rounded-lg bg-white bg-opacity-20 p-6">
               <p class="text-xl font-bold">한번의 연결이면 충분해요</p>
               <img
                 src="assets/index/wire1.png"
-                class="fas fa-check-circle text-secondary-color text-6xl mb-4 max-h-64"
+                class="fas fa-check-circle text-secondary-color mb-4 max-h-64 text-6xl"
               />
-              <p class="mt-4">
-                기존 이력서로 모든 채용 플랫폼에 자동 업데이트
-              </p>
-              <p class="mt-2 text-sm hidden-mobile">
+              <p class="mt-4">기존 이력서로 모든 채용 플랫폼에 자동 업데이트</p>
+              <p class="hidden-mobile mt-2 text-sm">
                 모든 채용 플랫폼에 자동 로그인되는 One ID를 만나보세요.
               </p>
             </div>
-            <div
-              data-aos="fade-left"
-              class="bg-white bg-opacity-20 p-6 rounded-lg"
-            >
+            <div data-aos="fade-left" class="rounded-lg bg-white bg-opacity-20 p-6">
               <p class="text-xl font-bold">스카우트 제안 확인</p>
               <img
                 src="assets/index/wire2.png"
-                class="fas fa-check-circle text-secondary-color text-6xl mb-4 max-h-64"
+                class="fas fa-check-circle text-secondary-color mb-4 max-h-64 text-6xl"
               />
-              <p class="mt-4">
-                모든 스카우트 제안을 한눈에 보고 효율적으로 관리
-              </p>
-              <p class="mt-2 text-sm hidden-mobile">
-                맞춤형 알고리즘으로 중요도에 따라 제안을 분류하고, 응답 템플릿을
-                제공하여 빠른 대응이 가능합니다.
+              <p class="mt-4">모든 스카우트 제안을 한눈에 보고 효율적으로 관리</p>
+              <p class="hidden-mobile mt-2 text-sm">
+                맞춤형 알고리즘으로 중요도에 따라 제안을 분류하고, 응답 템플릿을 제공하여 빠른
+                대응이 가능합니다.
               </p>
             </div>
           </div>
         </div>
       </section>
-      <section class="features py-28 bg-secondary-color">
+      <section class="features bg-secondary-color py-28">
         <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-bold mb-8 text-center text-gradient">
+          <h2 class="text-gradient mb-8 text-center text-3xl font-bold">
             "지원전에 Sync"가 만들어드리는 혜택
           </h2>
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="card p-6 rounded-lg" data-aos="fade-up">
-              <i class="fas fa-clock text-primary text-5xl mb-4"></i>
-              <h3 class="text-xl font-bold mb-2">⏱️ 시간 절약</h3>
-              <p>여러 플랫폼 동시 업데이트로<br>서류 작성 시간 88% 감소</p>
-              <p class="mt-2 text-sm hidden-mobile">
-                평균 4시간이 걸리던 이력서 업데이트 과정을 30분 이내로 단축할 수
-                있습니다.
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-3">
+            <div class="card rounded-lg p-6" data-aos="fade-up">
+              <i class="fas fa-clock mb-4 text-5xl text-primary"></i>
+              <h3 class="mb-2 text-xl font-bold">⏱️ 시간 절약</h3>
+              <p>여러 플랫폼 동시 업데이트로<br />서류 작성 시간 88% 감소</p>
+              <p class="hidden-mobile mt-2 text-sm">
+                평균 4시간이 걸리던 이력서 업데이트 과정을 30분 이내로 단축할 수 있습니다.
               </p>
             </div>
-            <div
-              class="card p-6 rounded-lg"
-              data-aos="fade-up"
-              data-aos-delay="200"
-            >
-              <i class="fas fa-bullseye text-primary text-5xl mb-4"></i>
-              <h3 class="text-xl font-bold mb-2">📈 스카우트 기회 극대화</h3>
-              <p>통합형 업데이트 관리로<br>스카우트 제안 300% 증가</p>
-              <p class="mt-2 text-sm hidden-mobile">
-                  이력 업데이트 자동화, AI 커리어 피드백, 스카우트 제안 비교로 가장 잘 맞는 기업의 제안을 우선 받아볼 수 있습니다
+            <div class="card rounded-lg p-6" data-aos="fade-up" data-aos-delay="200">
+              <i class="fas fa-bullseye mb-4 text-5xl text-primary"></i>
+              <h3 class="mb-2 text-xl font-bold">📈 스카우트 기회 극대화</h3>
+              <p>통합형 업데이트 관리로<br />스카우트 제안 300% 증가</p>
+              <p class="hidden-mobile mt-2 text-sm">
+                이력 업데이트 자동화, AI 커리어 피드백, 스카우트 제안 비교로 가장 잘 맞는 기업의
+                제안을 우선 받아볼 수 있습니다
               </p>
             </div>
-            <div
-              class="card p-6 rounded-lg"
-              data-aos="fade-up"
-              data-aos-delay="400"
-            >
-              <i class="fas fa-solid fa-key text-primary text-5xl mb-4"></i>
-              <h3 class="text-xl font-bold mb-2">커리어 전용 One ID</h3>
+            <div class="card rounded-lg p-6" data-aos="fade-up" data-aos-delay="400">
+              <i class="fas fa-solid fa-key mb-4 text-5xl text-primary"></i>
+              <h3 class="mb-2 text-xl font-bold">커리어 전용 One ID</h3>
               <p>하나의 아이디로 모든 채용 사이트를 관리</p>
-              <p class="mt-2 text-sm hidden-mobile">
-                  이 사이트는 어떤 아이디였는지 또 잊었나요? 커리어 전용 One ID로 모든 사이트를 관리하고, 개인정보도 보호하세요.
+              <p class="hidden-mobile mt-2 text-sm">
+                이 사이트는 어떤 아이디였는지 또 잊었나요? 커리어 전용 One ID로 모든 사이트를
+                관리하고, 개인정보도 보호하세요.
               </p>
             </div>
           </div>
         </div>
       </section>
-        <section class="py-28 bg-secondacry-color">
-            <div class="container mx-auto px-4">
-                <h2 class="text-3xl font-bold mb-8 text-center text-gradient">이렇게 사용하세요</h2>
-
-                <div class="image-slideshow" id="usageSlideshow">
-                    <div class="gradient-box fade-image">
-                        <h3 class="usage-title">기존 이력서를 그대로 업로드하세요</h3>
-                        <p class="usage-description">처음부터 새로 작성할 필요 없어요.</p>
-                        <img src="assets/index/usage1.png" alt="사용 방법 1" class="usage-image">
-                    </div>
-                    <div class="gradient-box fade-image">
-                        <h3 class="usage-title">채용 플랫폼마다 최신 이력으로 자동 업데이트 됩니다</h3>
-                        <p class="usage-description">스카우트 제안율이 높아집니다.</p>
-                        <img src="assets/index/usage2.png" alt="사용 방법 2" class="usage-image">
-                    </div>
-                    <div class="gradient-box fade-image">
-                        <h3 class="usage-title">스카우트 제안 받으셨나요?</h3>
-                        <p class="usage-description">72시간 이내 답변해주세요. 관심있는 스카웃 제안만 우선 노출해드릴게요.</p>
-                        <img src="assets/index/usage3.png" alt="사용 방법 3" class="usage-image">
-                    </div>
-                    <div class="gradient-box fade-image">
-                        <h3 class="usage-title">하나의 계정으로 어디든 쉽게 로그인하세요</h3>
-                        <p class="usage-description">One-ID로 아이디 비밀번호를 기억-입력할 필요 없어요</p>
-                        <img src="assets/index/usage4.png" alt="사용 방법 4" class="usage-image">
-                    </div>
-                </div>
-                <div class="dot-indicators"></div>
-            </div>
-        </section>
-      <section class="testimonials py-28 bg-secondacry-color">
+      <section class="bg-secondacry-color py-28">
         <div class="container mx-auto px-4">
-          <h2 class="text-3xl font-bold mb-8 text-center text-gradient">
-            사용자 후기
-          </h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div class="card p-6 rounded-lg" data-aos="fade-right">
-              <p class="text-lg mb-4">
-                "지원전에를 사용한 후, 스카우트 제안이 3배나 늘었어요. 더 좋은
-                기회를 선택할 수 있게 되었죠."
+          <h2 class="text-gradient mb-8 text-center text-3xl font-bold">이렇게 사용하세요</h2>
+
+          <div class="image-slideshow" id="usageSlideshow">
+            <div class="gradient-box fade-image">
+              <h3 class="usage-title">기존 이력서를 그대로 업로드하세요</h3>
+              <p class="usage-description">처음부터 새로 작성할 필요 없어요.</p>
+              <img src="assets/index/usage1.png" alt="사용 방법 1" class="usage-image" />
+            </div>
+            <div class="gradient-box fade-image">
+              <h3 class="usage-title">채용 플랫폼마다 최신 이력으로 자동 업데이트 됩니다</h3>
+              <p class="usage-description">스카우트 제안율이 높아집니다.</p>
+              <img src="assets/index/usage2.png" alt="사용 방법 2" class="usage-image" />
+            </div>
+            <div class="gradient-box fade-image">
+              <h3 class="usage-title">스카우트 제안 받으셨나요?</h3>
+              <p class="usage-description">
+                72시간 이내 답변해주세요. 관심있는 스카웃 제안만 우선 노출해드릴게요.
               </p>
-              <div class="grid grid-cols-6 md:grid-cols-6 gap-4">
+              <img src="assets/index/usage3.png" alt="사용 방법 3" class="usage-image" />
+            </div>
+            <div class="gradient-box fade-image">
+              <h3 class="usage-title">하나의 계정으로 어디든 쉽게 로그인하세요</h3>
+              <p class="usage-description">One-ID로 아이디 비밀번호를 기억-입력할 필요 없어요</p>
+              <img src="assets/index/usage4.png" alt="사용 방법 4" class="usage-image" />
+            </div>
+          </div>
+          <div class="dot-indicators"></div>
+        </div>
+      </section>
+      <section class="testimonials bg-secondacry-color py-28">
+        <div class="container mx-auto px-4">
+          <h2 class="text-gradient mb-8 text-center text-3xl font-bold">사용자 후기</h2>
+          <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+            <div class="card rounded-lg p-6" data-aos="fade-right">
+              <p class="mb-4 text-lg">
+                "지원전에를 사용한 후, 스카우트 제안이 3배나 늘었어요. 더 좋은 기회를 선택할 수 있게
+                되었죠."
+              </p>
+              <div class="grid grid-cols-6 gap-4 md:grid-cols-6">
                 <img
                   src="assets/index/p1.png"
                   class="mb-4 md:mb-0 md:mr-4"
@@ -512,12 +503,12 @@
                 />
               </div>
             </div>
-            <div class="card p-6 rounded-lg" data-aos="fade-right">
-              <p class="text-lg mb-4">
-                "이력서 업데이트에 들이는 시간이 크게 줄었어요. 덕분에 실제 면접
-                준비에 더 집중할 수 있었습니다."
+            <div class="card rounded-lg p-6" data-aos="fade-right">
+              <p class="mb-4 text-lg">
+                "이력서 업데이트에 들이는 시간이 크게 줄었어요. 덕분에 실제 면접 준비에 더 집중할 수
+                있었습니다."
               </p>
-              <div class="grid grid-cols-6 md:grid-cols-6 gap-4">
+              <div class="grid grid-cols-6 gap-4 md:grid-cols-6">
                 <img
                   src="assets/index/p2.png"
                   class="mb-4 md:mb-0 md:mr-4"
@@ -535,18 +526,18 @@
       </section>
 
       <section
-        class="cta py-28 bg-gradient-primary from-primary-color to-blue-400 text-secondary-color"
+        class="cta bg-gradient-primary from-primary-color text-secondary-color to-blue-400 py-28"
       >
         <div class="container mx-auto px-4 text-center">
-          <h2 class="text-4xl font-bold mb-8" data-aos="fade-up">
+          <h2 class="mb-8 text-4xl font-bold" data-aos="fade-up">
             커리어 기회<br />지금부터 놓치지 마세요.
           </h2>
-          <p class="text-xl mb-8" data-aos="fade-up" data-aos-delay="200">
+          <p class="mb-8 text-xl" data-aos="fade-up" data-aos-delay="200">
             매일 100개 이상의 새로운 기회가 여러분을 기다리고 있습니다.
           </p>
           <button
             id="ctaButton2"
-            class="btn-primary px-8 py-4 rounded-full text-xl font-bold text-secondary-color"
+            class="btn-primary text-secondary-color rounded-full px-8 py-4 text-xl font-bold"
             data-aos="zoom-in"
             data-aos-delay="400"
           >
@@ -560,28 +551,42 @@
       <div class="container mx-auto px-4">
         <p>&copy; 2024 지원전에. All rights reserved.</p>
         <div class="mt-4">
-          <a href="#" class="mx-2 hover:text-primary-color">이용약관</a>
-          <a href="#" class="mx-2 hover:text-primary-color">개인정보처리방침</a>
-          <a href="#" class="mx-2 hover:text-primary-color">문의하기</a>
+          <a
+            href="https://www.in10s.co/jiwon-sync/terms"
+            target="_blank"
+            rel="noreferrer"
+            class="hover:text-primary-color mx-2"
+            >이용약관</a
+          >
+          <a
+            href="https://www.in10s.co/jiwon-sync/privacypolicy"
+            target="_blank"
+            rel="noreferrer"
+            class="hover:text-primary-color mx-2"
+            >개인정보처리방침</a
+          >
+          <a
+            href="http://pf.kakao.com/_xjxkJbG/chat"
+            target="_blank"
+            rel="noreferrer"
+            class="hover:text-primary-color mx-2"
+            >고객센터(카카오톡)</a
+          >
         </div>
       </div>
     </footer>
 
     <div class="scroll-indicator">
-      <i
-        class="fas fa-chevron-down text-primary-color text-2xl animate-bounce"
-      ></i>
+      <i class="fas fa-chevron-down text-primary-color animate-bounce text-2xl"></i>
     </div>
 
     <!-- 사전 예약 모달 -->
     <div id="reservationModal" class="modal">
-      <div class="modal-content rounded-lg bg-secondary-color p-8">
-        <h2 class="text-2xl font-bold mb-4 text-gradient">
-          지금 바로 시작하세요!
-        </h2>
+      <div class="modal-content bg-secondary-color rounded-lg p-8">
+        <h2 class="text-gradient mb-4 text-2xl font-bold">지금 바로 시작하세요!</h2>
         <form id="reservationForm">
           <div class="mb-4">
-            <label for="contact" class="block mb-2 text-primary-color"
+            <label for="contact" class="text-primary-color mb-2 block"
               >연락처 (ex, 01012341234)</label
             >
             <input
@@ -590,52 +595,36 @@
               name="contact"
               required
               maxlength="11"
-              class="w-full px-3 py-2 bg-gray-600 rounded text-white"
+              class="w-full rounded bg-gray-600 px-3 py-2 text-white"
             />
           </div>
           <div class="mb-4">
-            <label for="experience" class="block mb-2 text-primary-color"
-              >경력 연차</label
-            >
+            <label for="experience" class="text-primary-color mb-2 block">경력 연차</label>
             <input
               type="number"
               id="experience"
               name="experience"
               required
               min="0"
-              class="w-full px-3 py-2 bg-gray-600 rounded text-white"
+              class="w-full rounded bg-gray-600 px-3 py-2 text-white"
             />
           </div>
           <div class="mb-4">
-            <label class="block mb-2 text-primary-color"
-              >스카우트 제안 경험</label
-            >
+            <label class="text-primary-color mb-2 block">스카우트 제안 경험</label>
             <div>
-              <label class="inline-flex items-center mr-4">
-                <input
-                  type="radio"
-                  name="scoutExperience"
-                  value="yes"
-                  required
-                  class="mr-2"
-                />
+              <label class="mr-4 inline-flex items-center">
+                <input type="radio" name="scoutExperience" value="yes" required class="mr-2" />
                 <span>있음</span>
               </label>
               <label class="inline-flex items-center">
-                <input
-                  type="radio"
-                  name="scoutExperience"
-                  value="no"
-                  required
-                  class="mr-2"
-                />
+                <input type="radio" name="scoutExperience" value="no" required class="mr-2" />
                 <span>없음</span>
               </label>
             </div>
           </div>
           <button
             type="submit"
-            class="btn-primary w-full py-2 rounded-full text-secondary-color font-bold"
+            class="btn-primary text-secondary-color w-full rounded-full py-2 font-bold"
           >
             시작하기
           </button>
@@ -646,11 +635,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
     <script>
-        // DOM이 로드된 후 실행
-        document.addEventListener('DOMContentLoaded', function() {
-            setupImageSlideshow('mainRevSlideshow', 2000); // 3초마다 전환, dot 없음
-            setupImageSlideshow('usageSlideshow', 3500, true); // 5초마다 전환, dot 있음
-        });
+      // DOM이 로드된 후 실행
+      document.addEventListener('DOMContentLoaded', function () {
+        setupImageSlideshow('mainRevSlideshow', 2000); // 3초마다 전환, dot 없음
+        setupImageSlideshow('usageSlideshow', 3500, true); // 5초마다 전환, dot 있음
+      });
 
       AOS.init({
         duration: 1000,
@@ -658,17 +647,28 @@
       });
 
       // 모달 관련 요소들
-      const reservationModal = document.getElementById("reservationModal");
-      const betaModal = document.getElementById("betaModal");
-      const reservationForm = document.getElementById("reservationForm");
-      const ctaButtons = document.querySelectorAll(
-        "#ctaButton, #ctaButton2, #ctaButtonHero"
-      );
+      const reservationModal = document.getElementById('reservationModal');
+      const betaModal = document.getElementById('betaModal');
+      const reservationForm = document.getElementById('reservationForm');
+      const ctaButtons = document.querySelectorAll('#ctaButton, #ctaButton2, #ctaButtonHero');
 
-      // CTA 버튼 클릭 시 사전 예약 모달 열기
+      // CTA 버튼 클릭 시 실행 환경에 따라 url 셋팅
       ctaButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          location.href="https://jiwon-sync.in10s.co/app"
+        button.addEventListener('click', () => {
+          let targetUrl;
+          const hostname = window.location.hostname;
+
+          if (hostname === 'localhost' || hostname === '127.0.0.1') {
+            targetUrl = 'http://localhost:3000/app';
+          } else if (hostname === 'staging.jiwon-sync.in10s.co') {
+            targetUrl = 'https://staging.jiwon-sync.in10s.co/app';
+          } else {
+            targetUrl = 'https://jiwon-sync.in10s.co/app';
+          }
+
+          location.href = targetUrl;
+
+          // location.href = 'https://jiwon-sync.in10s.co/app';
           // reservationModal.style.display = "block";
 
           // 메타 픽셀 이벤트 추가
@@ -684,68 +684,68 @@
       // });
 
       // 스크롤 인디케이터
-      const scrollIndicator = document.querySelector(".scroll-indicator");
-      window.addEventListener("scroll", () => {
+      const scrollIndicator = document.querySelector('.scroll-indicator');
+      window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
-          scrollIndicator.style.opacity = "0";
+          scrollIndicator.style.opacity = '0';
         } else {
-          scrollIndicator.style.opacity = "0.7";
+          scrollIndicator.style.opacity = '0.7';
         }
       });
 
       // 인터랙티브 요소들
-      const cards = document.querySelectorAll(".card");
+      const cards = document.querySelectorAll('.card');
       cards.forEach((card) => {
-        card.addEventListener("mousemove", (e) => {
+        card.addEventListener('mousemove', (e) => {
           const rect = card.getBoundingClientRect();
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
 
-          card.style.setProperty("--mouse-x", `${x}px`);
-          card.style.setProperty("--mouse-y", `${y}px`);
+          card.style.setProperty('--mouse-x', `${x}px`);
+          card.style.setProperty('--mouse-y', `${y}px`);
         });
       });
 
-        function setupImageSlideshow(slideshowId, interval, withDots = false) {
-            const slideshow = document.getElementById(slideshowId);
-            const images = slideshow.querySelectorAll('.fade-image');
-            let currentIndex = 0;
+      function setupImageSlideshow(slideshowId, interval, withDots = false) {
+        const slideshow = document.getElementById(slideshowId);
+        const images = slideshow.querySelectorAll('.fade-image');
+        let currentIndex = 0;
 
-            function showNextImage() {
-                images[currentIndex].classList.remove('active');
-                currentIndex = (currentIndex + 1) % images.length;
-                images[currentIndex].classList.add('active');
+        function showNextImage() {
+          images[currentIndex].classList.remove('active');
+          currentIndex = (currentIndex + 1) % images.length;
+          images[currentIndex].classList.add('active');
 
-                if (withDots) {
-                    updateDots();
-                }
-            }
-
-            images[currentIndex].classList.add('active');
-            setInterval(showNextImage, interval);
-
-            if (withDots) {
-                const dotContainer = document.querySelector('.dot-indicators');
-                images.forEach((_, index) => {
-                    const dot = document.createElement('span');
-                    dot.classList.add('dot');
-                    if (index === 0) dot.classList.add('active');
-                    dotContainer.appendChild(dot);
-                });
-            }
-
-            function updateDots() {
-                if (withDots) {
-                    const dots = document.querySelectorAll('.dot');
-                    dots.forEach((dot, index) => {
-                        dot.classList.toggle('active', index === currentIndex);
-                    });
-                }
-            }
+          if (withDots) {
+            updateDots();
+          }
         }
 
-        // 메타 픽셀 이벤트 (viewcontent) 추가
-        fbq('track', 'ViewContent');
+        images[currentIndex].classList.add('active');
+        setInterval(showNextImage, interval);
+
+        if (withDots) {
+          const dotContainer = document.querySelector('.dot-indicators');
+          images.forEach((_, index) => {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (index === 0) dot.classList.add('active');
+            dotContainer.appendChild(dot);
+          });
+        }
+
+        function updateDots() {
+          if (withDots) {
+            const dots = document.querySelectorAll('.dot');
+            dots.forEach((dot, index) => {
+              dot.classList.toggle('active', index === currentIndex);
+            });
+          }
+        }
+      }
+
+      // 메타 픽셀 이벤트 (viewcontent) 추가
+      fbq('track', 'ViewContent');
     </script>
   </body>
 </html>

@@ -82,7 +82,7 @@ export default function FaqPage() {
                       리멤버 아이디, 비밀번호 찾기 ↗
                     </a>
                   </li>
-                  <li>
+                  {/* <li>
                     <a
                       className="underline underline-offset-2 hover:text-primary/70"
                       href="https://www.jumpit.co.kr/login"
@@ -94,7 +94,7 @@ export default function FaqPage() {
                     <p className="text-gray-300">
                       (점핏은 이메일을 먼저 입력해야 비밀번호 찾기가 가능해요.)
                     </p>
-                  </li>
+                  </li> */}
                   <li>
                     <a
                       className="underline underline-offset-2 hover:text-primary/70"
