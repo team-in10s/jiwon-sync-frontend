@@ -12,7 +12,6 @@ export async function GET(request: Request) {
       headers: { 'Content-Type': 'application/json' },
     });
   }
-
   // TODO: 서버 접근 주소 env로 관리
   const res = await fetch(`${apiUrl}/resume/main/status`, {
     method: 'GET',
@@ -21,17 +20,13 @@ export async function GET(request: Request) {
       Authorization: authHeader,
     },
   });
-
   const data = await res.json();
   console.log('data? --------', data);
   // TODO 응답값 타입 잡기
   /**
    성공 시 응답값
    data? -------- {
-        hasMainResume: true,
-        platform: 'saramin',
-        status: 'processing',
-        synced: false
+        processing: false
     }
 
    */

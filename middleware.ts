@@ -44,6 +44,7 @@ export async function middleware(request: NextRequest) {
 
   // '/app/onboarding' 에 접근했을때 플랫폼 동기화 이력 확인 후
   // Check platform status for all protected routes
+
   if (protectedRoutes.some((route) => path.startsWith(route))) {
     try {
       const result = await checkAndRedirectPlatformStatus(path);

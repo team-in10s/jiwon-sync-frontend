@@ -63,7 +63,7 @@ export default function NavLinks() {
         links.map((link) => {
           if (link.href.includes('app/recruitment')) {
             return (
-              <a key={link.name} href="https://jiwon-sync.in10s.co/app?page=scout">
+              <a key={link.name} href="https://jiwon-sync-app.in10s.co/app?page=scout">
                 {link.name}
               </a>
             );

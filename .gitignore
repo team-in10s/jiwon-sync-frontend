@@ -46,3 +46,6 @@ next-env.d.ts
 .eslintrc.js
 .eslintrc.json
 
+.idea
+./file-change-for-claude.sh
+cloude-file
