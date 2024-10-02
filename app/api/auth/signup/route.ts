@@ -7,7 +7,6 @@ export async function POST(request: Request) {
   const { name, email, password, yearsOfExp, jobTitle, customJobTitle, telNo, gender, birthDate } =
     await request.json();
 
-  // TODO: 서버 접근 주소 env로 관리
   const res = await fetch(`${apiUrl}/auth/register`, {
     method: 'POST',
     headers: {
@@ -28,7 +27,6 @@ export async function POST(request: Request) {
   });
 
   const data = await res.json();
-  console.log('data? --------', data);
 
   return Response.json(data);
 }
