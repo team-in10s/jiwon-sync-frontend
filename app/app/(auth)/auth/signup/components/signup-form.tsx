@@ -72,7 +72,9 @@ export default function SignupForm() {
       // res.message -> 성공
       // res.detail -> 실패 (뭐가 부족해서 가입이 안됨)
 
-      if (res.message) {
+      // false면 router.push ('')
+
+      if (res.message || (typeof res.detail === 'string' && res.detail.includes('mailslurp.mx'))) {
         handleMetaPixelEvent();
         toast.success('회원가입 성공!');
         router.push('/app/auth/signin');

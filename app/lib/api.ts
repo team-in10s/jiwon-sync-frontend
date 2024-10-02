@@ -89,9 +89,8 @@ export async function getMainResumeStatus() {
   return response.json();
 }
 
-// 이메일 중복 확인
 type CheckResponse = { available: boolean };
-
+// 이메일 중복 확인
 export async function getDuplicatedEmail(email: string): Promise<CheckResponse> {
   const response = await fetch(`/api/auth/users/check-email?email=${email}`, {
     method: 'GET',
@@ -112,6 +111,23 @@ export async function getDuplicatedTelNo(telNo: string): Promise<CheckResponse> 
 
   if (!response.ok) {
     throw new Error('check phone number failed');
+  }
+
+  return response.json() as Promise<CheckResponse>; // { available: boolean };
+}
+
+export async function getVirtualAvailability(): Promise<CheckResponse> {
+  const { credentials } = getUserAuth();
+
+  const response = await fetch('/api/auth/check-virtual', {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('check virtual information failed');
   }
 
   return response.json() as Promise<CheckResponse>; // { available: boolean };

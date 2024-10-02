@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
-import { signinApi } from '@/app/lib/api';
+import { getVirtualAvailability, signinApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import { base64Encode } from '@/app/lib/utils';
 
@@ -38,10 +38,24 @@ export default function SigninForm() {
 
       if (res.user) {
         setUserAuth(res.user, credentials);
-        toast.success('로그인 성공!');
 
-        // router.push('/app/resume');
-        router.push('/app/onboarding');
+        // 로그인 후 virtual mail 확인
+        try {
+          const { available } = await getVirtualAvailability();
+
+          toast.success('로그인 성공!');
+
+          if (available) {
+            // virtual mail이 있으면 onboarding으로 이동
+            router.push('/app/onboarding');
+          } else {
+            // virtual mail이 없으면 resume로 이동
+            router.push('/app/resume');
+          }
+        } catch (error) {
+          toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+        }
+        // 끝: 로그인 후 virtual mail 확인
       } else {
         toast.error(`${ERROR_MESSAGE.reason.authentication} \n ${ERROR_MESSAGE.action.recheck}`);
         setFocus('email');
