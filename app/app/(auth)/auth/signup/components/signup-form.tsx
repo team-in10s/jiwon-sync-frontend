@@ -78,9 +78,9 @@ export default function SignupForm() {
         router.push('/app/auth/signin');
         // router.push('/app/jiwon-download'); // TODO: 나중에 데스크탑 앱 배포하면 사용
       } else {
-        // TODO: 회원가입 중에 뭐가 부족해서 가입이 안되는것인지 파악하기 쉽게 개선
-        // 클라이언트에서 유효성 검사를 잘해서 부족한 값이 없도록 최대한 촘촘하게 짜는 것이 우선
-        toast.error(res.detail[0].msg);
+        // TODO: logger 로그 저장할 수 있는 무언가를 찾기 (시간, 응답 내용 등...)
+        // TODO: 한번 쫙 테스트 toast error 내부 메시지가 빈 값인 경우 "고객센터 문의 .."로 수정하기
+        toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
       }
     } catch (error) {
       console.log('signup error - ', error);
