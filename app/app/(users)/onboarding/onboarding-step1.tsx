@@ -9,7 +9,8 @@ type Step1Props = {
 };
 
 function isHrPlatformName(platform: PlatformName): platform is HrPlatformName {
-  return platform !== 'jiwon' && platform !== 'custom';
+  // return platform !== 'jiwon' && platform !== 'custom';
+  return platform !== 'jiwon' && platform !== 'custom' && platform !== 'jumpit';
 }
 
 const hrPlatforms = (Object.keys(PLATFORM_CONFIG) as PlatformName[]).filter(isHrPlatformName);

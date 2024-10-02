@@ -17,9 +17,17 @@ export default function OnboardingStep3({
 }: Step3Props) {
   const [selectedPlatforms, setSelectedPlatforms] = useState<HrPlatformName[]>(additionalPlatforms);
 
+  // const allPlatforms = Object.keys(PLATFORM_CONFIG).filter(
+  //   (key): key is HrPlatformName =>
+  //     key !== 'jiwon' && key !== 'custom' && !loggedInPlatforms.includes(key as HrPlatformName)
+  // );
+
   const allPlatforms = Object.keys(PLATFORM_CONFIG).filter(
     (key): key is HrPlatformName =>
-      key !== 'jiwon' && key !== 'custom' && !loggedInPlatforms.includes(key as HrPlatformName)
+      key !== 'jiwon' &&
+      key !== 'custom' &&
+      key !== 'jumpit' &&
+      !loggedInPlatforms.includes(key as HrPlatformName)
   );
 
   const handleSelection = (platformId: HrPlatformName) => {
