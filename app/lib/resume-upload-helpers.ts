@@ -65,7 +65,9 @@ const uploadResume = async (formData: FormData, platforms: HrPlatformName[]) => 
         console.error(`Failed to upload resume for ${platforms[index]}:`, result.error);
         allSuccessful = false;
       } else if (result.detail) {
-        toast.error(`${result.detail[0].msg}`);
+        toast.error(
+          result.detail[0].msg || '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.'
+        );
         allSuccessful = false;
       }
     });
