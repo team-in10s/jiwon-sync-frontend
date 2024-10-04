@@ -43,7 +43,9 @@ export default function OriginalAccount({
       onConnectComplete(platform);
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(error.message);
+        toast.error(
+          error.message || '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.'
+        );
       }
     }
 
