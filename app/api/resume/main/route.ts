@@ -24,7 +24,6 @@ export async function POST(request: Request) {
   });
 
   const data = await res.json();
-  console.log('data? --------', data); // 성공 시, data 가 이렇게 { success: true, message: 'Main resume saved successfully' } 생김
 
   return Response.json(data);
 }

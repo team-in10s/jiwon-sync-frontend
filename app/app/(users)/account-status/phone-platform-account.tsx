@@ -3,7 +3,7 @@ import PlatformConnectButton from '../onboarding/platform-connect-button';
 import PlatformTerms from '../onboarding/platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
 import { getRequestId, submitAuthCode } from '../onboarding/actions';
-import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatus } from '@/app/lib/api';
 import toast from 'react-hot-toast';
 
 export default function PhonePlatformAccount({
@@ -55,7 +55,7 @@ export default function PhonePlatformAccount({
 
       // 3. 인증 코드 발송 결과 체크
       console.log('3. 인증 코드 발송 결과 체크');
-      const res2 = await getAuthCodeStatusTest(requestId);
+      const res2 = await getAuthCodeStatus(requestId);
       const { status } = res2;
 
       if (status === 'code_sent') {

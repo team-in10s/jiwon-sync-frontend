@@ -3,7 +3,7 @@ import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent } from '
 // import { connectOrigin } from '../onboarding/actions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { connectOriginTest } from '@/app/lib/api';
+import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 
 type Props = {
@@ -37,7 +37,7 @@ export default function OriginalAccount({
 
     // 로그인 api 호출
     try {
-      await connectOriginTest(platform, originalId, originalPw);
+      await connectOriginAccount(platform, originalId, originalPw);
       toast.success(`${platform} 로그인 성공!`);
       // 모달 닫기 && sse 호출
       onConnectComplete(platform);
