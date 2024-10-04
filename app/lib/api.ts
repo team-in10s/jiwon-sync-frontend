@@ -231,6 +231,43 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   return response.json();
 }
 
+export async function submitAuthCodeTest(requestId: string, code: string) {
+  const { credentials } = getUserAuth();
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const response = await fetch(`${baseUrl}/platform/auth/${requestId}/code`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify({
+      auth_code: code,
+      // code: code,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.');
+  }
+
+  const result = await response.json();
+  /**
+    {
+      "message": 'Server Error' or 'ID/PW incorrect',
+      "success": false
+    }
+  */
+
+  console.log('result? ===> ', result);
+
+  if (!result.success) {
+    // throw new Error(formMessageConnectOrigin(result.message));
+    throw new Error('인증에 실패했습니다. 인증 코드를 다시 입력해주세요.');
+  }
+
+  return result;
+}
+
 export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   let retries = 0;
 

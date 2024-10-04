@@ -1,10 +1,15 @@
 import { HrPlatformName } from '@/app/lib/constants';
-import { getRequestId, submitAuthCode } from './actions';
+import { getRequestId } from './actions';
 import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatus } from '@/app/lib/api';
+import {
+  connectPlatform,
+  connectPlatformByDesktop,
+  getAuthCodeStatus,
+  submitAuthCodeTest,
+} from '@/app/lib/api';
 import PlatformConnectButton from './platform-connect-button';
 
 export default function PhonePlatform({
@@ -175,16 +180,18 @@ export default function PhonePlatform({
               className="mt-10 w-full rounded-full border border-primary px-4 py-2 text-sm"
               onClick={async () => {
                 if (!verifyCode.trim() || verifyCode.trim() === '') {
-                  alert('인증 코드를 입력하세요');
+                  toast.error('인증 코드를 입력하세요.');
                   return;
                 }
 
+                showLoadingIndicator(true);
                 // 인증 코드 입력 후 계정 생성 요청
                 try {
                   const requestId = localStorage.getItem('rq') || '';
 
                   // db에 인증 코드 저장
-                  await submitAuthCode(requestId, verifyCode);
+                  // await submitAuthCode(requestId, verifyCode);
+                  await submitAuthCodeTest(requestId, verifyCode);
 
                   // input 비우기
                   setVerifyCode('');
@@ -197,6 +204,7 @@ export default function PhonePlatform({
                     toast.error(`인증 코드를 저장하는 도중 에러가 발생했습니다. ${error.message}`);
                   }
                 }
+                showLoadingIndicator(false);
               }}
             >
               계정 생성하기
