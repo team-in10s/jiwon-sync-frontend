@@ -305,6 +305,8 @@ export async function connectOriginTest(platform: HrPlatformName, id: string, pw
       platform_pw: pw,
     }),
   });
+  console.log('response? ', response);
+
   const result = await response.json(); //  { message: "ID/PW incorrect", success: false }
 
   if (!result.success) {
