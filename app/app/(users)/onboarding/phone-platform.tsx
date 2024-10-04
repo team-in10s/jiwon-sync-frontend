@@ -4,7 +4,7 @@ import toast from 'react-hot-toast';
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from 'react';
 import PlatformTerms from './platform-terms';
 import { getUserAuth } from '@/app/lib/client-auth';
-import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatusTest } from '@/app/lib/api';
+import { connectPlatform, connectPlatformByDesktop, getAuthCodeStatus } from '@/app/lib/api';
 import PlatformConnectButton from './platform-connect-button';
 
 export default function PhonePlatform({
@@ -90,7 +90,7 @@ export default function PhonePlatform({
       // 3. 인증 코드 발송 결과 체크
       console.log('3. 인증 코드 발송 결과 체크');
 
-      const res2 = await getAuthCodeStatusTest(requestId);
+      const res2 = await getAuthCodeStatus(requestId);
       console.log('-- ', res2);
       const { status } = res2;
 

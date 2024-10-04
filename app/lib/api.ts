@@ -231,7 +231,7 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   return response.json();
 }
 
-export async function getAuthCodeStatusTest(requestId: string, maxRetries = 13) {
+export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   let retries = 0;
 
   while (retries < maxRetries) {
@@ -266,7 +266,7 @@ export async function getAuthCodeStatusTest(requestId: string, maxRetries = 13) 
 
       await new Promise((resolve) => setTimeout(resolve, 2000));
     } catch (error) {
-      console.error('Error in getAuthCodeStatusTest:', error);
+      console.error('Error in getAuthCodeStatus:', error);
 
       if (error instanceof Error) {
         throw error;
