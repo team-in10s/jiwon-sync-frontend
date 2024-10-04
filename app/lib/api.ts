@@ -283,10 +283,10 @@ export async function getAuthCodeStatusTest(requestId: string, maxRetries = 13) 
 const formMessageConnectOrigin = (msg?: string) => {
   if (msg === 'ID/PW incorrect') return '아이디 또는 비밀번호를 다시 확인해 주세요.';
   if (msg === 'Server Error') return '로그인에 실패했어요. 잠시 후 다시 시도해 주세요.';
-  return '알 수 없는 오류입니다. 카카오톡 고객센터로 문의해 주세요.';
+  return '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.';
 };
 
-export async function connectOriginTest(platform: HrPlatformName, id: string, pw: string) {
+export async function connectOriginAccount(platform: HrPlatformName, id: string, pw: string) {
   const { credentials } = getUserAuth();
 
   if (!credentials) {
@@ -305,10 +305,15 @@ export async function connectOriginTest(platform: HrPlatformName, id: string, pw
       platform_pw: pw,
     }),
   });
+
+  if (!response.ok) {
+    throw new Error(formMessageConnectOrigin());
+  }
+
   const result = await response.json(); //  { message: "ID/PW incorrect", success: false }
 
   if (!result.success) {
-    throw new Error(`${formMessageConnectOrigin(result.message)}`);
+    throw new Error(formMessageConnectOrigin(result.message));
   }
 
   return result; // {success: 'true'}
