@@ -22,7 +22,7 @@ export async function GET(request: Request) {
   });
 
   const data = await res.json();
-  console.log('data? --------', data);
+  // console.log('data? --------', data);
   // 성공시, data? -------- [ { platform: 'jumpit', status: 'completed' } ]
   // TODO 응답값 타입 잡기
 
