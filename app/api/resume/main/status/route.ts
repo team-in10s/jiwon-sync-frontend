@@ -21,13 +21,14 @@ export async function GET(request: Request) {
     },
   });
   const data = await res.json();
-  console.log('data? --------', data);
+
   // TODO 응답값 타입 잡기
   /**
    성공 시 응답값
    data? -------- {
-        processing: false
-    }
+     processing: false,
+     resumeJson: '{"user_id": "2f71824b-c555-44df-b228-12485de1acdd"}'
+   }
 
    */
 
