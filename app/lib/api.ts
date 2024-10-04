@@ -258,8 +258,6 @@ export async function submitAuthCodeTest(requestId: string, code: string) {
     }
   */
 
-  console.log('result? ===> ', result);
-
   if (!result.success) {
     // throw new Error(formMessageConnectOrigin(result.message));
     throw new Error('인증에 실패했습니다. 인증 코드를 다시 입력해주세요.');
