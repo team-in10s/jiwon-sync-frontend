@@ -48,8 +48,6 @@ export default function BottomNav() {
     };
   }, [pathname]);
 
-  console.log('showOnlyLogoutButton? ', showOnlyLogoutButton);
-
   if (showOnlyLogoutButton) {
     return (
       <nav className="fixed inset-x-0 bottom-0 flex justify-center border-t border-gray-700 bg-secondary py-3 text-white shadow-md md:hidden">
