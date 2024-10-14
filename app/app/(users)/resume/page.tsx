@@ -44,7 +44,7 @@ export default function ResumePage() {
 
   return (
     <div className="flex min-h-screen flex-col items-center md:px-12 lg:px-24">
-      <section className="mt-20 flex w-full flex-col gap-4 md:flex-row">
+      <section className="mb-4 mt-2 flex w-full flex-col gap-4 md:flex-row">
         <Link
           href="/app/account-status"
           className="rounded-lg bg-primary/90 p-4 text-black underline-offset-2 hover:underline"
@@ -55,13 +55,16 @@ export default function ResumePage() {
       </section>
 
       {tallyUrl ? (
-        <iframe
-          src={tallyUrl}
-          width="100"
-          height="100"
-          className="h-dvh w-dvw"
-          title="이력서 관리 랜딩페이지"
-        ></iframe>
+        <div className="relative h-[60svh] w-full md:h-[70svh] lg:h-[80svh]">
+          <iframe
+            src={tallyUrl}
+            width="100"
+            height="100"
+            // className="h-dvh w-dvw"
+            className="size-full"
+            title="이력서 관리 랜딩페이지"
+          ></iframe>
+        </div>
       ) : (
         // 기존 정적 URL (주석 처리)
         // <iframe
