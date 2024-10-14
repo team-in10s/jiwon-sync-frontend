@@ -3,6 +3,7 @@
 import { ReactNode } from 'react';
 import NavLinks from '../(users)/components/nav-links';
 import MainLogoLink from '../components/main-logo-link';
+import BottomNav from '../(users)/components/bottom-nav';
 
 export default function FaqLayout({ children }: { children: ReactNode }) {
   return (
@@ -16,6 +17,10 @@ export default function FaqLayout({ children }: { children: ReactNode }) {
       </header>
 
       <main className="min-h-screen bg-secondary px-6 py-20 text-white">{children}</main>
+
+      <div className="md:hidden">
+        <BottomNav />
+      </div>
     </>
   );
 }

@@ -43,7 +43,7 @@ const Modal = ({ isOpen, onClose, children, title, theme }: ModalProps) => {
       role="dialog"
     >
       <div
-        className={`relative w-2/3 rounded-lg p-6 shadow-lg lg:w-1/3 ${theme ? 'bg-gray-700 text-white' : 'bg-white'}`}
+        className={`relative w-3/4 rounded-lg p-6 shadow-lg md:w-2/3 lg:w-1/3 ${theme ? 'bg-gray-700 text-white' : 'bg-white'}`}
       >
         <div className="mb-4 flex items-center justify-between">
           {title && <h2 className="text-lg font-bold md:text-xl">{title}</h2>}

@@ -107,7 +107,7 @@ export default function OriginalAccount({
         </Link>
         <button
           onClick={onNextStep}
-          className="btn-gradient w-1/2 rounded-full py-2 font-semibold disabled:opacity-50"
+          className="btn-gradient w-2/3 rounded-full py-2 text-sm font-semibold disabled:opacity-50 md:w-1/2 md:text-base"
         >
           3초 만에 부계정 생성
         </button>

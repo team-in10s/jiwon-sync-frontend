@@ -61,7 +61,9 @@ export default function OnboardingStep4({ selectedPlatforms, onNext, onPrevious 
             platforms={sortedPlatforms}
             currentPlatformIndex={currentPlatformIndex}
           />
-          <p className="text-base md:text-lg">필요한 약관 동의와, 전화번호 인증을 진행해주세요.</p>
+          <p className="text-sm md:text-base lg:text-lg">
+            필요한 약관 동의와, 전화번호 인증을 진행해주세요.
+          </p>
         </div>
 
         {/* body content */}
