@@ -209,18 +209,21 @@ export default function OnboardingStep5({
 
     if (currentTab === '플랫폼 연결') {
       if (!selectedPlatform) {
+        setIsLoading(false);
         toast.error('플랫폼을 선택하세요.');
         return;
       }
       success = await uploadResumeByPlatform(selectedPlatform, allPlatforms);
     } else if (currentTab === '이력서 링크') {
       if (!resumeUrl) {
+        setIsLoading(false);
         toast.error('링크를 입력하세요.');
         return;
       }
       success = await uploadResumeByLink(resumeUrl, allPlatforms);
     } else if (currentTab === '파일 업로드') {
       if (!resumeFile) {
+        setIsLoading(false);
         toast.error('파일을 선택하세요.');
         return;
       }
