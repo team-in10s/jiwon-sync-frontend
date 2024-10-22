@@ -21,8 +21,8 @@ export default function LandingNavbar() {
   return (
     <nav
       className={`fixed inset-x-0 top-0 z-10 transition-colors duration-300 ${
-        isScrolled ? 'bg-white/35' : 'bg-transparent'
-      } backdrop-blur-sm`}
+        isScrolled ? 'sm:bg-white/35' : 'sm:bg-transparent'
+      } border-b border-gray-300 bg-white backdrop-blur-sm sm:border-none`}
     >
       <div className="mx-auto max-w-5xl px-8">
         <div className="flex h-16 justify-between">
