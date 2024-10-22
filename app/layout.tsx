@@ -6,6 +6,19 @@ import Script from 'next/script';
 
 import './globals.css';
 
+import localFont from 'next/font/local';
+
+const localFonts = localFont({
+  src: [
+    { path: '../public/fonts/NanumSquareNeoTTF-aLt.woff2', weight: '300', style: 'light' },
+    { path: '../public/fonts/NanumSquareNeoTTF-bRg.woff2', weight: '400', style: 'regular' },
+    { path: '../public/fonts/NanumSquareNeoTTF-cBd.woff2', weight: '500', style: 'bold' },
+    { path: '../public/fonts/NanumSquareNeoTTF-dEb.woff2', weight: '600', style: 'extrabold' },
+    { path: '../public/fonts/NanumSquareNeoTTF-eHv.woff2', weight: '700', style: 'heavy' },
+  ],
+  variable: '--font-myFont',
+});
+
 export const metadata: Metadata = {
   title: '지원전에 - 커리어에 경쟁력을 더하다',
   description: '지원전에 - 커리어에 경쟁력을 더하다',
@@ -13,7 +26,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={localFonts.variable}>
       <head>
         {/* Clarity Script */}
         <Script id="microsoft-clarity" strategy="afterInteractive">
