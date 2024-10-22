@@ -1,6 +1,6 @@
 export default function AppFooter() {
   return (
-    <footer className="bg-gray-800 py-10 text-center">
+    <footer className="bg-gray-02 py-24 text-center">
       <div className="container mx-auto px-4">
         <p className="text-gray-300">© 2024 지원전에 Sync. All rights reserved.</p>
         <div className="mt-4 space-x-4">
