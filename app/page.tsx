@@ -23,15 +23,15 @@ export default function Home() {
       {/* Main content - Full viewport section with new layout */}
       <main className="flex h-screen items-center justify-center bg-gray-50 pt-16">
         <div className="absolute inset-0 overflow-hidden">
-          <div className="absolute -right-24 top-0 size-96 rounded-full bg-[#2DBDDA]/20 blur-3xl lg:-right-44 lg:h-[40vw] lg:w-[60vw] lg:blur-[120px]" />
-          <div className="absolute -left-44 top-48 h-72 w-80 rounded-full bg-[#DA2D2D]/20 blur-xl lg:h-[30vw] lg:w-[40vw] lg:blur-[50px]" />
-          <div className="absolute bottom-0 left-1/2 size-16 -translate-x-1/2 rounded-full bg-[#5B2DDA]/30 blur-3xl lg:-bottom-40 lg:size-[20vw] lg:blur-[100px]" />
+          <div className="absolute -right-24 -top-20 size-[30rem] rounded-full bg-[#2DBDDA]/25 blur-[60px] md:size-[34rem] lg:-right-44 lg:-top-52 lg:size-[48rem]" />
+          <div className="absolute -left-36 top-96 size-96 rounded-full bg-[#DA2D2D]/20 blur-[50px] md:top-60 lg:-left-72 lg:top-48 lg:size-[36rem]" />
+          <div className="absolute -bottom-60 left-1/2 size-[25rem] -translate-x-1/3 rounded-full bg-[#5B2DDA]/20 blur-[50px] lg:size-[28rem]" />
         </div>
 
         <div className="relative aspect-video w-full max-w-5xl overflow-hidden px-4">
           {/* Text content */}
           <div className="absolute left-8 top-14">
-            <h1 className="mb-4 text-3xl font-semibold text-gray-02 sm:text-4xl md:text-5xl md:leading-tight lg:text-6xl lg:leading-snug">
+            <h1 className="mb-4 text-3xl font-semibold text-gray-02 sm:text-4xl md:text-[3.2rem] md:leading-tight lg:text-6xl lg:leading-snug">
               커리어를 한 곳에서 관리
               <br />
               간편하고 빠르게
@@ -44,7 +44,7 @@ export default function Home() {
           </div>
 
           {/* Image placeholder */}
-          <div className="absolute -right-3 bottom-24 flex h-2/3 w-3/4 items-center justify-center">
+          <div className="absolute -right-3 bottom-[13%] flex h-2/3 w-[70%] items-center justify-center lg:bottom-24 lg:w-3/4">
             <Image
               src="/assets/new-landing/orbit.png"
               alt="지원전에"
