@@ -6,8 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import LandingNavbar from './components/landing-navbar';
 import AppFooter from './app/components/app-footer';
-import GooglePlayButton from './app/components/google-play-button';
-import AppleStoreButton from './app/components/apple-store-button';
+import LandingDownloadAppButton from './components/landing-download-app-button';
 
 export default function Home() {
   // redirect('https://jiwon-sync.in10s.co/');
@@ -31,7 +30,7 @@ export default function Home() {
 
         <div className="relative z-10 aspect-video h-1/2 w-full max-w-5xl overflow-hidden px-4 sm:h-auto">
           {/* Text content */}
-          <div className="sm:absolute sm:left-8 sm:top-14">
+          <div className="z-10 sm:absolute sm:left-8 sm:top-14">
             <h1 className="mb-4 text-center text-2xl font-semibold text-gray-02 sm:text-left sm:text-4xl md:text-[3rem] md:leading-tight lg:text-[4rem] lg:leading-snug">
               커리어를 한 곳에서 관리
               <br />
@@ -39,18 +38,7 @@ export default function Home() {
             </h1>
 
             {/* button */}
-            <div>
-              <div className="hidden space-x-6 sm:flex">
-                <AppleStoreButton />
-                <GooglePlayButton />
-              </div>
-
-              <div className="text-center sm:hidden">
-                <button className="rounded-md bg-purple-00 px-3 py-2 text-sm font-medium text-white">
-                  다운로드
-                </button>
-              </div>
-            </div>
+            <LandingDownloadAppButton />
           </div>
 
           {/* Image placeholder */}
@@ -236,10 +224,8 @@ export default function Home() {
             지금부터 편하게 하세요.
           </p>
 
-          <div className="flex justify-center space-x-6">
-            <AppleStoreButton />
-            <GooglePlayButton />
-          </div>
+          {/* button */}
+          <LandingDownloadAppButton center />
         </div>
       </section>
 
