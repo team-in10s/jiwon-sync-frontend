@@ -9,6 +9,10 @@
   --text-color: #ffffff;
 }
 
+body {
+  font-family: var(--font-myFont), sans-serif;
+}
+
 @layer utilities {
   .text-gradient {
     background: linear-gradient(135deg, var(--primary-color), #00ccff);

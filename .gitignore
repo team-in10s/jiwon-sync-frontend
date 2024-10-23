@@ -50,3 +50,6 @@ next-env.d.ts
 .idea
 ./file-change-for-claude.sh
 cloude-file
+
+# cursor rules
+.cursorrules
