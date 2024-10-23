@@ -20,7 +20,7 @@ export default function LandingNavbar() {
 
   return (
     <nav
-      className={`fixed inset-x-0 top-0 z-10 transition-colors duration-300 ${
+      className={`fixed inset-x-0 top-0 z-20 transition-colors duration-300 ${
         isScrolled ? 'sm:bg-white/35' : 'sm:bg-transparent'
       } border-b border-gray-300 bg-white backdrop-blur-sm sm:border-none`}
     >
@@ -32,21 +32,21 @@ export default function LandingNavbar() {
                 src="/assets/new-landing/jiwon-logo-new.png"
                 alt="Logo"
                 priority
-                width={130}
-                height={20}
+                width={146}
+                height={36}
               />
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <Link
-              href="/about"
-              className="rounded-md px-3 py-2 text-sm font-bold text-gray-02 hover:text-gray-900"
+            <button
+              // onClick={handleModalOpen} // Function to handle modal opening
+              className="rounded-md bg-purple-00 px-3 py-2 text-sm font-medium text-white sm:bg-transparent sm:font-semibold sm:text-gray-02 sm:hover:text-gray-900"
             >
               다운로드
-            </Link>
+            </button>
             <Link
-              href="/signin"
-              className="rounded-md bg-purple-00 px-4 py-[0.63rem] text-sm font-semibold text-white"
+              href="/app/auth/signin"
+              className="hidden rounded-md bg-purple-00 px-4 py-[0.63rem] text-sm font-semibold text-white sm:block"
             >
               이력서 관리 시작하기
             </Link>
