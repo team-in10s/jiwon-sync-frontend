@@ -45,7 +45,7 @@ const config: Config = {
         // Context
         'context-border': '#E3DDF3',
         'context-bg': '#FFF0F1',
-        'context-placeholder': '#D6CFC5',
+        'context-placeholder': '#D6CCF5',
         'context-error': '#FF2828',
         'context-success': '#0FC478',
         'context-link': '#182EF7',
