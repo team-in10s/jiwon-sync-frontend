@@ -1,4 +1,15 @@
+'use client';
+
+import { usePathname } from 'next/navigation';
+
 export default function AppFooter() {
+  const pathname = usePathname();
+
+  // Check if the current path is '/app/auth/signin'
+  if (pathname === '/app/auth/signin') {
+    return null; // Do not render the footer on the signin page
+  }
+
   return (
     <footer className="bg-gray-02 py-9 text-center sm:py-24">
       <div className="container mx-auto px-4">
