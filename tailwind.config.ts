@@ -65,6 +65,15 @@ const config: Config = {
         'dimmed-blue20': 'rgba(16, 18, 49, 0.2)',
         'dimmed-blue10': 'rgba(16, 18, 49, 0.1)',
       },
+      keyframes: {
+        blink: {
+          '0%, 100%': { opacity: '0.2' },
+          '50%': { opacity: '1' },
+        },
+      },
+      animation: {
+        blink: 'blink 1.5s infinite',
+      },
     },
   },
   plugins: [],
