@@ -36,7 +36,7 @@ export default function LandingDownloadAppButton({ center = false }: { center?: 
       <div className="text-center sm:hidden">
         <button
           onClick={handleDownloadClick}
-          className="rounded-md bg-purple-00 px-3 py-2 text-sm font-medium text-white"
+          className="rounded-md bg-purple-02 px-3 py-2 text-sm font-medium text-white"
         >
           다운로드
         </button>

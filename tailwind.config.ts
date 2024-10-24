@@ -21,34 +21,33 @@ const config: Config = {
         'gray-03': '#4F4F51',
         'gray-04': '#7B7B7C',
         'gray-05': '#A7A7A8',
-        'gray-06': '#A7A7A8',
+        'gray-06': '#d3d3d3',
         'gray-07': '#E9E9E9',
         'gray-08': '#F4F4F4',
         'gray-09': '#FAFAFA',
         'gray-white': '#FFFFFF',
 
         // Iris Purple
-        'purple-00': '#5B2DDA',
-        'purple-01': '#F9F7FF',
-        'purple-02': '#DDD1FE',
+        'purple-01': '#4C1ECD',
+        'purple-02': '#6634F3',
         'purple-03': '#8A64F5',
-        'purple-04': '#6634F3',
-        'purple-05': '#4C1ECD',
+        'purple-04': '#DDD1FE',
+        'purple-05': '#F9F7FF',
 
         // Milky Sky
-        'sky-01': '#E2F7F3',
-        'sky-02': '#CCE8F0',
+        'sky-01': '#1D93B5',
+        'sky-02': '#4DB2CF',
         'sky-03': '#81CEE4',
-        'sky-04': '#4DB2CF',
-        'sky-05': '#1D93B5',
+        'sky-04': '#CCE8F0',
+        'sky-05': '#E2EFF3',
 
         // Context
         'context-border': '#E3DDF3',
-        'context-bg': '#FFF0F1',
+        'context-bg': '#EFF0F1',
         'context-placeholder': '#D6CCF5',
         'context-error': '#FF2828',
         'context-success': '#0FC478',
-        'context-link': '#182EF7',
+        'context-link': '#1882FF',
         'context-notice': '#FA3B83',
 
         // Dimmed
