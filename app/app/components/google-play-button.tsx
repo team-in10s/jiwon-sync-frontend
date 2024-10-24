@@ -24,7 +24,7 @@ export default function GooglePlayButton() {
   return (
     <button
       onClick={handleButtonClick}
-      className="flex items-center rounded-lg bg-dimmed-70 px-4 py-2 font-medium text-white transition duration-300"
+      className="flex items-center rounded-lg bg-dimmed-70 px-4 py-2 font-medium text-white transition duration-300 hover:bg-gray-800"
     >
       <Image
         src="/assets/new-landing/googleplay.png"
