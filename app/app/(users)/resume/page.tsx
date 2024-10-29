@@ -89,7 +89,7 @@ export default function ResumePage() {
           <div className="mx-auto w-full max-w-lg text-center">
             <div className="card mb-6 p-6">
               <p className="mb-4 text-xl font-semibold">이력서 동기화가 진행 중입니다.</p>
-              <p className="mb-2">24시간 이내에 완료될 예정입니다.</p>
+              <p className="mb-2">3영업일 이내에 완료될 예정입니다.</p>
               <p className="mb-4">완료 후 문자로 알림이 발송됩니다.</p>
             </div>
             <p className="mb-3 text-sm text-gray-400">
