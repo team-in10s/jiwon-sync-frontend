@@ -73,7 +73,7 @@ const uploadResume = async (formData: FormData, platforms: HrPlatformName[]) => 
     });
 
     if (allSuccessful) {
-      toast.success('이력서 업로드 성공! 24시간 내 동기화 완료 됩니다.');
+      toast.success('이력서 업로드 성공! 3영업일 이내 순차적으로 동기화 됩니다.');
       return true;
     }
   } catch (error) {
