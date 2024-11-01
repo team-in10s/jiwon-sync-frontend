@@ -11,6 +11,7 @@ import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
 import { originalLoginFunction } from '../lib';
+import { useInputAutoScroll } from '@/app/hooks/use-input-auto-scroll';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const toIIFEString = <T extends (...args: any[]) => any>(fn: T, ...args: Parameters<T>): string => {
@@ -41,6 +42,8 @@ export default function OnboardingStep2({
   const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
   // const [isLoading, setIsLoading] = useState(false);
   const [originalId, setOriginalId] = useState('');
+
+  useInputAutoScroll();
 
   // NOTE: react native
   const postMessage = MessageChannel.usePostMessage();
