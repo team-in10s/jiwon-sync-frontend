@@ -8,6 +8,21 @@ import toast from 'react-hot-toast';
 // import { connectOrigin } from './actions';
 import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
+import MessageChannel from 'jiwon-message-channel';
+import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
+import { originalLoginFunction } from '../lib';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const toIIFEString = <T extends (...args: any[]) => any>(fn: T, ...args: Parameters<T>): string => {
+  // Convert function to string
+  const fnString = fn.toString();
+
+  // Convert arguments to JSON string to embed in the function call
+  const argsString = args.map((arg) => JSON.stringify(arg)).join(', ');
+
+  // Wrap function and call it with arguments as an IIFE
+  return `(${fnString})(${argsString})`;
+};
 
 type Step2Props = {
   onNext: () => void;
@@ -26,7 +41,9 @@ export default function OnboardingStep2({
   const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
   // const [isLoading, setIsLoading] = useState(false);
   const [originalId, setOriginalId] = useState('');
-  const [originalPw, setOriginalPw] = useState('');
+
+  // NOTE: react native
+  const postMessage = MessageChannel.usePostMessage();
 
   // NOTE: 'saramin'을 마지막으로 정렬하는 함수
   const sortPlatforms = (platforms: HrPlatformName[]) => {
@@ -54,10 +71,67 @@ export default function OnboardingStep2({
   const handleOriginalLogin = async () => {
     if (!originalId.trim() || !originalPw.trim()) return;
 
+    const currentPlatform = sortedPlatforms[currentPlatformIndex];
+
+    // 모바일에서 실행
+    // 10.30 인크루트 부터 테스트
+    if (MessageChannel.isEnabled()) {
+      // alert(`this is mobile. ${ORIGINAL_LOGIN_JOB_ID[currentPlatform]!}`);
+
+      // originalLoginFunction('jsync1qn52g', 'G^Xz14!7Kl!j~!~', currentPlatform);
+      alert(
+        toIIFEString(
+          originalLoginFunction,
+          'jsync1qn52g',
+          'G^Xz14!7Kl!j~!~',
+          currentPlatform,
+          LOGIN_SCRIPT_URL[currentPlatform]!
+        )
+      );
+
+      postMessage({
+        isAsync: true,
+        message: {
+          taskId: ORIGINAL_LOGIN_JOB_ID[currentPlatform]!,
+          type: 'executeScript',
+          payload: {
+            url: LOGIN_PAGE_URLS[currentPlatform]!,
+            keepAlive: false,
+            // script: MessageChannel.toIIFEString(wrappedFunction),
+            script: toIIFEString(
+              originalLoginFunction,
+              'jsync1qn52g',
+              'G^Xz14!7Kl!j~!~',
+              currentPlatform,
+              LOGIN_SCRIPT_URL[currentPlatform]!
+            ),
+          },
+        },
+      })
+        .then((result) => {
+          alert('result: ' + JSON.stringify(result));
+
+          /**
+           {
+            type: "scrapResult",
+            payload: {
+              success: 'true',
+              message: 'completed'
+            }
+           }
+           */
+        })
+        .catch((error) => {
+          alert('error: ' + JSON.stringify(error));
+        });
+
+      return;
+    }
+
+    // 모바일 외에..
     setShowsLoadingIndicator(true);
 
     try {
-      const currentPlatform = sortedPlatforms[currentPlatformIndex];
       await connectOriginAccount(currentPlatform, originalId, originalPw);
 
       toast.success(`${currentPlatformDisplay} 로그인 성공!`);
@@ -151,6 +225,7 @@ export default function OnboardingStep2({
               onKeyDown={handleKeyDown}
               placeholder="비밀번호를 입력하세요."
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
+              data-scroll
             />
             <p className="text-sm text-gray-300">
               * 비밀번호 규칙: {getPasswordGuide(sortedPlatforms[currentPlatformIndex])}
