@@ -42,6 +42,7 @@ export default function OnboardingStep2({
   const [currentPlatformIndex, setCurrentPlatformIndex] = useState(0);
   // const [isLoading, setIsLoading] = useState(false);
   const [originalId, setOriginalId] = useState('');
+  const [originalPw, setOriginalPw] = useState('');
 
   useInputAutoScroll();
 
