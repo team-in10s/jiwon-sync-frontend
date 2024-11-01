@@ -2,7 +2,7 @@ import { HrPlatformName } from '@/app/lib/constants';
 
 // 기존 아이디로 로그인 시도하는 작업할때 사용할 작업아이디
 // 별다른 뜻은 없음. 그저 구분 용
-const ORIGINAL_LOGIN_JOB_ID = {
+const ORIGINAL_LOGIN_JOB_ID: Partial<Record<HrPlatformName, number>> = {
   incruit: 1030,
   jobkorea: 1031,
   remember: 1032,
@@ -20,10 +20,12 @@ const SIGNUP_PAGE_URLS: Partial<Record<HrPlatformName, string>> = {
 };
 
 const LOGIN_PAGE_URLS: Partial<Record<HrPlatformName, string>> = {
-  incruit: 'https://edit.incruit.com/login/login.asp',
-  jobkorea: 'https://www.jobkorea.co.kr/Login/Login_Tot.asp',
+  // incruit: 'https://www.incruit.com/login/login.asp',
+  incruit: 'https://www.incruit.com/',
+  // jobkorea: 'https://www.jobkorea.co.kr/Login/Login_Tot.asp',
+  jobkorea: 'https://www.jobkorea.co.kr/',
   remember: 'https://career.rememberapp.co.kr/job/postings',
-  saramin: 'https://www.saramin.co.kr/zf_user/auth',
+  saramin: 'https://www.saramin.co.kr/zf_user/',
   wanted: 'https://www.wanted.co.kr',
 };
 
