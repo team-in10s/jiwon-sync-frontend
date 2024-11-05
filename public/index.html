@@ -232,6 +232,17 @@
           max-width: 100%;
         }
       }
+
+      @media (max-width: 768px) {
+        .footer-links {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        .footer-links a {
+          margin-bottom: 8px;
+        }
+      }
     </style>
     <!-- Clarity Code -->
     <script type="text/javascript">
@@ -550,7 +561,7 @@
     <footer class="bg-secondary-color py-8 text-center">
       <div class="container mx-auto px-4">
         <p>&copy; 2024 지원전에. All rights reserved.</p>
-        <div class="mt-4">
+        <div class="footer-links mt-4">
           <a
             href="https://www.in10s.co/jiwon-sync/terms"
             target="_blank"
@@ -571,6 +582,14 @@
             rel="noreferrer"
             class="hover:text-primary-color mx-2"
             >고객센터(카카오톡)</a
+          >
+          <!-- 모바일 기기에서만 보이는 링크 -->
+          <a
+            id="deleteAccountLink"
+            href="/app/delete-account"
+            class="hover:text-primary-color mx-2"
+            style="display: none"
+            >회원 탈퇴</a
           >
         </div>
       </div>
@@ -639,6 +658,18 @@
       document.addEventListener('DOMContentLoaded', function () {
         setupImageSlideshow('mainRevSlideshow', 2000); // 3초마다 전환, dot 없음
         setupImageSlideshow('usageSlideshow', 3500, true); // 5초마다 전환, dot 있음
+
+        // 푸터의 회원 탈퇴 링크 관련
+        const userAgent = navigator.userAgent;
+        const isMobileOrTabletDevice =
+          /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet|kindle|silk/i.test(
+            userAgent
+          );
+
+        if (isMobileOrTabletDevice) {
+          const deleteAccountLink = document.getElementById('deleteAccountLink');
+          deleteAccountLink.style.display = 'inline';
+        }
       });
 
       AOS.init({
