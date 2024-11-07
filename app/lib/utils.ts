@@ -42,8 +42,31 @@ export function validatePassword(password: string) {
 }
 
 export function validatePhoneNumber(phoneNumber: string) {
-  const re = /^01([0|1|6|7|8|9]?)-?([0-9]{3,4})-?([0-9]{4})$/;
-  return re.test(phoneNumber);
+  const phonePattern = /^01[016789][1-9]\d{7,8}$/;
+  return phonePattern.test(phoneNumber);
+}
+
+export function validateBirthdate(birthdate: string): string | null {
+  const datePattern = /^\d{8}$/;
+  if (!datePattern.test(birthdate)) {
+    return '올바른 생년월일 형식이 아닙니다. (YYYYMMDD)';
+  }
+
+  const year = parseInt(birthdate.substring(0, 4), 10);
+  const month = parseInt(birthdate.substring(4, 6), 10) - 1; // Months are 0-based in JavaScript
+  const day = parseInt(birthdate.substring(6, 8), 10);
+
+  const date = new Date(year, month, day);
+  const now = new Date();
+
+  if (date > now) {
+    return '미래의 날짜는 입력할 수 없습니다.';
+  }
+  if (year < 1900) {
+    return '1900년 이전의 날짜는 입력할 수 없습니다.';
+  }
+
+  return null;
 }
 
 // 기본적인 URL 유효성 검사를 위한 정규 표현식
