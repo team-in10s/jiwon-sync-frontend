@@ -7,35 +7,12 @@ import { signupApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import AuthPrompt from '../../components/auth-prompt';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { validateEmail, validatePhoneNumber } from '@/app/lib/utils';
+import { validateEmail, validatePhoneNumber, validateBirthdate } from '@/app/lib/utils';
 import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import { ERROR_MESSAGE } from '@/app/lib/constants';
 import PasswordCriteria from './password-criteria';
 import useMetaPixel from '@/app/hooks/use-meta-pixel';
-
-function validateBirthdate(birthdate: string): string | null {
-  const datePattern = /^\d{8}$/;
-  if (!datePattern.test(birthdate)) {
-    return '올바른 생년월일 형식이 아닙니다. (YYYYMMDD)';
-  }
-
-  const year = parseInt(birthdate.substring(0, 4), 10);
-  const month = parseInt(birthdate.substring(4, 6), 10) - 1; // Months are 0-based in JavaScript
-  const day = parseInt(birthdate.substring(6, 8), 10);
-
-  const date = new Date(year, month, day);
-  const now = new Date();
-
-  if (date > now) {
-    return '미래의 날짜는 입력할 수 없습니다.';
-  }
-  if (year < 1900) {
-    return '1900년 이전의 날짜는 입력할 수 없습니다.';
-  }
-
-  return null;
-}
 
 type Inputs = {
   name: string;
@@ -136,7 +113,6 @@ export default function SignupForm() {
     const email = watch('email');
 
     if (!validateEmail(email)) {
-      // alert('이메일 형식을 다시 확인해 주세요.'); // TODO: 토스트로 변경
       toast.error('이메일 형식을 다시 확인해 주세요.');
       return;
     }
@@ -168,7 +144,6 @@ export default function SignupForm() {
     const telNo = watch('telNo');
 
     if (!validatePhoneNumber(telNo)) {
-      // alert('전화번호 형식을 다시 확인해 주세요.'); // TODO: 토스트로 변경
       toast.error('전화번호 형식을 다시 확인해 주세요.');
       return;
     }
