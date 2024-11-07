@@ -82,7 +82,11 @@ export default function SignupForm() {
       } else {
         // TODO: logger 로그 저장할 수 있는 무언가를 찾기 (시간, 응답 내용 등...)
         // TODO: 한번 쫙 테스트 toast error 내부 메시지가 빈 값인 경우 "고객센터 문의 .."로 수정하기
-        toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
+        if (res.detail[0].msg) {
+          toast.error(res.detail[0].msg);
+        } else {
+          toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
+        }
       }
     } catch (error) {
       console.log('signup error - ', error);
