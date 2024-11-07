@@ -14,6 +14,29 @@ import { ERROR_MESSAGE } from '@/app/lib/constants';
 import PasswordCriteria from './password-criteria';
 import useMetaPixel from '@/app/hooks/use-meta-pixel';
 
+function validateBirthdate(birthdate: string): string | null {
+  const datePattern = /^\d{8}$/;
+  if (!datePattern.test(birthdate)) {
+    return '올바른 생년월일 형식이 아닙니다. (YYYYMMDD)';
+  }
+
+  const year = parseInt(birthdate.substring(0, 4), 10);
+  const month = parseInt(birthdate.substring(4, 6), 10) - 1; // Months are 0-based in JavaScript
+  const day = parseInt(birthdate.substring(6, 8), 10);
+
+  const date = new Date(year, month, day);
+  const now = new Date();
+
+  if (date > now) {
+    return '미래의 날짜는 입력할 수 없습니다.';
+  }
+  if (year < 1900) {
+    return '1900년 이전의 날짜는 입력할 수 없습니다.';
+  }
+
+  return null;
+}
+
 type Inputs = {
   name: string;
   email: string;
@@ -57,6 +80,13 @@ export default function SignupForm() {
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     if (!emailChecked || !telNoChecked) {
       toast.error('이메일 및 전화번호 중복 확인을 해주세요.');
+      return;
+    }
+
+    // 생년월일 검사
+    const birthDateError = validateBirthdate(data.birthDate);
+    if (birthDateError) {
+      toast.error(birthDateError);
       return;
     }
 
