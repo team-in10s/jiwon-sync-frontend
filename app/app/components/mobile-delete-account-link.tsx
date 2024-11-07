@@ -9,7 +9,9 @@ export default function MobileDeleteAccountLink() {
   useEffect(() => {
     const userAgent = navigator.userAgent;
     const isMobileOrTabletDevice =
-      /android|iphone|ipad|ipod|blackberry|iemobile|opera mini|tablet|kindle|silk/i.test(userAgent);
+      /android|iphone|iPhone|ipad|iPad|ipod|iPod|blackberry|iemobile|opera mini|tablet|kindle|silk/i.test(
+        userAgent
+      ) || navigator.maxTouchPoints > 1;
 
     setIsMobileOrTablet(isMobileOrTabletDevice);
   }, []);
