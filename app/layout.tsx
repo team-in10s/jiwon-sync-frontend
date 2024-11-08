@@ -30,6 +30,17 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       />
       <html lang="en">
         <head>
+          {/* Open Graph Meta Tags */}
+          <meta
+            property="og:title"
+            content="지원전에 - 효율적인 채용 플랫폼 통합 관리 | 스카우트 제안"
+          />
+          <meta
+            property="og:description"
+            content="여러 채용 사이트 이력서를 자동으로 동기화하여 시간을 절약하고, 한 곳에서 효율적으로 커리어를 관리합니다. 이어지는 스카우트 제안 관리로 더 많은 커리어 기회를 만나세요."
+          />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://jiwon-sync.in10s.co" />
           {/* Clarity Script */}
           <Script id="microsoft-clarity" strategy="afterInteractive">
             {`
