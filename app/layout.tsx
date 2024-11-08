@@ -8,8 +8,9 @@ import { HighlightInit } from '@highlight-run/next/client';
 import './globals.css';
 
 export const metadata: Metadata = {
-  title: '지원전에 - 커리어에 경쟁력을 더하다',
-  description: '지원전에 - 커리어에 경쟁력을 더하다',
+  title: '지원전에 - 효율적인 채용 플랫폼 통합 관리 | 스카우트 제안',
+  description:
+    '여러 채용 사이트 이력서를 자동으로 동기화하여 시간을 절약하고, 한 곳에서 효율적으로 커리어를 관리합니다. 이어지는 스카우트 제안 관리로 더 많은 커리어 기회를 만나세요.',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
