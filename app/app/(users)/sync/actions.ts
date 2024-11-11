@@ -5,7 +5,7 @@ import { PlatformName } from '@/app/lib/constants';
 
 const apiUrl = process.env.API_BASE_URL;
 
-export async function connectP(platform: PlatformName) {
+export async function connectPlatformAction(platform: PlatformName) {
   const { credentials } = getServerAuth();
 
   const res = await fetch(`${apiUrl}/platform/connect/${platform}`, {
