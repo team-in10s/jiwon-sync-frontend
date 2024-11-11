@@ -4,7 +4,7 @@ import { PlatformName } from '@/app/lib/constants';
 import { PlatformConnectionStatus } from '../types';
 import Modal from '@/app/app/components/modal';
 import { useState } from 'react';
-import { connectP } from '../actions';
+import { connectPlatformAction } from '../actions';
 
 export default function PlatformConnectButton({
   status,
@@ -36,7 +36,7 @@ export default function PlatformConnectButton({
     closeModal();
 
     try {
-      const result = await connectP(platform);
+      const result = await connectPlatformAction(platform);
       console.log('Connection result:', result);
     } catch (error) {
       console.log('error // ', error);
@@ -51,7 +51,7 @@ export default function PlatformConnectButton({
   return (
     <>
       {tempStatus ? (
-        <span>연결중...(test)</span>
+        <span>연결중...</span>
       ) : (
         <div>
           {status}{' '}
