@@ -1,4 +1,5 @@
-import MobileDeleteAccountLink from './mobile-delete-account-link';
+import Link from 'next/link';
+// import MobileDeleteAccountLink from './mobile-delete-account-link';
 
 export default function AppFooter() {
   return (
@@ -30,7 +31,10 @@ export default function AppFooter() {
           >
             고객센터(카카오톡)
           </a>
-          <MobileDeleteAccountLink />
+          <Link href="/app/delete-account" className="text-gray-300 hover:text-white">
+            회원 탈퇴
+          </Link>
+          {/* <MobileDeleteAccountLink /> */}
         </div>
       </div>
     </footer>
