@@ -285,18 +285,35 @@ export default function SignupForm() {
 
         <label className="mb-4 block">
           <span className="text-white-700 mb-2 block">직무</span>
-          <select
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register('jobTitle', { required: true })}
-            onChange={handleJobTitleChange}
-          >
-            <option value="marketer">마케터</option>
-            <option value="pm">프로젝트 매니저</option>
-            <option value="developer">개발자</option>
-            <option value="operation">운영</option>
-            <option value="sales">영업</option>
-            <option value="other">기타</option>
-          </select>
+          <div className="relative">
+            <select
+              className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register('jobTitle', { required: true })}
+              onChange={handleJobTitleChange}
+            >
+              <option value="marketer">마케터</option>
+              <option value="pm">프로젝트 매니저</option>
+              <option value="developer">개발자</option>
+              <option value="operation">운영</option>
+              <option value="sales">영업</option>
+              <option value="other">기타</option>
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <svg
+                className="size-4 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+          </div>
         </label>
 
         {isOtherJobTitle && (
@@ -312,14 +329,31 @@ export default function SignupForm() {
 
         <label className="mb-4 block">
           <span className="text-white-700 mb-2 block">성별</span>
-          <select
-            className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
-            {...register('gender', { required: true })}
-          >
-            <option value="male">남성</option>
-            <option value="female">여성</option>
-            <option value="other">기타</option>
-          </select>
+          <div className="relative">
+            <select
+              className="w-full appearance-none rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
+              {...register('gender', { required: true })}
+            >
+              <option value="male">남성</option>
+              <option value="female">여성</option>
+              <option value="other">기타</option>
+            </select>
+            <span className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+              <svg
+                className="size-4 text-gray-400"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            </span>
+          </div>
         </label>
 
         <label className="mb-4 block">
