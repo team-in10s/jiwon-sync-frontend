@@ -26,6 +26,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           urlBlocklist: [],
         }}
         excludedHostnames={['localhost']} // skip localhost tracking
+        consoleMethodsToRecord={['warn', 'error']}
         debug
       />
       <html lang="en">
