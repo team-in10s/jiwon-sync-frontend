@@ -7,7 +7,7 @@ import { signupApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import AuthPrompt from '../../components/auth-prompt';
 import { ChangeEvent, useEffect, useState } from 'react';
-import { validateEmail, validatePhoneNumber } from '@/app/lib/utils';
+import { validateEmail, validatePhoneNumber, validateBirthdate } from '@/app/lib/utils';
 import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
 import PasswordCriteria from './password-criteria';
@@ -57,6 +57,13 @@ export default function SignupForm() {
       return;
     }
 
+    // 생년월일 검사
+    const birthDateError = validateBirthdate(data.birthDate);
+    if (birthDateError) {
+      toast.error(birthDateError);
+      return;
+    }
+
     const isPasswordValid = Object.values(passwordCriteria).every(Boolean);
     if (!isPasswordValid) {
       toast.error('비밀번호 조건을 모두 충족해야 합니다.');
@@ -96,7 +103,6 @@ export default function SignupForm() {
     const email = watch('email');
 
     if (!validateEmail(email)) {
-      // alert('이메일 형식을 다시 확인해 주세요.'); // TODO: 토스트로 변경
       toast.error('이메일 형식을 다시 확인해 주세요.');
       return;
     }
@@ -128,7 +134,6 @@ export default function SignupForm() {
     const telNo = watch('telNo');
 
     if (!validatePhoneNumber(telNo)) {
-      // alert('전화번호 형식을 다시 확인해 주세요.'); // TODO: 토스트로 변경
       toast.error('전화번호 형식을 다시 확인해 주세요.');
       return;
     }
