@@ -10,7 +10,6 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { validateEmail, validatePhoneNumber } from '@/app/lib/utils';
 import { getDuplicatedEmail, getDuplicatedTelNo } from '@/app/lib/api';
 import { toast } from 'react-hot-toast';
-import { ERROR_MESSAGE } from '@/app/lib/constants';
 import PasswordCriteria from './password-criteria';
 import useMetaPixel from '@/app/hooks/use-meta-pixel';
 
@@ -26,8 +25,6 @@ type Inputs = {
   birthDate: string;
 };
 
-// TODO: 더 작은 단위로 (input 단위) 재사용 컴포넌트 생성 뒤
-// 그것들을 조합하는 방식으로 SignupForm 컴포넌트 구성할것
 export default function SignupForm() {
   const router = useRouter();
   const [isOtherJobTitle, setIsOtherJobTitle] = useState(false);
@@ -69,24 +66,21 @@ export default function SignupForm() {
     try {
       const res = await signupApi(data);
 
-      // res.message -> 성공
-      // res.detail -> 실패 (뭐가 부족해서 가입이 안됨)
-
-      // false면 router.push ('')
-
-      if (res.message || (typeof res.detail === 'string' && res.detail.includes('mailslurp.mx'))) {
+      if ('message' in res) {
         handleMetaPixelEvent();
         toast.success('회원가입 성공!');
         router.push('/app/auth/signin');
         // router.push('/app/jiwon-download'); // TODO: 나중에 데스크탑 앱 배포하면 사용
       } else {
-        // TODO: logger 로그 저장할 수 있는 무언가를 찾기 (시간, 응답 내용 등...)
-        // TODO: 한번 쫙 테스트 toast error 내부 메시지가 빈 값인 경우 "고객센터 문의 .."로 수정하기
-        toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
+        if (res.detail[0].msg) {
+          toast.error(res.detail[0].msg);
+        } else {
+          toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
+        }
       }
     } catch (error) {
-      console.log('signup error - ', error);
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+      console.error('signup error - ', error);
+      toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');
     }
   };
 
@@ -120,7 +114,7 @@ export default function SignupForm() {
         setFocus('email');
       }
     } catch (error) {
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+      toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');
     } finally {
       setIsCheckingEmail(false);
     }
@@ -151,7 +145,7 @@ export default function SignupForm() {
         setFocus('telNo');
       }
     } catch (error) {
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+      toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');
     } finally {
       setIsCheckingTelNo(false);
     }
