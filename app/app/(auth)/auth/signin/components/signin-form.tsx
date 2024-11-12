@@ -4,9 +4,7 @@ import { useForm, SubmitHandler } from 'react-hook-form';
 import { getVirtualAvailability, signinApi } from '@/app/lib/api';
 import { useRouter } from 'next/navigation';
 import { base64Encode } from '@/app/lib/utils';
-
 import { toast } from 'react-hot-toast';
-import { ERROR_MESSAGE } from '@/app/lib/constants';
 import AuthPrompt from '../../components/auth-prompt';
 import { clearUserAuth, setUserAuth } from '@/app/lib/client-auth';
 
@@ -26,7 +24,6 @@ export default function SigninForm() {
     formState: { errors, isSubmitting },
   } = useForm<Inputs>();
 
-  // TODO: form 제출을 server actions 으로 가능한지 검토
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
     const email = data.email;
     const pw = data.password;
@@ -36,7 +33,7 @@ export default function SigninForm() {
     try {
       const res = await signinApi(email, credentials);
 
-      if (res.user) {
+      if ('user' in res) {
         setUserAuth(res.user, credentials);
 
         // 로그인 후 virtual mail 확인
@@ -53,16 +50,24 @@ export default function SigninForm() {
             router.push('/app/resume');
           }
         } catch (error) {
-          toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+          toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');
         }
         // 끝: 로그인 후 virtual mail 확인
-      } else {
-        toast.error(`${ERROR_MESSAGE.reason.authentication} \n ${ERROR_MESSAGE.action.recheck}`);
+      } else if ('detail' in res) {
+        // Handle the error response with a detail
+        toast.error(res.detail);
         setFocus('email');
+      } else {
+        // Handle unexpected error response without a detail
+        toast.error('알 수 없는 오류가 발생했습니다.');
       }
     } catch (error) {
       clearUserAuth();
-      toast.error(`${ERROR_MESSAGE.reason.network} ${ERROR_MESSAGE.action.retry}`);
+      if (error instanceof Error) {
+        toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');
+      } else {
+        toast.error('알 수 없는 오류가 발생했습니다.');
+      }
     }
   };
 
