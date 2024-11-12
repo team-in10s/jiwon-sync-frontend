@@ -75,7 +75,7 @@ export default function SignupForm() {
 
       if ('message' in res) {
         handleMetaPixelEvent();
-        toast.success(res.message);
+        toast.success('회원가입 성공!');
         router.push('/app/auth/signin');
       } else {
         // Handle error response
