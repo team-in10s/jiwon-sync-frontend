@@ -1,6 +1,6 @@
 export default function FaqPage() {
   return (
-    <div className="container mx-auto">
+    <div className="container mx-auto my-10">
       <div className="w-full text-center">
         <h1 className="text-gradient mb-8 text-3xl font-bold">자주 묻는 질문</h1>
       </div>

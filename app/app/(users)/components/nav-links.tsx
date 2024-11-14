@@ -58,7 +58,7 @@ export default function NavLinks() {
   }
 
   return (
-    <nav className="hidden space-x-4 text-white md:flex">
+    <nav className="hidden space-x-4 text-black md:flex">
       {isLoggedIn &&
         links.map((link) => {
           if (link.href.includes('app/recruitment')) {

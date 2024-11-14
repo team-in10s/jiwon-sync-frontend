@@ -7,6 +7,7 @@ import Image from 'next/image';
 import LandingNavbar from './components/landing-navbar';
 import AppFooter from './app/components/app-footer';
 import LandingDownloadAppButton from './components/landing-download-app-button';
+import UserBtnTemp from './components/user_button_temp';
 
 export default function Home() {
   // redirect('https://jiwon-sync.in10s.co/');
@@ -38,7 +39,8 @@ export default function Home() {
             </h1>
 
             {/* button */}
-            <LandingDownloadAppButton />
+            {/* <LandingDownloadAppButton /> */}
+            <UserBtnTemp />
           </div>
 
           {/* Image placeholder */}
@@ -225,7 +227,8 @@ export default function Home() {
           </p>
 
           {/* button */}
-          <LandingDownloadAppButton center />
+          {/* <LandingDownloadAppButton center /> */}
+          <UserBtnTemp center />
         </div>
       </section>
 

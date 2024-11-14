@@ -16,7 +16,7 @@ export default function Index() {
 
       <div className="flex justify-center">
         <div className="w-full max-w-2xl">
-          <div className="mb-6 flex flex-col justify-between rounded-lg bg-gray-600 p-4 md:flex-row md:px-8">
+          <div className="mb-6 flex flex-col justify-between rounded-lg bg-purple-02 p-4 md:flex-row md:px-8">
             <p>
               커리어 전용 계정은 <span className="font-bold text-primary"> one-id</span>로 로그인
               가능해요!

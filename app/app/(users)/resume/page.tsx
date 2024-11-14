@@ -47,7 +47,7 @@ export default function ResumePage() {
       <section className="mb-4 mt-2 flex w-full flex-col gap-4 md:flex-row">
         <Link
           href="/app/account-status"
-          className="rounded-lg bg-primary/90 p-4 text-black underline-offset-2 hover:underline"
+          className="rounded-lg bg-primary/90 p-4 text-white underline-offset-2 hover:underline"
         >
           채용 사이트별 직접 로그인이 필요하다면?
         </Link>

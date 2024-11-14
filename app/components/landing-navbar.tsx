@@ -60,12 +60,12 @@ export default function LandingNavbar() {
             </Link>
           </div>
           <div className="flex items-center gap-4">
-            <button
+            {/* <button
               onClick={handleDownloadClick}
               className="rounded-md bg-purple-00 px-3 py-2 text-sm font-medium text-white sm:bg-transparent sm:font-semibold sm:text-gray-02 sm:hover:text-gray-900"
             >
               다운로드
-            </button>
+            </button> */}
             <Link
               href="/app/auth/signin"
               className="hidden rounded-md bg-purple-00 px-4 py-[0.63rem] text-sm font-semibold text-white sm:block"

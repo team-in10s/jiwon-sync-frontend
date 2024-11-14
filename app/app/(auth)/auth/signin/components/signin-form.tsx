@@ -69,13 +69,13 @@ export default function SigninForm() {
 
   return (
     <div className="card w-full max-w-lg p-8">
-      <h2 className="mb-8 text-2xl font-bold text-white">로그인</h2>
+      <h2 className="mb-8 text-2xl font-bold text-black">로그인</h2>
 
       {/* "handleSubmit" will validate your inputs before invoking "onSubmit" */}
 
       <form onSubmit={handleSubmit(onSubmit)}>
         <label className="mb-4 block">
-          <span className="text-white-700 mb-2 block">이메일</span>
+          <span className="text-black-700 mb-2 block">이메일</span>
           <input
             type="email"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -91,7 +91,7 @@ export default function SigninForm() {
         </label>
 
         <label className="mb-4 block">
-          <span className="text-white-700 mb-2 block">비밀번호</span>
+          <span className="text-black-700 mb-2 block">비밀번호</span>
           <input
             type="password"
             className="w-full rounded-md border border-gray-300 px-3 py-2 text-black focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -102,7 +102,7 @@ export default function SigninForm() {
 
         <button
           type="submit"
-          className={`btn-gradient mt-8 w-full rounded-full py-2 font-bold text-secondary ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
+          className={`btn-gradient mt-8 w-full rounded-full py-2 font-bold text-white ${isSubmitting ? 'cursor-not-allowed opacity-50' : ''}`}
           disabled={isSubmitting}
         >
           {isSubmitting ? '로그인 중...' : '로그인'}
