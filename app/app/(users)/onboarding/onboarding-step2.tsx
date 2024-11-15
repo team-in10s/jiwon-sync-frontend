@@ -77,17 +77,15 @@ export default function OnboardingStep2({
 
     const currentPlatform = sortedPlatforms[currentPlatformIndex];
 
-    // 모바일에서 실행
-    // 10.30 인크루트 부터 테스트
-    if (MessageChannel.isEnabled()) {
-      // alert(`this is mobile. ${ORIGINAL_LOGIN_JOB_ID[currentPlatform]!}`);
+    setShowsLoadingIndicator(true);
 
-      // originalLoginFunction('jsync1qn52g', 'G^Xz14!7Kl!j~!~', currentPlatform);
+    // 모바일에서 실행
+    if (MessageChannel.isEnabled()) {
       alert(
         toIIFEString(
           originalLoginFunction,
-          'jsync1qn52g',
-          'G^Xz14!7Kl!j~!~',
+          originalId,
+          originalPw,
           currentPlatform,
           LOGIN_SCRIPT_URL[currentPlatform]!
         )
@@ -104,8 +102,10 @@ export default function OnboardingStep2({
             // script: MessageChannel.toIIFEString(wrappedFunction),
             script: toIIFEString(
               originalLoginFunction,
-              'jsync1qn52g',
-              'G^Xz14!7Kl!j~!~',
+              // 'jsync1qn52g',
+              originalId,
+              // 'G^Xz14!7Kl!j~!~',
+              originalPw,
               currentPlatform,
               LOGIN_SCRIPT_URL[currentPlatform]!
             ),
@@ -115,25 +115,35 @@ export default function OnboardingStep2({
         .then((result) => {
           alert('result: ' + JSON.stringify(result));
 
-          /**
-           {
-            type: "scrapResult",
-            payload: {
-              success: 'true',
-              message: 'completed'
-            }
-           }
-           */
+          if (result.type === 'scrapResult' && result.payload.success) {
+            toast.success(`${currentPlatformDisplay} 로그인 성공!`);
+
+            addLoggedInPlatform(currentPlatform);
+
+            handleTryNext();
+          } else {
+            toast.error('로그인 실패. 아이디 또는 비밀번호를 다시 확인해주세요.');
+          }
+
+          //  {
+          //   type: "scrapResult",
+          //   payload: {
+          //     success: 'true',
+          //     message: 'completed'
+          //   }
+          //  }
         })
         .catch((error) => {
           alert('error: ' + JSON.stringify(error));
+        })
+        .finally(() => {
+          setShowsLoadingIndicator(false);
         });
 
       return;
     }
 
     // 모바일 외에..
-    setShowsLoadingIndicator(true);
 
     try {
       await connectOriginAccount(currentPlatform, originalId, originalPw);
@@ -149,9 +159,9 @@ export default function OnboardingStep2({
           error.message || '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.'
         );
       }
+    } finally {
+      setShowsLoadingIndicator(false);
     }
-
-    setShowsLoadingIndicator(false);
   };
 
   const handleTryNext = () => {
