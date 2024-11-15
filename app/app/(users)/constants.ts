@@ -24,9 +24,10 @@ const LOGIN_PAGE_URLS: Partial<Record<HrPlatformName, string>> = {
   incruit: 'https://www.incruit.com/',
   // jobkorea: 'https://www.jobkorea.co.kr/Login/Login_Tot.asp',
   jobkorea: 'https://www.jobkorea.co.kr/',
-  remember: 'https://career.rememberapp.co.kr/job/postings',
+  // remember: 'https://career.rememberapp.co.kr/job/postings',
+  remember: 'https://rememberapp.co.kr/#/e',
   saramin: 'https://www.saramin.co.kr/zf_user/',
-  wanted: 'https://www.wanted.co.kr',
+  wanted: 'https://www.wanted.co.kr/',
 };
 
 const SIGNUP_SCRIPT_URL: Partial<Record<HrPlatformName, string>> = {
