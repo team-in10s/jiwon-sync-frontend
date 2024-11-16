@@ -65,7 +65,7 @@ export default function NavLinks() {
             <Link
               key={link.name}
               href={link.href}
-              className={`${pathname === link.href && 'underline decoration-indigo-500 decoration-2 underline-offset-4'}`}
+              className={`${pathname.includes(link.href) && 'underline decoration-indigo-500 decoration-2 underline-offset-4'}`}
             >
               {link.name}
             </Link>
