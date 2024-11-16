@@ -12,7 +12,9 @@ const EmailBody = ({ selectedEmail }: { selectedEmail: Email }) => {
         style={{ height: 'calc(100vh - 32rem)' }}
         dangerouslySetInnerHTML={{ __html: selectedEmail.body }}
       />
-      <ProposalActionButtons email={selectedEmail} />
+      {!selectedEmail.status && !selectedEmail.responseDate && (
+        <ProposalActionButtons email={selectedEmail} />
+      )}
     </div>
   );
 };
