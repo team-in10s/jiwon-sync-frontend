@@ -26,11 +26,6 @@ export type AcceptResponse = {
   responseContent: string;
 };
 
-export type RejectResponse = {
-  id: string;
-  subject: string;
-  sender: string;
-  content: string;
-  responseType: string;
+export type RejectResponse = AcceptResponse & {
   rejectReasons: string[];
 };
