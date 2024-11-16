@@ -75,9 +75,21 @@ export default async function Index(props: {
 }
 
 async function ProposalList({ currentPage }: { currentPage: number }) {
-  const totalEmails = await fetchTotalEmails();
+  let totalEmails = 0;
+  let allEmails: Email[] = [];
 
-  const allEmails = await fetchEmails(currentPage - 1, 20);
+  try {
+    const [fetchedTotalEmails, fetchedEmails] = await Promise.all([
+      fetchTotalEmails(),
+      fetchEmails(currentPage - 1, 20),
+    ]);
+
+    totalEmails = fetchedTotalEmails;
+    allEmails = fetchedEmails;
+  } catch (error) {
+    console.error('Error fetching emails or total emails:', error);
+    // totalEmails remains 0 and allEmails remains an empty array
+  }
 
   return <ProposalListClient emails={allEmails} totalEmails={totalEmails} />;
 }
