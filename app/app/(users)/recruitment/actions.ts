@@ -10,7 +10,6 @@ export async function acceptProposalAction(acceptResponse: AcceptResponse) {
   const cookieStore = await cookies();
   const credentials = cookieStore.get('user_credentials')?.value;
 
-  console.log('baseUrl:', baseUrl);
   const res = await fetch(`${baseUrl}/scout/proposals/${acceptResponse.id}/response`, {
     method: 'POST',
     headers: {
@@ -75,6 +74,7 @@ export async function rejectProposalAction(rejectResponse: RejectResponse) {
       sender: rejectResponse.sender,
       content: rejectResponse.content,
       response_type: rejectResponse.responseType,
+      response_content: rejectResponse.responseContent,
       reject_reasons: rejectResponse.rejectReasons,
     }),
   });
