@@ -128,3 +128,14 @@ export const getPasswordGuide = (platform: HrPlatformName) => {
   // 인크루트: 8~20자의 영문, 숫자, 특수문자를 조합하여 입력해주세요.
   return '8~20자리, 영문, 숫자, 특수문자를 조합';
 };
+
+export function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  return date.toLocaleString('ko-KR', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+}
