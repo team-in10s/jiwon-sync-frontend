@@ -4,13 +4,14 @@ import Cookies from 'js-cookie';
 import { CREDENTIALS_COOKIE, USER_COOKIE } from './constants';
 import { checkCookieSize } from './utils';
 
+const isDevelopment = process.env.NODE_ENV === 'development';
+
 const COOKIE_OPTIONS = {
   // ensuring the cookie is only sent over HTTPS connections
   // This ensures that cookies can be set in non-HTTPS environments during development.
-  secure: process.env.NODE_ENV === 'production',
-  // domain: process.env.NODE_ENV === 'production' ? '.in10s.co' : 'localhost',
-  domain: process.env.NODE_ENV === 'development' ? 'localhost' : '.in10s.co',
-  sameSite: process.env.NODE_ENV === 'production' ? ('None' as const) : ('Lax' as const), // to allow the cookie to be sent in some cross-site scenarios while still providing some CSRF protection.
+  secure: !isDevelopment,
+  domain: isDevelopment ? 'localhost' : '.in10s.co',
+  sameSite: isDevelopment ? ('Lax' as const) : ('None' as const), // to allow the cookie to be sent in some cross-site scenarios while still providing some CSRF protection.
   path: '/',
 };
 
