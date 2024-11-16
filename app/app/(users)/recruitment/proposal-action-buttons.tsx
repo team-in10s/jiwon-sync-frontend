@@ -41,6 +41,7 @@ const ProposalActionButtons: React.FC<ProposalActionButtonsProps> = ({ email }) 
         sender: email.from,
         content: email.body,
         responseType,
+        responseContent,
         rejectReasons: selectedReasons,
       };
       await rejectProposalAction(rejectResponse);
