@@ -20,9 +20,9 @@ const ProposalListClient: React.FC<ProposalListClientProps> = ({ emails, totalEm
   };
 
   return (
-    <div className="flex h-full flex-col overflow-hidden rounded-lg bg-gray-600 shadow-md md:flex-row">
+    <div className="flex h-full flex-col overflow-hidden rounded-lg bg-purple-01 shadow-md md:flex-row">
       <div
-        className="w-full overflow-y-auto border-r border-gray-700 md:w-1/3"
+        className="w-full overflow-y-auto border-r border-purple-02 md:w-1/3"
         style={{ height: 'calc(100vh - 12rem)' }}
       >
         <EmailInbox

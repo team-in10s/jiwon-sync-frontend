@@ -19,8 +19,8 @@ const EmailInbox = ({ emails, selectedEmail, handleEmailClick }: EmailInboxProps
               key={email.id}
               tabIndex={0}
               role="button"
-              className={`cursor-pointer border-b border-gray-700 p-2 transition-colors duration-300 ${
-                isDisabled ? 'bg-gray-800 text-gray-400' : 'bg-gray-700 font-bold text-white'
+              className={`cursor-pointer border-b border-purple-02 p-2 transition-colors duration-300 ${
+                isDisabled ? 'bg-purple-03/50 text-gray-400' : 'bg-purple-01 font-bold text-white'
               } ${selectedEmail?.id === email.id ? 'bg-green-300' : ''}`}
               onClick={() => handleEmailClick(email)}
             >

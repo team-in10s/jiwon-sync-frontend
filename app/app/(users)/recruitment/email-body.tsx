@@ -8,7 +8,7 @@ const EmailBody = ({ selectedEmail }: { selectedEmail: Email }) => {
       <h3 className="mb-2 text-xl font-bold">{selectedEmail.subject}</h3>
       <p className="mb-4 text-sm text-gray-400">제안 일자: {formatDate(selectedEmail.date)}</p>
       <div
-        className="mb-4 overflow-y-auto border-y border-gray-200 py-4"
+        className="mb-4 overflow-y-auto border-y border-purple-03 py-4"
         style={{ height: 'calc(100vh - 32rem)' }}
         dangerouslySetInnerHTML={{ __html: selectedEmail.body }}
       />
