@@ -50,8 +50,8 @@ const RejectReasonSelect: React.FC<RejectReasonSelectProps> = ({ onConfirmReject
       <select
         id="rejectReason"
         multiple
-        className="mt-1 block w-full rounded-md border-gray-500 bg-gray-600 px-3 py-2 text-white"
-        style={{ height: '200px' }}
+        className="mt-1 block w-full rounded-md border-gray-500 bg-gray-500 px-3 py-2 text-white focus:outline-none"
+        style={{ height: '170px' }}
         onChange={handleReasonChange}
       >
         <optgroup label="현재 상황">
