@@ -1,4 +1,4 @@
-const EmailSkeleton: React.FC = () => {
+export default function Loading() {
   return (
     <div className="flex animate-pulse flex-col overflow-hidden rounded-lg shadow-md md:flex-row">
       <div
@@ -18,6 +18,4 @@ const EmailSkeleton: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default EmailSkeleton;
+}
