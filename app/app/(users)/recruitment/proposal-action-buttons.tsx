@@ -65,7 +65,7 @@ const ProposalActionButtons: React.FC<ProposalActionButtonsProps> = ({ email }) 
 
   return (
     <>
-      {isLoading && <FullScreenLoadingIndicator message="처리 중입니다..." />}
+      {isLoading && <FullScreenLoadingIndicator />}
       <div className="border-t border-gray-700 p-4">
         <h3 className="mb-4 text-xl font-bold">답장 보내기</h3>
 
