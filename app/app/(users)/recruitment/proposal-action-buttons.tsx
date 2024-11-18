@@ -119,10 +119,10 @@ const ProposalActionButtons: React.FC<ProposalActionButtonsProps> = ({ email }) 
         <div className="mt-4 flex justify-center">
           <button
             onClick={handleConfirm}
-            className={`btn-secondary rounded-full px-4 py-2 transition-all duration-300 ${
+            className={`btn-secondary rounded-full px-4 py-2 text-white transition-all duration-300 ${
               isConfirmButtonDisabled
                 ? 'cursor-not-allowed bg-gray-400'
-                : 'bg-blue-600 hover:bg-blue-700'
+                : 'bg-purple-03 hover:bg-purple-04'
             }`}
             disabled={isConfirmButtonDisabled}
           >
