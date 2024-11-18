@@ -1,6 +1,4 @@
-import { Suspense } from 'react';
 import ProposalList from './proposal-list';
-import Loading from './loading';
 
 export default async function RecruitmentPage(props: {
   searchParams?: Promise<{
@@ -15,9 +13,10 @@ export default async function RecruitmentPage(props: {
       <div className="w-full text-center">
         <h1 className="text-gradient mb-8 text-3xl font-bold">스카우트 제안</h1>
       </div>
-      <Suspense fallback={<Loading />}>
-        <ProposalList currentPage={currentPage} />
-      </Suspense>
+      {/* loading.tsx로 대체 */}
+      {/* <Suspense fallback={<EmailSkeleton />}> */}
+      <ProposalList currentPage={currentPage} />
+      {/* </Suspense> */}
     </div>
   );
 }
