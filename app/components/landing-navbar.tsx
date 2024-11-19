@@ -18,27 +18,27 @@ export default function LandingNavbar() {
     };
   }, []);
 
-  const handleDownloadClick = () => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    const isAndroid = /android/.test(userAgent);
-    const isIOS = /iphone|ipad|ipod/.test(userAgent);
-    const isMobile = /iphone|ipod|android|blackberry|opera mini|iemobile|wpdesktop/.test(userAgent);
-    const isTablet = /ipad|tablet|kindle|playbook/.test(userAgent);
+  // const handleDownloadClick = () => {
+  //   const userAgent = navigator.userAgent.toLowerCase();
+  //   const isAndroid = /android/.test(userAgent);
+  //   const isIOS = /iphone|ipad|ipod/.test(userAgent);
+  //   const isMobile = /iphone|ipod|android|blackberry|opera mini|iemobile|wpdesktop/.test(userAgent);
+  //   const isTablet = /ipad|tablet|kindle|playbook/.test(userAgent);
 
-    if (isIOS) {
-      // Redirect to Apple App Store
-      window.location.href = 'https://apps.apple.com';
-    } else if (isAndroid) {
-      // Redirect to Google Play Store
-      window.location.href = 'https://play.google.com/store';
-    } else if (isMobile || isTablet) {
-      // If it's a mobile or tablet but not specifically identified as iOS or Android
-      console.log('Mobile or Tablet device detected');
-    } else {
-      // Log "pc" to the console for desktop users
-      console.log('pc');
-    }
-  };
+  //   if (isIOS) {
+  //     // Redirect to Apple App Store
+  //     window.location.href = 'https://apps.apple.com';
+  //   } else if (isAndroid) {
+  //     // Redirect to Google Play Store
+  //     window.location.href = 'https://play.google.com/store';
+  //   } else if (isMobile || isTablet) {
+  //     // If it's a mobile or tablet but not specifically identified as iOS or Android
+  //     console.log('Mobile or Tablet device detected');
+  //   } else {
+  //     // Log "pc" to the console for desktop users
+  //     console.log('pc');
+  //   }
+  // };
 
   return (
     <nav

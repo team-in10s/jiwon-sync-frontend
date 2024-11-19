@@ -1,5 +1,5 @@
 // app/layout.tsx
-
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import Script from 'next/script';
