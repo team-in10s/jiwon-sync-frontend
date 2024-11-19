@@ -68,7 +68,7 @@ export default function LandingNavbar() {
             </button> */}
             <Link
               href="/app/auth/signin"
-              className="rounded-md bg-purple-00 px-4 py-[0.63rem] text-sm font-semibold text-white"
+              className="rounded-md bg-purple-00 px-2 py-[0.63rem] text-xs font-medium text-white sm:px-4 sm:text-sm sm:font-semibold"
             >
               이력서 관리 시작하기
             </Link>
