@@ -92,6 +92,7 @@ export default function SignupForm() {
         if (res.detail[0].msg) {
           toast.error(res.detail[0].msg);
         } else {
+          console.error(res);
           toast.error('회원가입 중 에러가 발생했어요. 페이지 하단의 고객센터로 문의해 주세요.');
         }
       }
