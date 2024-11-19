@@ -96,7 +96,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
           </Script>
         </head>
-        <body>
+        <body className="bg-white">
           {children}
           {/* NoScript part of Meta Pixel */}
           <noscript>
