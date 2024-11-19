@@ -93,7 +93,7 @@ export default function OriginalAccount({
         <div className="flex flex-col items-center space-y-2">
           <button
             disabled={isSubmitDisabled}
-            className="btn-elevate mt-2 w-1/2 rounded-full border border-primary py-2 text-sm disabled:opacity-50"
+            className="btn-elevate mt-2 w-1/2 rounded-full border bg-tertiary py-2 text-sm text-primary"
             onClick={handleOriginalLogin}
           >
             로그인 하기

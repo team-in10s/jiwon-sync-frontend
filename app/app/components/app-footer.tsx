@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 export default function AppFooter() {
   return (
-    <footer className="bg-gray-800 py-20 text-center">
+    <footer className="bg-gray-02 py-9 text-center sm:py-24">
       <div className="container mx-auto px-4">
         <p className="text-gray-300">© 2024 지원전에 Sync. All rights reserved.</p>
         <div className="mt-4 flex flex-col justify-center sm:flex-row sm:space-x-4">

@@ -19,7 +19,7 @@ export default function PlatformStatusItem({
   const displayName = PLATFORM_CONFIG[platform]?.displayName;
 
   return (
-    <div className="my-4 flex items-center justify-between rounded-lg bg-gray-600 p-4">
+    <div className="my-4 flex items-center justify-between rounded-lg bg-purple-02 p-4">
       <div className="flex items-center gap-2.5">
         {imgSrc && (
           <Image

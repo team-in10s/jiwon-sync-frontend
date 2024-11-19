@@ -15,6 +15,7 @@
     "@highlight-run/next": "^7.6.1",
     "@microsoft/fetch-event-source": "^2.0.1",
     "@types/js-cookie": "^3.0.6",
+    "clsx": "^2.1.1",
     "event-source-polyfill": "^1.0.31",
     "js-cookie": "^3.0.5",
     "keen-slider": "^6.8.6",
@@ -33,6 +34,7 @@
     "@types/react-dom": "^18",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
+    "autoprefixer": "^10.4.20",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
     "eslint-config-prettier": "^9.1.0",
@@ -43,10 +45,10 @@
     "eslint-plugin-tailwindcss": "^3.17.4",
     "husky": "^8.0.0",
     "lint-staged": "^15.2.7",
-    "postcss": "^8",
+    "postcss": "^8.4.49",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.5",
-    "tailwindcss": "^3.4.1",
+    "tailwindcss": "^3.4.14",
     "typescript": "^5"
   }
 }

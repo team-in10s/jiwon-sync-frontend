@@ -3,15 +3,20 @@
 @tailwind utilities;
 
 :root {
-  --primary-color: #00ff9d;
+  --primary-color: #4C1ECD;
   --secondary-color: #1a1a1a;
+  --tertiary-color: #ffffff;
   --accent-color: #ff6b6b;
   --text-color: #ffffff;
 }
 
+body {
+  font-family: var(--font-myFont), sans-serif;
+}
+
 @layer utilities {
   .text-gradient {
-    background: linear-gradient(135deg, var(--primary-color), #00ccff);
+    background: linear-gradient(135deg, #1D93B5, var(--primary-color));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -21,8 +26,8 @@
   }
 
   .btn-gradient {
-    background: linear-gradient(135deg, var(--primary-color), #00ccff);
-    color: var(--secondary-color);
+    background: linear-gradient(135deg, #1D93B5, var(--primary-color));
+    color: var(--tertiary-color);
     transition:
       transform 0.2s ease-in-out,
       box-shadow 0.2s ease-in-out;
@@ -37,8 +42,7 @@
   }
 
   .card {
-    background-color: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
+    border: 3px solid var(--primary-color);
     border-radius: 0.5rem;
     transition: all 0.3s ease;
   }

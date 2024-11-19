@@ -5,10 +5,21 @@ import { createElectronRuntime } from './electron-runtime';
 
 // 클라이언트 측에서 호출하는 api layer 모음
 
-// TODO: 하단 함수마다 중복되는 부분 묶을 방법 찾기 (refactoring)
-// TODO: api 응답값 타입 잡기
-// credentials 받지말고 직접 가져오기 되나? (saveMainResume 참고)
-export async function signinApi(email: string, credentials: string) {
+type SigninSuccessResponse = {
+  message: string;
+  user: {
+    email: string;
+    call_no: string;
+  };
+};
+type SigninErrorResponse = {
+  detail: string;
+};
+
+export async function signinApi(
+  email: string,
+  credentials: string
+): Promise<SigninSuccessResponse | SigninErrorResponse> {
   const response = await fetch('/api/auth/login', {
     method: 'POST',
     headers: {
@@ -19,11 +30,26 @@ export async function signinApi(email: string, credentials: string) {
   });
 
   if (!response.ok) {
-    throw new Error('Login failed');
+    // Attempt to parse the response as JSON
+    let errorResponse;
+    try {
+      errorResponse = await response.json();
+    } catch {
+      // If parsing fails, return a generic error response
+      throw new Error('Network error or invalid response format');
+    }
+    // Check if the parsed response has a 'detail' property
+    if ('detail' in errorResponse) {
+      throw errorResponse as SigninErrorResponse;
+    } else {
+      throw new Error('Network error or invalid response format');
+    }
   }
 
-  return response.json();
+  return response.json() as Promise<SigninSuccessResponse>;
 }
+
+////////////////////////////////////////////////////////////
 
 type signupUserData = {
   name: string;
@@ -37,8 +63,26 @@ type signupUserData = {
   birthDate: string;
 };
 
-// TODO 응답값 타입 잡기
-export async function signupApi(userData: signupUserData) {
+type ErrorContext = {
+  error: Record<string, unknown>;
+};
+type ErrorDetail = {
+  type: string;
+  loc: string[];
+  msg: string;
+  input: string;
+  ctx: ErrorContext;
+};
+type ErrorResponse = {
+  detail: ErrorDetail[];
+};
+type SignupSuccessResponse = {
+  message: string;
+};
+
+export async function signupApi(
+  userData: signupUserData
+): Promise<SignupSuccessResponse | ErrorResponse> {
   const response = await fetch('/api/auth/signup', {
     method: 'POST',
     headers: {
@@ -48,13 +92,16 @@ export async function signupApi(userData: signupUserData) {
   });
 
   if (!response.ok) {
-    throw new Error('Login failed');
+    // throw new Error('Login failed');
+    const errorResponse: ErrorResponse = await response.json();
+    throw errorResponse;
   }
 
-  return response.json();
+  return response.json() as Promise<SignupSuccessResponse>;
 }
 
-// TODO 응답값 타입 잡기
+////////////////////////////////////////////////////////////
+
 export async function saveMainResume(resumeData: FormData) {
   const { credentials } = getUserAuth();
 

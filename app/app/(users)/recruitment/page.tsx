@@ -1,7 +1,18 @@
-export default function Index() {
+import { Suspense } from 'react';
+import ProposalList from './proposal-list';
+import EmailSkeleton from './email-skeleton';
+
+export default async function RecruitmentPage(props: {
+  searchParams?: Promise<{
+    page?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const currentPage = Number(searchParams?.page) || 1;
+
   return (
-    <div className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>https://jiwon-sync.in10s.co/app/recruitment</div>
-    </div>
+    <Suspense key={currentPage} fallback={<EmailSkeleton />}>
+      <ProposalList currentPage={currentPage} />
+    </Suspense>
   );
 }

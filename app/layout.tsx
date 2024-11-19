@@ -1,10 +1,23 @@
 // app/layout.tsx
-
+/* eslint-disable @next/next/no-img-element */
 import type { Metadata } from 'next';
 import { ReactNode } from 'react';
 import Script from 'next/script';
 
 import './globals.css';
+
+import localFont from 'next/font/local';
+
+const localFonts = localFont({
+  src: [
+    { path: '../public/fonts/NanumSquareNeoTTF-aLt.woff2', weight: '300', style: 'light' },
+    { path: '../public/fonts/NanumSquareNeoTTF-bRg.woff2', weight: '400', style: 'regular' },
+    { path: '../public/fonts/NanumSquareNeoTTF-cBd.woff2', weight: '500', style: 'bold' },
+    { path: '../public/fonts/NanumSquareNeoTTF-dEb.woff2', weight: '600', style: 'extrabold' },
+    { path: '../public/fonts/NanumSquareNeoTTF-eHv.woff2', weight: '700', style: 'heavy' },
+  ],
+  variable: '--font-myFont',
+});
 
 export const metadata: Metadata = {
   title: '지원전에 - 효율적인 채용 플랫폼 통합 관리 | 스카우트 제안',
@@ -14,7 +27,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="en" className={localFonts.variable}>
       <head>
         {/* Open Graph Meta Tags */}
         <meta
