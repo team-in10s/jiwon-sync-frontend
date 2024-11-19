@@ -66,6 +66,7 @@ export default function OnboardingStep2({
 
       handleTryNext();
     } catch (error) {
+      console.error('onboarding-step2 error: ', error);
       if (error instanceof Error) {
         toast.error(
           error.message || '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.'
