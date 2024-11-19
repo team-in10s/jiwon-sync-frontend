@@ -10,7 +10,7 @@ const COOKIE_OPTIONS = {
   // ensuring the cookie is only sent over HTTPS connections
   // This ensures that cookies can be set in non-HTTPS environments during development.
   secure: !isDevelopment,
-  domain: isDevelopment ? 'localhost' : '.in10s.co',
+  domain: isDevelopment ? 'localhost' : 'jiwon.app',
   sameSite: isDevelopment ? ('Lax' as const) : ('None' as const), // to allow the cookie to be sent in some cross-site scenarios while still providing some CSRF protection.
   path: '/',
 };
