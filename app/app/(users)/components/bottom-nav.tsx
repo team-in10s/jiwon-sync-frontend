@@ -60,18 +60,6 @@ export default function BottomNav() {
     <nav className="fixed inset-x-0 bottom-0 flex justify-around border-t border-gray-700 bg-secondary text-white shadow-md md:hidden">
       {isLoggedIn &&
         links.map((link) => {
-          if (link.href.includes('app/recruitment')) {
-            return (
-              <a
-                key={link.name}
-                className="flex flex-col items-center justify-center gap-1 p-3"
-                href="https://jiwon-sync-app.in10s.co/app?page=scout"
-              >
-                {iconMapping[link.href as IconMappingKeys]}
-                <span className="text-xs sm:text-sm">{link.name}</span>
-              </a>
-            );
-          }
           return (
             <Link
               key={link.name}
