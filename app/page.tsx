@@ -6,7 +6,7 @@ import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import LandingNavbar from './components/landing-navbar';
 import AppFooter from './app/components/app-footer';
-import LandingDownloadAppButton from './components/landing-download-app-button';
+// import LandingDownloadAppButton from './components/landing-download-app-button';
 import UserBtnTemp from './components/user_button_temp';
 
 export default function Home() {
