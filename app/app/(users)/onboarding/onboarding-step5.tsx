@@ -274,7 +274,7 @@ export default function OnboardingStep5({
           disabled={isLoading}
           className="btn-gradient w-full rounded-full py-3 font-semibold disabled:opacity-50"
         >
-          {isLoading ? '이력서 업로드 중...' : '24시간 내 자동 동기화'}
+          {isLoading ? '이력서 업로드 중...' : '이력서 동기화(3영업일 이내)'}
         </button>
         <button onClick={handleSkipStep5} className="text-sm text-gray-400 underline">
           건너뛰기

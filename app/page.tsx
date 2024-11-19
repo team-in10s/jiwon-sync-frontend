@@ -8,6 +8,7 @@ import LandingNavbar from './components/landing-navbar';
 import AppFooter from './app/components/app-footer';
 // import LandingDownloadAppButton from './components/landing-download-app-button';
 import UserBtnTemp from './components/user_button_temp';
+import Link from 'next/link';
 
 export default function Home() {
   // redirect('https://jiwon-sync.in10s.co/');
@@ -228,7 +229,17 @@ export default function Home() {
 
           {/* button */}
           {/* <LandingDownloadAppButton center /> */}
-          <UserBtnTemp center />
+          {/* <UserBtnTemp center /> */}
+          {/* <UserBtnTemp /> */}
+          {/* 아래 버튼 부분은 11.19 임시로 추가, 나중에 필요에 따라 UserBtnTemp 컴포넌트로 변경 */}
+          <div className="flex items-center justify-center gap-4">
+            <Link
+              href="/app/auth/signin"
+              className="rounded-md bg-purple-00 px-4 py-[0.63rem] text-sm font-semibold text-white"
+            >
+              이력서 관리 시작하기
+            </Link>
+          </div>
         </div>
       </section>
 
