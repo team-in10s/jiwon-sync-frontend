@@ -17,6 +17,7 @@
     "@types/js-cookie": "^3.0.6",
     "clsx": "^2.1.1",
     "event-source-polyfill": "^1.0.31",
+    "jiwon-message-channel": "github:team-in10s/jiwon-message-channel#main",
     "js-cookie": "^3.0.5",
     "keen-slider": "^6.8.6",
     "lucide-react": "^0.451.0",

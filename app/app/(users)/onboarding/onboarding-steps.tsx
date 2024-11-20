@@ -11,6 +11,7 @@ import OnboardingStep5 from './onboarding-step5';
 import { HrPlatformName } from '@/app/lib/constants';
 import StepProgress from './step-progress';
 import OnboardingStep1 from './onboarding-step1';
+import { MessageChannelProvider } from 'jiwon-message-channel';
 
 export default function OnboardingSteps() {
   const [currentStep, setCurrentStep] = useState(1);
@@ -93,7 +94,7 @@ export default function OnboardingSteps() {
     <div>
       <StepProgress currentStep={currentStep} totalSteps={5} />
 
-      {renderStep()}
+      <MessageChannelProvider>{renderStep()}</MessageChannelProvider>
     </div>
   );
 }

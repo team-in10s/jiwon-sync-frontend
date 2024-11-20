@@ -8,6 +8,22 @@ import toast from 'react-hot-toast';
 // import { connectOrigin } from './actions';
 import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
+import MessageChannel from 'jiwon-message-channel';
+import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
+import { originalLoginFunction } from '../lib';
+import { useInputAutoScroll } from '@/app/hooks/use-input-auto-scroll';
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const toIIFEString = <T extends (...args: any[]) => any>(fn: T, ...args: Parameters<T>): string => {
+  // Convert function to string
+  const fnString = fn.toString();
+
+  // Convert arguments to JSON string to embed in the function call
+  const argsString = args.map((arg) => JSON.stringify(arg)).join(', ');
+
+  // Wrap function and call it with arguments as an IIFE
+  return `(${fnString})(${argsString})`;
+};
 
 type Step2Props = {
   onNext: () => void;
@@ -27,6 +43,11 @@ export default function OnboardingStep2({
   // const [isLoading, setIsLoading] = useState(false);
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
+
+  useInputAutoScroll();
+
+  // NOTE: react native
+  const postMessage = MessageChannel.usePostMessage();
 
   // NOTE: 'saramin'을 마지막으로 정렬하는 함수
   const sortPlatforms = (platforms: HrPlatformName[]) => {
@@ -54,10 +75,77 @@ export default function OnboardingStep2({
   const handleOriginalLogin = async () => {
     if (!originalId.trim() || !originalPw.trim()) return;
 
+    const currentPlatform = sortedPlatforms[currentPlatformIndex];
+
     setShowsLoadingIndicator(true);
 
+    // 모바일에서 실행
+    if (MessageChannel.isEnabled()) {
+      alert(
+        toIIFEString(
+          originalLoginFunction,
+          originalId,
+          originalPw,
+          currentPlatform,
+          LOGIN_SCRIPT_URL[currentPlatform]!
+        )
+      );
+
+      postMessage({
+        isAsync: true,
+        message: {
+          taskId: ORIGINAL_LOGIN_JOB_ID[currentPlatform]!,
+          type: 'executeScript',
+          payload: {
+            url: LOGIN_PAGE_URLS[currentPlatform]!,
+            keepAlive: false,
+            // script: MessageChannel.toIIFEString(wrappedFunction),
+            script: toIIFEString(
+              originalLoginFunction,
+              // 'jsync1qn52g',
+              originalId,
+              // 'G^Xz14!7Kl!j~!~',
+              originalPw,
+              currentPlatform,
+              LOGIN_SCRIPT_URL[currentPlatform]!
+            ),
+          },
+        },
+      })
+        .then((result) => {
+          alert('result: ' + JSON.stringify(result));
+
+          if (result.type === 'scrapResult' && result.payload.success) {
+            toast.success(`${currentPlatformDisplay} 로그인 성공!`);
+
+            addLoggedInPlatform(currentPlatform);
+
+            handleTryNext();
+          } else {
+            toast.error('로그인 실패. 아이디 또는 비밀번호를 다시 확인해주세요.');
+          }
+
+          //  {
+          //   type: "scrapResult",
+          //   payload: {
+          //     success: 'true',
+          //     message: 'completed'
+          //   }
+          //  }
+        })
+        .catch((error) => {
+          alert('error: ' + JSON.stringify(error));
+        })
+        .finally(() => {
+          setShowsLoadingIndicator(false);
+        });
+
+      return;
+    }
+
+    // 모바일 외에..
+
     try {
-      const currentPlatform = sortedPlatforms[currentPlatformIndex];
       await connectOriginAccount(currentPlatform, originalId, originalPw);
 
       toast.success(`${currentPlatformDisplay} 로그인 성공!`);
@@ -72,9 +160,9 @@ export default function OnboardingStep2({
           error.message || '알 수 없는 오류입니다. 페이지 하단의 고객센터로 문의해 주세요.'
         );
       }
+    } finally {
+      setShowsLoadingIndicator(false);
     }
-
-    setShowsLoadingIndicator(false);
   };
 
   const handleTryNext = () => {
@@ -152,6 +240,7 @@ export default function OnboardingStep2({
               onKeyDown={handleKeyDown}
               placeholder="비밀번호를 입력하세요."
               className="rounded-md border border-gray-500 bg-gray-700 p-2 text-white"
+              data-scroll
             />
             <p className="text-sm text-gray-300">
               * 비밀번호 규칙: {getPasswordGuide(sortedPlatforms[currentPlatformIndex])}
