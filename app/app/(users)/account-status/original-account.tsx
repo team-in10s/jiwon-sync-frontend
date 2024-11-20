@@ -1,10 +1,12 @@
 import { HrPlatformName } from '@/app/lib/constants';
 import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent } from 'react';
-// import { connectOrigin } from '../onboarding/actions';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
 import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
+import MessageChannel from 'jiwon-message-channel';
+import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
+import { originalLoginFunction, convertIIFEString } from '../lib';
 
 type Props = {
   onNextStep: () => void;
@@ -21,6 +23,9 @@ export default function OriginalAccount({
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
 
+  // NOTE: react native
+  const postMessage = MessageChannel.usePostMessage();
+
   const handleOriginalId = (e: ChangeEvent<HTMLInputElement>) => {
     setOriginalId(e.target.value);
   };
@@ -35,10 +40,51 @@ export default function OriginalAccount({
     // 로딩 인디케이터 띄우기
     showLoadingIndicator(true);
 
+    // 모바일에서 실행
+    if (MessageChannel.isEnabled()) {
+      postMessage({
+        isAsync: true,
+        message: {
+          taskId: ORIGINAL_LOGIN_JOB_ID[platform]!,
+          type: 'executeScript',
+          payload: {
+            url: LOGIN_PAGE_URLS[platform]!,
+            keepAlive: false,
+            // script: MessageChannel.toIIFEString(wrappedFunction),
+            script: convertIIFEString(
+              originalLoginFunction,
+              originalId,
+              originalPw,
+              platform,
+              LOGIN_SCRIPT_URL[platform]!
+            ),
+          },
+        },
+      })
+        .then((result) => {
+          if (result.type === 'scrapResult' && result.payload.success) {
+            toast.success('로그인 성공!');
+            // 모달 닫기 && sse 호출
+            onConnectComplete(platform);
+          } else {
+            toast.error('로그인 실패. 아이디 또는 비밀번호를 다시 확인해주세요.');
+          }
+        })
+        .catch((error) => {
+          console.error('original-account postMessage error: ', error);
+          alert('error: ' + JSON.stringify(error));
+        })
+        .finally(() => {
+          showLoadingIndicator(false);
+        });
+
+      return;
+    }
+
     // 로그인 api 호출
     try {
       await connectOriginAccount(platform, originalId, originalPw);
-      toast.success(`${platform} 로그인 성공!`);
+      toast.success('로그인 성공!');
       // 모달 닫기 && sse 호출
       onConnectComplete(platform);
     } catch (error) {
