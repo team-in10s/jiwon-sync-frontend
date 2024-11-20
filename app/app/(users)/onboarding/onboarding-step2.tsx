@@ -5,12 +5,11 @@ import { PLATFORM_CONFIG, HrPlatformName } from '@/app/lib/constants';
 import PlatformProgressIndicator from './platform-progress-indicator';
 import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indicator';
 import toast from 'react-hot-toast';
-// import { connectOrigin } from './actions';
 import { connectOriginAccount } from '@/app/lib/api';
-import { convertIIFEString, getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
+import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
-import { originalLoginFunction } from '../lib';
+import { originalLoginFunction, convertIIFEString } from '../lib';
 import { useInputAutoScroll } from '@/app/hooks/use-input-auto-scroll';
 
 type Step2Props = {
@@ -89,8 +88,6 @@ export default function OnboardingStep2({
         },
       })
         .then((result) => {
-          alert('result: ' + JSON.stringify(result));
-
           if (result.type === 'scrapResult' && result.payload.success) {
             toast.success(`${currentPlatformDisplay} 로그인 성공!`);
 
@@ -110,6 +107,7 @@ export default function OnboardingStep2({
           //  }
         })
         .catch((error) => {
+          console.error('onboarding-step2 postMessage error: ', error);
           alert('error: ' + JSON.stringify(error));
         })
         .finally(() => {
