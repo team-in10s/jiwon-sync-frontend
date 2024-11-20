@@ -13,6 +13,7 @@ import { EventSourcePolyfill, EventSourcePolyfillInit } from 'event-source-polyf
 import EmailPlatformAccount from './email-platform-account';
 import PhonePlatformAccount from './phone-platform-account';
 import OriginalAccount from './original-account';
+import { MessageChannelProvider } from 'jiwon-message-channel';
 
 export default function AccountStatusClient({
   initialStatus,
@@ -194,54 +195,56 @@ export default function AccountStatusClient({
 
   return (
     <>
-      {platformStatus.map((p) => {
-        const { status, platform } = p;
-        return (
-          <PlatformStatusItem
-            key={platform}
-            platform={platform}
-            status={status}
-            onConnectClick={() => handleConnectClick(platform)}
-          />
-        );
-      })}
+      <MessageChannelProvider>
+        {platformStatus.map((p) => {
+          const { status, platform } = p;
+          return (
+            <PlatformStatusItem
+              key={platform}
+              platform={platform}
+              status={status}
+              onConnectClick={() => handleConnectClick(platform)}
+            />
+          );
+        })}
 
-      <Modal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        title={`${PLATFORM_CONFIG[selectedPlatform]?.displayName}에  ${currentStep === 0 ? '로그인 합니다' : '계정을 생성합니다'}`}
-        theme="dark"
-      >
-        {currentStep === 0 && (
-          <OriginalAccount
-            platform={selectedPlatform}
-            onNextStep={() => setCurrentStep(1)}
-            showLoadingIndicator={setShowsLoadingIndicator}
-            onConnectComplete={(platform) => {
-              setCurrentStep(0);
-              handleConnectComplete(platform);
-            }}
-          />
+        <Modal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          title={`${PLATFORM_CONFIG[selectedPlatform]?.displayName}에  ${currentStep === 0 ? '로그인 합니다' : '계정을 생성합니다'}`}
+          theme="dark"
+        >
+          {currentStep === 0 && (
+            <OriginalAccount
+              platform={selectedPlatform}
+              onNextStep={() => setCurrentStep(1)}
+              showLoadingIndicator={setShowsLoadingIndicator}
+              onConnectComplete={(platform) => {
+                setCurrentStep(0);
+                handleConnectComplete(platform);
+              }}
+            />
+          )}
+          {currentStep === 1 &&
+            (selectedPlatform === 'jumpit' || selectedPlatform === 'saramin' ? (
+              <EmailPlatformAccount
+                platform={selectedPlatform}
+                showLoadingIndicator={setShowsLoadingIndicator}
+                onConnectComplete={handleConnectComplete}
+              />
+            ) : (
+              <PhonePlatformAccount
+                platform={selectedPlatform}
+                showLoadingIndicator={setShowsLoadingIndicator}
+                onConnectComplete={handleConnectComplete}
+              />
+            ))}
+        </Modal>
+
+        {showsLoadingIndicator && (
+          <FullScreenLoadingIndicator message="길게는 1분 정도 소요될 수 있어요. 조금만 기다려주세요!" />
         )}
-        {currentStep === 1 &&
-          (selectedPlatform === 'jumpit' || selectedPlatform === 'saramin' ? (
-            <EmailPlatformAccount
-              platform={selectedPlatform}
-              showLoadingIndicator={setShowsLoadingIndicator}
-              onConnectComplete={handleConnectComplete}
-            />
-          ) : (
-            <PhonePlatformAccount
-              platform={selectedPlatform}
-              showLoadingIndicator={setShowsLoadingIndicator}
-              onConnectComplete={handleConnectComplete}
-            />
-          ))}
-      </Modal>
-
-      {showsLoadingIndicator && (
-        <FullScreenLoadingIndicator message="길게는 1분 정도 소요될 수 있어요. 조금만 기다려주세요!" />
-      )}
+      </MessageChannelProvider>
     </>
   );
 }
