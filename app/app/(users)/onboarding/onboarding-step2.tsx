@@ -7,23 +7,11 @@ import FullScreenLoadingIndicator from '../../components/fullscreen-loading-indi
 import toast from 'react-hot-toast';
 // import { connectOrigin } from './actions';
 import { connectOriginAccount } from '@/app/lib/api';
-import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
+import { convertIIFEString, getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
 import { originalLoginFunction } from '../lib';
 import { useInputAutoScroll } from '@/app/hooks/use-input-auto-scroll';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const toIIFEString = <T extends (...args: any[]) => any>(fn: T, ...args: Parameters<T>): string => {
-  // Convert function to string
-  const fnString = fn.toString();
-
-  // Convert arguments to JSON string to embed in the function call
-  const argsString = args.map((arg) => JSON.stringify(arg)).join(', ');
-
-  // Wrap function and call it with arguments as an IIFE
-  return `(${fnString})(${argsString})`;
-};
 
 type Step2Props = {
   onNext: () => void;
@@ -81,16 +69,6 @@ export default function OnboardingStep2({
 
     // 모바일에서 실행
     if (MessageChannel.isEnabled()) {
-      alert(
-        toIIFEString(
-          originalLoginFunction,
-          originalId,
-          originalPw,
-          currentPlatform,
-          LOGIN_SCRIPT_URL[currentPlatform]!
-        )
-      );
-
       postMessage({
         isAsync: true,
         message: {
@@ -100,11 +78,9 @@ export default function OnboardingStep2({
             url: LOGIN_PAGE_URLS[currentPlatform]!,
             keepAlive: false,
             // script: MessageChannel.toIIFEString(wrappedFunction),
-            script: toIIFEString(
+            script: convertIIFEString(
               originalLoginFunction,
-              // 'jsync1qn52g',
               originalId,
-              // 'G^Xz14!7Kl!j~!~',
               originalPw,
               currentPlatform,
               LOGIN_SCRIPT_URL[currentPlatform]!
@@ -144,7 +120,6 @@ export default function OnboardingStep2({
     }
 
     // 모바일 외에..
-
     try {
       await connectOriginAccount(currentPlatform, originalId, originalPw);
 
