@@ -2,26 +2,32 @@ import { HrPlatformName } from '@/app/lib/constants';
 import { ChangeEvent, Dispatch, SetStateAction, useState, KeyboardEvent } from 'react';
 import toast from 'react-hot-toast';
 import Link from 'next/link';
-import { connectOriginAccount } from '@/app/lib/api';
+import { connectOriginAccount, updatePlatformConnectionStatus } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
 import { originalLoginFunction, convertIIFEString } from '../lib';
+import { useRouter } from 'next/navigation';
 
 type Props = {
   onNextStep: () => void;
   showLoadingIndicator: Dispatch<SetStateAction<boolean>>;
   platform: HrPlatformName;
   onConnectComplete: (platform: HrPlatformName) => void;
+  closeModal: () => void;
 };
+
 export default function OriginalAccount({
   onNextStep,
   showLoadingIndicator,
   platform,
   onConnectComplete,
+  closeModal,
 }: Props) {
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
+
+  const router = useRouter();
 
   // NOTE: react native
   const postMessage = MessageChannel.usePostMessage();
@@ -64,8 +70,20 @@ export default function OriginalAccount({
         .then((result) => {
           if (result.type === 'scrapResult' && result.payload.success) {
             toast.success('로그인 성공!');
-            // 모달 닫기 && sse 호출
-            onConnectComplete(platform);
+
+            // * 모바일앱에서는 프론트엔드에서 백엔드로 해당 플랫폼 연결 상태를 업데이트 할 api 요청 보내기
+            // 1. 해당 플랫폼 연결 상태를 업데이트 해줄 api 요청 보내기 - connected로 변경
+            updatePlatformConnectionStatus(platform, 'connected')
+              .then(() => {})
+              .catch((error) => {
+                console.error('original-account > updatePlatformConnectionStatus > error: ', error);
+              })
+              .finally(() => {
+                // 2. 모달 닫기
+                closeModal();
+                // 3. 해당 페이지 한 번 리프레쉬
+                router.refresh();
+              });
           } else {
             toast.error('로그인 실패. 아이디 또는 비밀번호를 다시 확인해주세요.');
           }

@@ -120,6 +120,8 @@ export async function saveMainResume(resumeData: FormData) {
   return response.json();
 }
 
+////////////////////////////////////////////////////////////
+
 export async function getMainResumeStatus() {
   const { credentials } = getUserAuth();
   const response = await fetch('/api/resume/main/status', {
@@ -135,6 +137,8 @@ export async function getMainResumeStatus() {
 
   return response.json();
 }
+
+////////////////////////////////////////////////////////////
 
 type CheckResponse = { available: boolean };
 // 이메일 중복 확인
@@ -180,7 +184,8 @@ export async function getVirtualAvailability(): Promise<CheckResponse> {
   return response.json() as Promise<CheckResponse>; // { available: boolean };
 }
 
-// platformName?
+////////////////////////////////////////////////////////////
+
 export async function connectPlatform(platform: string, requestId?: string) {
   const { credentials } = getUserAuth();
 
@@ -225,6 +230,8 @@ export async function connectPlatform(platform: string, requestId?: string) {
   }
 }
 
+////////////////////////////////////////////////////////////
+
 export async function connectPlatformByDesktop(platform: HrPlatformName, requestId?: string) {
   const { credentials } = getUserAuth();
 
@@ -261,6 +268,8 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
   }
 }
 
+////////////////////////////////////////////////////////////
+
 export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   const { credentials } = getUserAuth();
 
@@ -277,6 +286,35 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
 
   return response.json();
 }
+
+////////////////////////////////////////////////////////////
+
+export async function updatePlatformConnectionStatus(
+  platform: HrPlatformName,
+  status: 'connected' | 'connecting' | 'failed'
+) {
+  const { credentials } = getUserAuth();
+  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+
+  const response = await fetch(`${baseUrl}/api/platform/statuses/${platform}`, {
+    // POST? PATCH?
+    method: 'PATCH',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify({
+      status,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error('update platform connection status failed');
+  }
+
+  return response.json();
+}
+
+////////////////////////////////////////////////////////////
 
 export async function submitAuthCodeTest(requestId: string, code: string) {
   const { credentials } = getUserAuth();
@@ -312,6 +350,8 @@ export async function submitAuthCodeTest(requestId: string, code: string) {
 
   return result;
 }
+
+////////////////////////////////////////////////////////////
 
 export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   let retries = 0;
@@ -362,6 +402,8 @@ export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   throw new Error('최대 재시도 횟수를 초과했습니다.');
 }
 
+////////////////////////////////////////////////////////////
+
 const formMessageConnectOrigin = (msg?: string) => {
   if (msg === 'ID/PW incorrect') return '아이디 또는 비밀번호를 다시 확인해 주세요.';
   if (msg === 'Server Error') return '로그인에 실패했어요. 잠시 후 다시 시도해 주세요.';
@@ -400,3 +442,5 @@ export async function connectOriginAccount(platform: HrPlatformName, id: string,
 
   return result; // {success: 'true'}
 }
+
+////////////////////////////////////////////////////////////

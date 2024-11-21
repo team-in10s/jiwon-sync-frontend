@@ -186,7 +186,7 @@ export default function AccountStatusClient({
     [setupSSEConnection, stopSSEConnection]
   );
 
-  const closeModal = async () => {
+  const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(0);
 
@@ -223,6 +223,7 @@ export default function AccountStatusClient({
                 setCurrentStep(0);
                 handleConnectComplete(platform);
               }}
+              closeModal={closeModal}
             />
           )}
           {currentStep === 1 &&
