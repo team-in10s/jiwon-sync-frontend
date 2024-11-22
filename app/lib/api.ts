@@ -289,29 +289,53 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
 
 ////////////////////////////////////////////////////////////
 
-export async function updatePlatformConnectionStatus(
-  platform: HrPlatformName,
-  status: 'connected' | 'connecting' | 'failed'
-) {
+type UpdatePlatformConnectionStatusSuccessResponse = {
+  message: string;
+  success: boolean;
+};
+
+type UpdatePlatformConnectionStatusErrorResponse = {
+  detail: {
+    loc: string[];
+    msg: string;
+    type: string;
+  }[];
+};
+
+export async function updatePlatformConnectionStatus(connectionInfo: {
+  id: string;
+  pw: string;
+  platform: HrPlatformName;
+  status: 'completed' | 'failed';
+}): Promise<
+  UpdatePlatformConnectionStatusSuccessResponse | UpdatePlatformConnectionStatusErrorResponse
+> {
   const { credentials } = getUserAuth();
   const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
+  const { id, pw, platform, status } = connectionInfo;
 
-  const response = await fetch(`${baseUrl}/api/platform/statuses/${platform}`, {
-    // POST? PATCH?
-    method: 'PATCH',
+  const response = await fetch(`${baseUrl}/api/platform/connect-origin/${platform}`, {
+    method: 'POST',
     headers: {
       Authorization: `Basic ${credentials}`,
     },
     body: JSON.stringify({
+      platform_id: id,
+      platform_pw: pw,
       status,
     }),
   });
 
   if (!response.ok) {
-    throw new Error('update platform connection status failed');
+    const errorResponse: UpdatePlatformConnectionStatusErrorResponse = await response.json();
+
+    if (typeof errorResponse.detail === 'string') {
+      throw new Error(errorResponse.detail);
+    }
+    throw new Error(errorResponse.detail[0].msg);
   }
 
-  return response.json();
+  return response.json() as Promise<UpdatePlatformConnectionStatusSuccessResponse>;
 }
 
 ////////////////////////////////////////////////////////////
