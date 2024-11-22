@@ -69,20 +69,26 @@ export default function OriginalAccount({
       })
         .then((result) => {
           if (result.type === 'scrapResult' && result.payload.success) {
-            toast.success('로그인 성공!');
-
             // * 모바일앱에서는 프론트엔드에서 백엔드로 해당 플랫폼 연결 상태를 업데이트 할 api 요청 보내기
-            // 1. 해당 플랫폼 연결 상태를 업데이트 해줄 api 요청 보내기 - connected로 변경
-            updatePlatformConnectionStatus(platform, 'connected')
-              .then(() => {})
-              .catch((error) => {
-                console.error('original-account > updatePlatformConnectionStatus > error: ', error);
-              })
-              .finally(() => {
+            // 1. 해당 플랫폼 연결 상태를 업데이트 해줄 api 요청 보내기
+            updatePlatformConnectionStatus({
+              id: originalId,
+              pw: originalPw,
+              platform,
+              status: 'completed',
+            })
+              .then(() => {
+                // 서버에 저장까지 잘 된 경우
+                // 1. 성공 토스트 노출
+                toast.success('로그인 성공!');
                 // 2. 모달 닫기
                 closeModal();
                 // 3. 해당 페이지 한 번 리프레쉬
                 router.refresh();
+              })
+              .catch((error) => {
+                console.error('original-account > updatePlatformConnectionStatus > error: ', error);
+                toast.error('서버와 통신 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
               });
           } else {
             toast.error('로그인 실패. 아이디 또는 비밀번호를 다시 확인해주세요.');
