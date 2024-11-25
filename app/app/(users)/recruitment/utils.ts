@@ -6,9 +6,9 @@ export function getEmailStatusMessage(email: Email): string {
     case 'timeout_rejected':
       return '제안 자동 거절 (72시간 초과)';
     case 'accepted':
-      return email.responseDate ? `제안수락 : ${formatDate(email.responseDate)}` : '제안수락';
+      return email.responseDate ? `제안 수락: ${formatDate(email.responseDate)}` : '제안수락';
     case 'rejected':
-      return email.responseDate ? `제안 거절 : ${formatDate(email.responseDate)}` : '제안 거절';
+      return email.responseDate ? `제안 거절: ${formatDate(email.responseDate)}` : '제안 거절';
     case 'not_scout':
       return '스카우트 제안 아님';
     default:
@@ -16,19 +16,38 @@ export function getEmailStatusMessage(email: Email): string {
   }
 }
 
-export function getEmailReadStatus(email: Email): string {
-  // if (email.read) {
-  const currentTime = new Date();
-  const emailTime = new Date(email.date);
-  const timeDiff = Math.floor((currentTime.getTime() - emailTime.getTime()) / (1000 * 60 * 60)); // 시간 단위로 계산
-  const remainingTime = 72 - timeDiff;
-  if (remainingTime > 0) {
-    return `응답 대기중 : ${remainingTime}시간 남음`;
+function calculateRemainingTimeInMinutes(
+  startDate: string,
+  endDate: string,
+  totalMinutes: number = 72 * 60
+): number {
+  const startTime = new Date(startDate);
+  const endTime = new Date(endDate);
+  const timeDiffInMinutes = Math.floor((endTime.getTime() - startTime.getTime()) / (1000 * 60));
+  return totalMinutes - timeDiffInMinutes;
+}
+
+export function isTimeExceeded(
+  startDate: string,
+  endDate: string,
+  totalMinutes: number = 72 * 60
+): boolean {
+  const remainingTimeInMinutes = calculateRemainingTimeInMinutes(startDate, endDate, totalMinutes);
+  return remainingTimeInMinutes <= 0;
+}
+
+export function getEmailReadStatus(emailDate: string): string {
+  const currentTime = new Date().toISOString();
+  const remainingTimeInMinutes = calculateRemainingTimeInMinutes(emailDate, currentTime);
+
+  if (remainingTimeInMinutes > 60) {
+    const remainingHours = Math.floor(remainingTimeInMinutes / 60);
+    return `응답 대기중 : ${remainingHours}시간 남음`;
+  } else if (remainingTimeInMinutes > 0) {
+    return `응답 대기중 : ${remainingTimeInMinutes}분 남음`;
   } else {
     return '응답 시간 초과';
   }
-  // }
-  // return '';
 }
 
 export const calculateTotalPages = (totalEmails: number, emailsPerPage: number = 10): number => {

@@ -1,6 +1,7 @@
 import { Email } from './types';
 import { getEmailStatusMessage, getEmailReadStatus } from './utils';
 import { formatDate } from '@/app/lib/utils';
+import { isTimeExceeded } from './utils';
 
 interface EmailInboxProps {
   emails: Email[];
@@ -13,7 +14,9 @@ const EmailInbox = ({ emails, selectedEmail, handleEmailClick }: EmailInboxProps
     <>
       {emails.length > 0 ? (
         emails.map((email) => {
-          const isDisabled = email.status && email.responseDate;
+          const isExceeded = isTimeExceeded(email.date, new Date().toISOString());
+          const isDisabled = (email.status && email.responseDate) || isExceeded;
+
           return (
             <div
               key={email.id}
@@ -36,7 +39,7 @@ const EmailInbox = ({ emails, selectedEmail, handleEmailClick }: EmailInboxProps
                 {getEmailStatusMessage(email)}
               </div>
 
-              {!email.status && <div className={`text-sm`}>{getEmailReadStatus(email)}</div>}
+              {!email.status && <div className={`text-sm`}>{getEmailReadStatus(email.date)}</div>}
               <div className="mb-1 font-bold">{email.subject}</div>
               <div className="text-xs text-gray-500">제안 일자: {formatDate(email.date)}</div>
             </div>
