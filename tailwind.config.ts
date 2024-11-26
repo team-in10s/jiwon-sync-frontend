@@ -66,6 +66,13 @@ const config: Config = {
         'dimmed-blue50': 'rgba(16, 18, 49, 0.5)',
         'dimmed-blue20': 'rgba(16, 18, 49, 0.2)',
         'dimmed-blue10': 'rgba(16, 18, 49, 0.1)',
+
+        // HR 플랫폼 별 컬러
+        jobkorea: '#111AFF',
+        saramin: '#5B84F6',
+        incruit: '#FAB40A',
+        wanted: '#23BAFF',
+        remember: '#000',
       },
     },
   },
