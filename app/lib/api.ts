@@ -318,6 +318,14 @@ export async function updatePlatformConnectionStatus(connectionInfo: {
     status,
   };
 
+  // 참고:
+  /*
+  이 api 를 호출하는 경로는 아래와 같이 2가지.
+   https://secondly-good-walleye.ngrok-free.app/api/platform/connect-origin/
+    -> 이렇게 호출하게 되면 백엔드에서 추가적인 백그라운드 작업이 있음
+   https://백엔드서버(로컬 or staging or production)/api/platform/connect-origin/
+    -> 이렇게 호출하게 되면 백엔드에서 추가적인 백그라운드 작업 없이 데이터베이스에 상태 업데이트 후 응답 반환.
+   */
   const response = await fetch(`/api/platform/connect-origin/${platform}`, {
     method: 'POST',
     headers: {
