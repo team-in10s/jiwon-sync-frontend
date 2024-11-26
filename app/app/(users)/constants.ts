@@ -46,8 +46,14 @@ const LOGIN_SCRIPT_URL: Partial<Record<HrPlatformName, string>> = {
   wanted: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/wanted-login.js',
 };
 
-const DUMMY_SCRAPE_RESUME_URL =
-  'https://d19wfoforqp8p.cloudfront.net/injected-scripts/000-resume.js';
+// dummy
+const SCRAPE_RESUME_URL: Partial<Record<HrPlatformName, string>> = {
+  incruit: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/incruit-resume.js',
+  jobkorea: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/jobkorea-resume.js',
+  remember: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/remember-resume.js',
+  saramin: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/saramin-resume.js',
+  wanted: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/wanted-resume.js',
+};
 
 export {
   SIGNUP_PAGE_URLS,
@@ -55,5 +61,5 @@ export {
   SIGNUP_SCRIPT_URL,
   LOGIN_SCRIPT_URL,
   ORIGINAL_LOGIN_JOB_ID,
-  DUMMY_SCRAPE_RESUME_URL,
+  SCRAPE_RESUME_URL,
 };
