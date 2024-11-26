@@ -18,7 +18,8 @@ type ProfileProps = {
 };
 
 const ProfileCard: React.FC<ProfileProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-5 w-full">
+    <div className="mb-1.5 text-lg font-semibold">프로필</div>
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -41,7 +42,7 @@ const ProfileCard: React.FC<ProfileProps> = ({ data, onClick }) => (
           </div>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default ProfileCard;

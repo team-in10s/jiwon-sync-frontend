@@ -18,7 +18,8 @@ type EducationProps = {
 };
 
 const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-5 w-full">
+    <div className="mb-1.5 text-lg font-semibold">학력</div>
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -42,7 +43,7 @@ const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
           </div>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default EducationCard;

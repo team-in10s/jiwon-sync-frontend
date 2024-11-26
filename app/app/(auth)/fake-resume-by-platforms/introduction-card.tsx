@@ -12,7 +12,8 @@ type IntroductionProps = {
 };
 
 const IntroductionCard: React.FC<IntroductionProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-5 w-full">
+    <div className="mb-1.5 text-lg font-semibold">간단 소개</div>
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -24,7 +25,7 @@ const IntroductionCard: React.FC<IntroductionProps> = ({ data, onClick }) => (
           <p>{item.content}</p>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default IntroductionCard;

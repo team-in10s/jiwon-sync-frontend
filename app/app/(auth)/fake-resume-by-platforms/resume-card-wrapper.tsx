@@ -7,13 +7,35 @@ type ResumeCardWrapperProps = {
   onClick: () => void;
 };
 
+const borderColors = {
+  saramin: 'border-saramin',
+  incruit: 'border-incruit',
+  jobkorea: 'border-jobkorea',
+  wanted: 'border-wanted',
+  remember: 'border-remember',
+};
+
+const bgColors = {
+  saramin: 'bg-saramin',
+  incruit: 'bg-incruit',
+  jobkorea: 'bg-jobkorea',
+  wanted: 'bg-wanted',
+  remember: 'bg-remember',
+};
+
 const ResumeCardWrapper: React.FC<ResumeCardWrapperProps> = ({ platform, children, onClick }) => {
+  const b = borderColors[platform as keyof typeof borderColors];
+  const c = bgColors[platform as keyof typeof bgColors];
+
   return (
-    <div
-      className={clsx('flex flex-col overflow-hidden rounded-lg border', `border-${platform}`)}
-      onClick={onClick}
-    >
-      <div className={clsx('py-1 text-center text-white', `bg-${platform}`)}>
+    <div className={clsx('flex flex-col overflow-hidden rounded-xl border-2', b)} onClick={onClick}>
+      <div
+        className={clsx(
+          'py-1 text-center text-xs font-medium',
+          c,
+          platform === 'incruit' ? 'text-gray-02' : 'text-white'
+        )}
+      >
         {platform}에서 가져왔어요
       </div>
       <div className="p-4">{children}</div>

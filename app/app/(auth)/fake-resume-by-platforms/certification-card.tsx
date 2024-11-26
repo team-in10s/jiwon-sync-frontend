@@ -15,7 +15,7 @@ type CertificationProps = {
 };
 
 const CertificationCard: React.FC<CertificationProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-1.5">
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -32,7 +32,7 @@ const CertificationCard: React.FC<CertificationProps> = ({ data, onClick }) => (
           </div>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default CertificationCard;

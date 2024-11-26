@@ -17,7 +17,8 @@ type WorkExperienceProps = {
 };
 
 const WorkExperienceCard: React.FC<WorkExperienceProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-5 w-full">
+    <div className="mb-1.5 text-lg font-semibold">경력</div>
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -39,7 +40,7 @@ const WorkExperienceCard: React.FC<WorkExperienceProps> = ({ data, onClick }) =>
           </div>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default WorkExperienceCard;

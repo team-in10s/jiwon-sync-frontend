@@ -15,7 +15,7 @@ type AwardProps = {
 };
 
 const AwardCard: React.FC<AwardProps> = ({ data, onClick }) => (
-  <>
+  <div className="mb-1.5">
     {data
       .filter((item) => item.isSelected)
       .map((item) => (
@@ -32,7 +32,7 @@ const AwardCard: React.FC<AwardProps> = ({ data, onClick }) => (
           </div>
         </ResumeCardWrapper>
       ))}
-  </>
+  </div>
 );
 
 export default AwardCard;
