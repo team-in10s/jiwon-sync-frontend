@@ -193,6 +193,12 @@ export default function AccountStatusClient({
     // 모달이 닫힐때마다 sse 연결 트리거?
   };
 
+  const handleOptimisticUpdate = (platform: HrPlatformName, status: string) => {
+    setPlatformStatus((prevStatus) =>
+      prevStatus.map((p) => (p.platform === platform ? { ...p, status } : p))
+    );
+  };
+
   return (
     <>
       <MessageChannelProvider>
@@ -224,6 +230,7 @@ export default function AccountStatusClient({
                 handleConnectComplete(platform);
               }}
               closeModal={closeModal}
+              onOptimisticUpdate={handleOptimisticUpdate}
             />
           )}
           {currentStep === 1 &&

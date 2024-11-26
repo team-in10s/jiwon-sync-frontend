@@ -18,8 +18,6 @@ export async function getPlatformStatusUseCase(): Promise<PlatformStatusItem[]> 
       {} as Record<HrPlatformName, PlatformStatusItem>
     );
 
-  console.log('allPlatforms?', allPlatforms);
-
   // Update the status for platforms present in the response
   response.forEach((item) => {
     if (item.platform in allPlatforms) {

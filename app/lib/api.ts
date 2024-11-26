@@ -311,19 +311,19 @@ export async function updatePlatformConnectionStatus(connectionInfo: {
   UpdatePlatformConnectionStatusSuccessResponse | UpdatePlatformConnectionStatusErrorResponse
 > {
   const { credentials } = getUserAuth();
-  const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL;
   const { id, pw, platform, status } = connectionInfo;
+  const requestBody = {
+    platform_id: id,
+    platform_pw: pw,
+    status,
+  };
 
-  const response = await fetch(`${baseUrl}/api/platform/connect-origin/${platform}`, {
+  const response = await fetch(`/api/platform/connect-origin/${platform}`, {
     method: 'POST',
     headers: {
       Authorization: `Basic ${credentials}`,
     },
-    body: JSON.stringify({
-      platform_id: id,
-      platform_pw: pw,
-      status,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!response.ok) {

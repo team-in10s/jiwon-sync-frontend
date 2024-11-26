@@ -7,7 +7,6 @@ import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
 import { originalLoginFunction, convertIIFEString } from '../lib';
-import { useRouter } from 'next/navigation';
 
 type Props = {
   onNextStep: () => void;
@@ -15,6 +14,7 @@ type Props = {
   platform: HrPlatformName;
   onConnectComplete: (platform: HrPlatformName) => void;
   closeModal: () => void;
+  onOptimisticUpdate: (platform: HrPlatformName, status: string) => void;
 };
 
 export default function OriginalAccount({
@@ -23,11 +23,10 @@ export default function OriginalAccount({
   platform,
   onConnectComplete,
   closeModal,
+  onOptimisticUpdate,
 }: Props) {
   const [originalId, setOriginalId] = useState('');
   const [originalPw, setOriginalPw] = useState('');
-
-  const router = useRouter();
 
   // NOTE: react native
   const postMessage = MessageChannel.usePostMessage();
@@ -83,8 +82,9 @@ export default function OriginalAccount({
                 toast.success('로그인 성공!');
                 // 2. 모달 닫기
                 closeModal();
-                // 3. 해당 페이지 한 번 리프레쉬
-                router.refresh();
+                // 3. 해당 페이지 optimistic update
+                // window.location.reload();
+                onOptimisticUpdate(platform, 'completed');
               })
               .catch((error) => {
                 console.error('original-account > updatePlatformConnectionStatus > error: ', error);
@@ -96,7 +96,9 @@ export default function OriginalAccount({
         })
         .catch((error) => {
           console.error('original-account postMessage error: ', error);
-          alert('error: ' + JSON.stringify(error));
+          toast.error(
+            '로그인을 시도하는 중 에러가 발생했습니다. 하단 고객센터로 문의해 주세요. (postMessage err)'
+          );
         })
         .finally(() => {
           showLoadingIndicator(false);
