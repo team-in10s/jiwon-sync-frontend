@@ -18,7 +18,6 @@ const IntroductionCard: React.FC<IntroductionProps> = ({ data, onClick }) => (
       .map((item) => (
         <ResumeCardWrapper
           platform={item.platform}
-          borderColor="border-black"
           onClick={() => onClick(item)}
           key={item.platform}
         >

@@ -24,7 +24,6 @@ const ProfileCard: React.FC<ProfileProps> = ({ data, onClick }) => (
       .map((item) => (
         <ResumeCardWrapper
           platform={item.platform}
-          borderColor="border-yellow-500"
           onClick={() => onClick(item)}
           key={item.platform}
         >

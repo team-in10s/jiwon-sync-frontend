@@ -21,7 +21,6 @@ const AwardCard: React.FC<AwardProps> = ({ data, onClick }) => (
       .map((item) => (
         <ResumeCardWrapper
           platform={item.platform}
-          borderColor="border-green-500"
           onClick={() => onClick(item)}
           key={item.platform}
         >

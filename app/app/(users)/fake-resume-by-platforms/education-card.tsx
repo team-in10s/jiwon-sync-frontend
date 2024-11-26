@@ -24,7 +24,6 @@ const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
       .map((item) => (
         <ResumeCardWrapper
           platform={item.platform}
-          borderColor="border-indigo-500"
           onClick={() => onClick(item)}
           key={item.platform}
         >

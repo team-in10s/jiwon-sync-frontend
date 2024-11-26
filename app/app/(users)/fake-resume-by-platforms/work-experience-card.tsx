@@ -23,7 +23,6 @@ const WorkExperienceCard: React.FC<WorkExperienceProps> = ({ data, onClick }) =>
       .map((item) => (
         <ResumeCardWrapper
           platform={item.platform}
-          borderColor="border-blue-500"
           onClick={() => onClick(item)}
           key={item.platform}
         >
