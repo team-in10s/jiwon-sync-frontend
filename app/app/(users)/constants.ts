@@ -46,10 +46,14 @@ const LOGIN_SCRIPT_URL: Partial<Record<HrPlatformName, string>> = {
   wanted: 'https://d19wfoforqp8p.cloudfront.net/injected-scripts/wanted-login.js',
 };
 
+const DUMMY_SCRAPE_RESUME_URL =
+  'https://d19wfoforqp8p.cloudfront.net/injected-scripts/000-resume.js';
+
 export {
   SIGNUP_PAGE_URLS,
   LOGIN_PAGE_URLS,
   SIGNUP_SCRIPT_URL,
   LOGIN_SCRIPT_URL,
   ORIGINAL_LOGIN_JOB_ID,
+  DUMMY_SCRAPE_RESUME_URL,
 };
