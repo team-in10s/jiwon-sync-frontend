@@ -6,8 +6,8 @@ import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
-import { originalLoginFunction, convertIIFEString } from '../lib';
-
+import { originalLoginFunction } from '../lib';
+import { convertIIFEString } from '@/app/lib/utils';
 type Props = {
   onNextStep: () => void;
   showLoadingIndicator: Dispatch<SetStateAction<boolean>>;

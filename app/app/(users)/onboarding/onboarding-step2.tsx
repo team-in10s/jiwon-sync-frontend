@@ -9,8 +9,9 @@ import { connectOriginAccount } from '@/app/lib/api';
 import { getPasswordGuide, getPlaceholderOriginLogin } from '@/app/lib/utils';
 import MessageChannel from 'jiwon-message-channel';
 import { LOGIN_PAGE_URLS, LOGIN_SCRIPT_URL, ORIGINAL_LOGIN_JOB_ID } from '../constants';
-import { originalLoginFunction, convertIIFEString } from '../lib';
+import { originalLoginFunction } from '../lib';
 import { useInputAutoScroll } from '@/app/hooks/use-input-auto-scroll';
+import { convertIIFEString } from '@/app/lib/utils';
 
 type Step2Props = {
   onNext: () => void;
