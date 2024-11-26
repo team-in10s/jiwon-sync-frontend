@@ -1,8 +1,15 @@
 import { formatDate } from '@/app/lib/utils';
 import { Email } from './types';
 import ProposalActionButtons from './proposal-action-buttons';
+import { isTimeExceeded } from './utils';
 
 const EmailBody = ({ selectedEmail }: { selectedEmail: Email }) => {
+  const isExceeded = isTimeExceeded(selectedEmail.date, new Date().toISOString());
+  const notResponded = !selectedEmail.status || !selectedEmail.responseDate;
+
+  // 아직 응답 안함 && 아직 시간 초과 안됨
+  const showActionButtons = notResponded && !isExceeded;
+
   return (
     <div className="grow p-4">
       <h3 className="mb-2 text-xl font-bold">{selectedEmail.subject}</h3>
@@ -12,9 +19,8 @@ const EmailBody = ({ selectedEmail }: { selectedEmail: Email }) => {
         style={{ height: 'calc(100vh - 32rem)' }}
         dangerouslySetInnerHTML={{ __html: selectedEmail.body }}
       />
-      {!selectedEmail.status && !selectedEmail.responseDate && (
-        <ProposalActionButtons email={selectedEmail} />
-      )}
+
+      {showActionButtons && <ProposalActionButtons email={selectedEmail} />}
     </div>
   );
 };

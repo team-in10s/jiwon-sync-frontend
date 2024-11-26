@@ -29,3 +29,12 @@ export type AcceptResponse = {
 export type RejectResponse = AcceptResponse & {
   rejectReasons: string[];
 };
+
+// 메일 갯수 조회
+export type TotalEmailsResponse = {
+  total_count: number;
+};
+
+export type TotalEmailErrorResponse = {
+  detail: string;
+};

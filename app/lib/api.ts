@@ -120,6 +120,8 @@ export async function saveMainResume(resumeData: FormData) {
   return response.json();
 }
 
+////////////////////////////////////////////////////////////
+
 export async function getMainResumeStatus() {
   const { credentials } = getUserAuth();
   const response = await fetch('/api/resume/main/status', {
@@ -135,6 +137,8 @@ export async function getMainResumeStatus() {
 
   return response.json();
 }
+
+////////////////////////////////////////////////////////////
 
 type CheckResponse = { available: boolean };
 // 이메일 중복 확인
@@ -180,7 +184,8 @@ export async function getVirtualAvailability(): Promise<CheckResponse> {
   return response.json() as Promise<CheckResponse>; // { available: boolean };
 }
 
-// platformName?
+////////////////////////////////////////////////////////////
+
 export async function connectPlatform(platform: string, requestId?: string) {
   const { credentials } = getUserAuth();
 
@@ -225,6 +230,8 @@ export async function connectPlatform(platform: string, requestId?: string) {
   }
 }
 
+////////////////////////////////////////////////////////////
+
 export async function connectPlatformByDesktop(platform: HrPlatformName, requestId?: string) {
   const { credentials } = getUserAuth();
 
@@ -261,6 +268,8 @@ export async function connectPlatformByDesktop(platform: HrPlatformName, request
   }
 }
 
+////////////////////////////////////////////////////////////
+
 export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   const { credentials } = getUserAuth();
 
@@ -277,6 +286,67 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
 
   return response.json();
 }
+
+////////////////////////////////////////////////////////////
+
+type UpdatePlatformConnectionStatusSuccessResponse = {
+  message: string;
+  success: boolean;
+};
+
+type UpdatePlatformConnectionStatusErrorResponse = {
+  detail: {
+    loc: string[];
+    msg: string;
+    type: string;
+  }[];
+};
+
+export async function updatePlatformConnectionStatus(connectionInfo: {
+  id: string;
+  pw: string;
+  platform: HrPlatformName;
+  status: 'completed' | 'failed';
+}): Promise<
+  UpdatePlatformConnectionStatusSuccessResponse | UpdatePlatformConnectionStatusErrorResponse
+> {
+  const { credentials } = getUserAuth();
+  const { id, pw, platform, status } = connectionInfo;
+  const requestBody = {
+    platform_id: id,
+    platform_pw: pw,
+    status,
+  };
+
+  // 참고:
+  /*
+  이 api 를 호출하는 경로는 아래와 같이 2가지.
+   https://secondly-good-walleye.ngrok-free.app/api/platform/connect-origin/
+    -> 이렇게 호출하게 되면 백엔드에서 추가적인 백그라운드 작업이 있음
+   https://백엔드서버(로컬 or staging or production)/api/platform/connect-origin/
+    -> 이렇게 호출하게 되면 백엔드에서 추가적인 백그라운드 작업 없이 데이터베이스에 상태 업데이트 후 응답 반환.
+   */
+  const response = await fetch(`/api/platform/connect-origin/${platform}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${credentials}`,
+    },
+    body: JSON.stringify(requestBody),
+  });
+
+  if (!response.ok) {
+    const errorResponse: UpdatePlatformConnectionStatusErrorResponse = await response.json();
+
+    if (typeof errorResponse.detail === 'string') {
+      throw new Error(errorResponse.detail);
+    }
+    throw new Error(errorResponse.detail[0].msg);
+  }
+
+  return response.json() as Promise<UpdatePlatformConnectionStatusSuccessResponse>;
+}
+
+////////////////////////////////////////////////////////////
 
 export async function submitAuthCodeTest(requestId: string, code: string) {
   const { credentials } = getUserAuth();
@@ -312,6 +382,8 @@ export async function submitAuthCodeTest(requestId: string, code: string) {
 
   return result;
 }
+
+////////////////////////////////////////////////////////////
 
 export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   let retries = 0;
@@ -362,6 +434,8 @@ export async function getAuthCodeStatus(requestId: string, maxRetries = 13) {
   throw new Error('최대 재시도 횟수를 초과했습니다.');
 }
 
+////////////////////////////////////////////////////////////
+
 const formMessageConnectOrigin = (msg?: string) => {
   if (msg === 'ID/PW incorrect') return '아이디 또는 비밀번호를 다시 확인해 주세요.';
   if (msg === 'Server Error') return '로그인에 실패했어요. 잠시 후 다시 시도해 주세요.';
@@ -400,3 +474,5 @@ export async function connectOriginAccount(platform: HrPlatformName, id: string,
 
   return result; // {success: 'true'}
 }
+
+////////////////////////////////////////////////////////////

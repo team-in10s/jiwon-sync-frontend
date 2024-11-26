@@ -186,11 +186,17 @@ export default function AccountStatusClient({
     [setupSSEConnection, stopSSEConnection]
   );
 
-  const closeModal = async () => {
+  const closeModal = () => {
     setIsModalOpen(false);
     setCurrentStep(0);
 
     // 모달이 닫힐때마다 sse 연결 트리거?
+  };
+
+  const handleOptimisticUpdate = (platform: HrPlatformName, status: string) => {
+    setPlatformStatus((prevStatus) =>
+      prevStatus.map((p) => (p.platform === platform ? { ...p, status } : p))
+    );
   };
 
   return (
@@ -223,6 +229,8 @@ export default function AccountStatusClient({
                 setCurrentStep(0);
                 handleConnectComplete(platform);
               }}
+              closeModal={closeModal}
+              onOptimisticUpdate={handleOptimisticUpdate}
             />
           )}
           {currentStep === 1 &&

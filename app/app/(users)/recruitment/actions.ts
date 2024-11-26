@@ -60,8 +60,6 @@ export async function rejectProposalAction(rejectResponse: RejectResponse) {
   const cookieStore = await cookies();
   const credentials = cookieStore.get('user_credentials')?.value;
 
-  console.log('rejectResponse: ', rejectResponse);
-
   const res = await fetch(`${baseUrl}/scout/proposals/${rejectResponse.id}/response`, {
     method: 'POST',
     headers: {
