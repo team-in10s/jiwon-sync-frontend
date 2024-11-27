@@ -272,6 +272,7 @@ export async function getPlatformStatusClient(): Promise<PlatformStatusItem[]> {
   });
 
   if (!response.ok) {
+    console.error('getPlatformStatusClient(): get platform status failed');
     throw new Error('get platform status failed');
   }
 
