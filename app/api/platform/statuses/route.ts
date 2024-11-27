@@ -1,4 +1,3 @@
-// TODO: 아래 dynamic 값 리서치 필요
 export const dynamic = 'force-dynamic'; // defaults to auto
 
 const apiUrl = process.env.API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
@@ -22,9 +21,6 @@ export async function GET(request: Request) {
   });
 
   const data = await res.json();
-  // console.log('data? --------', data);
-  // 성공시, data? -------- [ { platform: 'jumpit', status: 'completed' } ]
-  // TODO 응답값 타입 잡기
 
   return Response.json(data);
 }
