@@ -25,10 +25,12 @@ const CertificationCard: React.FC<CertificationProps> = ({ data, onClick }) => (
           key={item.platform}
         >
           <div>
-            <p className="font-bold">{item.name}</p>
+            {/* <p className="font-bold">{item.name}</p>
             <p>{item.issuedBy}</p>
             <p>{item.date}</p>
-            <p>{item.description}</p>
+            <p>{item.description}</p> */}
+            {/* 임시. 값 확인용. */}
+            <p>{data.toString()}</p>
           </div>
         </ResumeCardWrapper>
       ))}

@@ -29,7 +29,7 @@ const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
           key={item.platform}
         >
           <div className="flex items-center">
-            <div className="mr-4 size-14 rounded-full bg-gray-200"></div>
+            {/* <div className="mr-4 size-14 rounded-full bg-gray-200"></div>
             <div>
               <p className="font-bold">{item.schoolName}</p>
               <p>
@@ -39,7 +39,9 @@ const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
                 {item.startDate} - {item.endDate}
               </p>
               <p>{item.description}</p>
-            </div>
+            </div> */}
+            {/* 임시. 값 확인용. */}
+            <p>{data.toString()}</p>
           </div>
         </ResumeCardWrapper>
       ))}

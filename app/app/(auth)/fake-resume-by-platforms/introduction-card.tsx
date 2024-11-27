@@ -22,7 +22,9 @@ const IntroductionCard: React.FC<IntroductionProps> = ({ data, onClick }) => (
           onClick={() => onClick(item)}
           key={item.platform}
         >
-          <p>{item.content}</p>
+          {/* <p>{item.content}</p> */}
+          {/* 임시. 값 확인용. */}
+          <p>{data.toString()}</p>
         </ResumeCardWrapper>
       ))}
   </div>
