@@ -1,0 +1,246 @@
+{
+  "resume_experiences": [
+    {
+      "company_name": "원티드랩",
+      "start_year": "2022",
+      "start_month": "03",
+      "is_current": true,
+      "job_title": "풀스택 개발자",
+      "department": "서비스개발팀",
+      "responsibilities": "React/Node.js 기반 서비스 개발",
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "company_name": "사람인 HR",
+      "start_year": "2019",
+      "start_month": "07",
+      "is_current": true,
+      "job_title": "시니어 백엔드 개발자",
+      "department": "서비스플랫폼팀",
+      "responsibilities": "MSA 기반 채용 플랫폼 개발",
+      "work_type": "정규직",
+      "salary": "9000만원",
+      "industry_type": "IT서비스",
+      "company_size": "대기업",
+      "company_type": "상장기업",
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "company_name": "리멤버웍스",
+      "start_year": "2020",
+      "start_month": "06",
+      "is_current": true,
+      "job_title": "시니어 개발자",
+      "department": "플랫폼개발팀",
+      "responsibilities": "MSA 아키텍처 설계 및 구현",
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "company_name": "인크루트 테크",
+      "start_year": "2021",
+      "start_month": "01",
+      "end_year": "2023",
+      "end_month": "12",
+      "job_title": "프론트엔드 개발자",
+      "responsibilities": "웹 서비스 개발",
+      "platform": "incruit",
+      "is_selected": false
+    },
+    {
+      "company_name": "잡코리아",
+      "start_year": "2021",
+      "start_month": "01",
+      "is_current": true,
+      "job_title": "DevOps 엔지니어",
+      "department": "인프라운영팀",
+      "responsibilities": "쿠버네티스 클러스터 운영",
+      "work_type": "정규직",
+      "salary": "7000만원",
+      "platform": "jobkorea",
+      "is_selected": false
+    }
+  ],
+  "resume_certificates": [
+    {
+      "certificate_name": "정보처리기사",
+      "issuer": "한국산업인력공단",
+      "acquisition_year": "2020",
+      "acquisition_month": "08",
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "certificate_name": "정보처리기사",
+      "issuer": "한국산업인력공단",
+      "acquisition_year": "2015",
+      "acquisition_month": "08",
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "certificate_name": "AWS Solutions Architect",
+      "issuer": "Amazon Web Services",
+      "acquisition_year": "2021",
+      "acquisition_month": "03",
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "platform": "incruit",
+      "is_selected": false
+    },
+    {
+      "certificate_name": "CKAD",
+      "issuer": "Linux Foundation",
+      "acquisition_year": "2022",
+      "acquisition_month": "05",
+      "platform": "jobkorea",
+      "is_selected": false
+    }
+  ],
+  "resume_educations": [
+    {
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "school_name": "서울과학기술대학교",
+      "major": "컴퓨터공학",
+      "start_year": "2011",
+      "end_year": "2015",
+      "education_level": "대학교(4년)",
+      "graduation_status": "졸업",
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "school_name": "서울대학교",
+      "major": "컴퓨터공학",
+      "start_year": "2015",
+      "end_year": "2019",
+      "education_level": "대학교(4년)",
+      "platform": "incruit",
+      "is_selected": false
+    },
+    {
+      "school_name": "한국대학교",
+      "major": "컴퓨터공학",
+      "start_year": "2013",
+      "end_year": "2017",
+      "education_level": "대학교(4년)",
+      "graduation_status": "졸업",
+      "platform": "jobkorea",
+      "is_selected": false
+    }
+  ],
+  "resume_languages": [
+    {
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "language": "영어",
+      "speaking_level": "비즈니스회화",
+      "test_name": "TOEIC",
+      "score": "950",
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "platform": "incruit",
+      "is_selected": false
+    },
+    {
+      "platform": "jobkorea",
+      "is_selected": false
+    }
+  ],
+  "resume_employment_preferences": [
+    {
+      "desired_location": "서울",
+      "work_type": "정규직",
+      "desired_salary": "5000만원",
+      "remote_work": true,
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "desired_location": "서울",
+      "work_type": "정규직",
+      "desired_salary": "8000만원",
+      "remote_work": true,
+      "platform": "jobkorea",
+      "is_selected": false
+    },
+    {
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "platform": "incruit",
+      "is_selected": false
+    }
+  ],
+  "resume_profile": [
+    {
+      "resume_title": "원티드 매칭 이력서",
+      "name": "이테크",
+      "email": "tech.lee@example.com",
+      "phone_number": "010-5555-6666",
+      "total_experience_years": 4,
+      "platform": "wanted",
+      "is_selected": false
+    },
+    {
+      "resume_title": "사람인 이력서",
+      "name": "김인재",
+      "email": "kim.career@example.com",
+      "phone_number": "010-7777-8888",
+      "total_experience_years": 8,
+      "platform": "saramin",
+      "is_selected": false
+    },
+    {
+      "resume_title": "리멤버 경력 이력서",
+      "name": "김개발",
+      "email": "dev.kim@example.com",
+      "phone_number": "010-9876-5432",
+      "total_experience_years": 7,
+      "platform": "remember",
+      "is_selected": false
+    },
+    {
+      "resume_title": "인크루트 이력서",
+      "name": "홍길동",
+      "email": "hong@example.com",
+      "phone_number": "010-1234-5678",
+      "total_experience_years": 3,
+      "platform": "incruit",
+      "is_selected": false
+    },
+    {
+      "resume_title": "잡코리아 이력서",
+      "name": "박인재",
+      "email": "park.hr@example.com",
+      "phone_number": "010-3333-4444",
+      "total_experience_years": 6,
+      "platform": "jobkorea",
+      "is_selected": false
+    }
+  ]
+}

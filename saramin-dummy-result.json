@@ -1,0 +1,48 @@
+{
+  "type": "scrapResult",
+  "payload": {
+    "success": true,
+    "platform": "saramin",
+    "data": {
+      "resume_title": "사람인 이력서",
+      "name": "김인재",
+      "email": "kim.career@example.com",
+      "phone_number": "010-7777-8888",
+      "total_experience_years": 8,
+      "resume_experiences": [
+        {
+          "company_name": "사람인 HR",
+          "start_year": "2019",
+          "start_month": "07",
+          "is_current": true,
+          "job_title": "시니어 백엔드 개발자",
+          "department": "서비스플랫폼팀",
+          "responsibilities": "MSA 기반 채용 플랫폼 개발",
+          "work_type": "정규직",
+          "salary": "9000만원",
+          "industry_type": "IT서비스",
+          "company_size": "대기업",
+          "company_type": "상장기업"
+        }
+      ],
+      "resume_educations": [
+        {
+          "school_name": "서울과학기술대학교",
+          "major": "컴퓨터공학",
+          "start_year": "2011",
+          "end_year": "2015",
+          "education_level": "대학교(4년)",
+          "graduation_status": "졸업"
+        }
+      ],
+      "resume_certificates": [
+        {
+          "certificate_name": "정보처리기사",
+          "issuer": "한국산업인력공단",
+          "acquisition_year": "2015",
+          "acquisition_month": "08"
+        }
+      ]
+    }
+  }
+}

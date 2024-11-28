@@ -1,0 +1,41 @@
+{
+  "type": "scrapResult",
+  "payload": {
+    "success": true,
+    "platform": "remember",
+    "data": {
+      "resume_title": "리멤버 경력 이력서",
+      "name": "김개발",
+      "email": "dev.kim@example.com",
+      "phone_number": "010-9876-5432",
+      "total_experience_years": 7,
+      "resume_experiences": [
+        {
+          "company_name": "리멤버웍스",
+          "start_year": "2020",
+          "start_month": "06",
+          "is_current": true,
+          "job_title": "시니어 개발자",
+          "department": "플랫폼개발팀",
+          "responsibilities": "MSA 아키텍처 설계 및 구현"
+        }
+      ],
+      "resume_certificates": [
+        {
+          "certificate_name": "AWS Solutions Architect",
+          "issuer": "Amazon Web Services",
+          "acquisition_year": "2021",
+          "acquisition_month": "03"
+        }
+      ],
+      "resume_languages": [
+        {
+          "language": "영어",
+          "speaking_level": "비즈니스회화",
+          "test_name": "TOEIC",
+          "score": "950"
+        }
+      ]
+    }
+  }
+}

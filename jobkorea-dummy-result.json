@@ -1,0 +1,53 @@
+{
+  "type": "scrapResult",
+  "payload": {
+    "success": true,
+    "platform": "jobkorea",
+    "data": {
+      "resume_title": "잡코리아 이력서",
+      "name": "박인재",
+      "email": "park.hr@example.com",
+      "phone_number": "010-3333-4444",
+      "total_experience_years": 6,
+      "resume_experiences": [
+        {
+          "company_name": "잡코리아",
+          "start_year": "2021",
+          "start_month": "01",
+          "is_current": true,
+          "job_title": "DevOps 엔지니어",
+          "department": "인프라운영팀",
+          "responsibilities": "쿠버네티스 클러스터 운영",
+          "work_type": "정규직",
+          "salary": "7000만원"
+        }
+      ],
+      "resume_educations": [
+        {
+          "school_name": "한국대학교",
+          "major": "컴퓨터공학",
+          "start_year": "2013",
+          "end_year": "2017",
+          "education_level": "대학교(4년)",
+          "graduation_status": "졸업"
+        }
+      ],
+      "resume_certificates": [
+        {
+          "certificate_name": "CKAD",
+          "issuer": "Linux Foundation",
+          "acquisition_year": "2022",
+          "acquisition_month": "05"
+        }
+      ],
+      "resume_employment_preferences": [
+        {
+          "desired_location": "서울",
+          "work_type": "정규직",
+          "desired_salary": "8000만원",
+          "remote_work": true
+        }
+      ]
+    }
+  }
+}

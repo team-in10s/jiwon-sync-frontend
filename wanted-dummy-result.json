@@ -1,0 +1,41 @@
+{
+  "type": "scrapResult",
+  "payload": {
+    "success": true,
+    "platform": "wanted",
+    "data": {
+      "resume_title": "원티드 매칭 이력서",
+      "name": "이테크",
+      "email": "tech.lee@example.com",
+      "phone_number": "010-5555-6666",
+      "total_experience_years": 4,
+      "resume_experiences": [
+        {
+          "company_name": "원티드랩",
+          "start_year": "2022",
+          "start_month": "03",
+          "is_current": true,
+          "job_title": "풀스택 개발자",
+          "department": "서비스개발팀",
+          "responsibilities": "React/Node.js 기반 서비스 개발"
+        }
+      ],
+      "resume_certificates": [
+        {
+          "certificate_name": "정보처리기사",
+          "issuer": "한국산업인력공단",
+          "acquisition_year": "2020",
+          "acquisition_month": "08"
+        }
+      ],
+      "resume_employment_preferences": [
+        {
+          "desired_location": "서울",
+          "work_type": "정규직",
+          "desired_salary": "5000만원",
+          "remote_work": true
+        }
+      ]
+    }
+  }
+}

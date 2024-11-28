@@ -1,0 +1,34 @@
+{
+  "type": "scrapResult",
+  "payload": {
+    "success": true,
+    "platform": "incruit",
+    "data": {
+      "resume_title": "인크루트 이력서",
+      "name": "홍길동",
+      "email": "hong@example.com",
+      "phone_number": "010-1234-5678",
+      "total_experience_years": 3,
+      "resume_experiences": [
+        {
+          "company_name": "인크루트 테크",
+          "start_year": "2021",
+          "start_month": "01",
+          "end_year": "2023",
+          "end_month": "12",
+          "job_title": "프론트엔드 개발자",
+          "responsibilities": "웹 서비스 개발"
+        }
+      ],
+      "resume_educations": [
+        {
+          "school_name": "서울대학교",
+          "major": "컴퓨터공학",
+          "start_year": "2015",
+          "end_year": "2019",
+          "education_level": "대학교(4년)"
+        }
+      ]
+    }
+  }
+}
