@@ -1,11 +1,9 @@
 // app/app/(users)/account-status/page.tsx
 
 import { Suspense } from 'react';
-import { getPlatformStatusUseCase } from './use-cases';
 import AccountStatusSkeleton from './account-status-skeleton';
-import AccountStatusClient from './account-status-client';
 import DetailButton from './detail-button';
-import { PlatformStatusItem } from './types';
+import { AccountStatusClientWrapper } from './account-status-client-wrapper';
 
 export default function Index() {
   return (
@@ -22,7 +20,6 @@ export default function Index() {
               가능해요!
             </p>
 
-            {/* <button className="underline underline-offset-2">자세히 보기</button> */}
             <DetailButton />
           </div>
 
@@ -30,17 +27,11 @@ export default function Index() {
             <h2 className="mb-4 text-xl font-semibold">채용 플랫폼 계정 생성 상태</h2>
 
             <Suspense fallback={<AccountStatusSkeleton />}>
-              <AccountStatus />
+              <AccountStatusClientWrapper />
             </Suspense>
           </div>
         </div>
       </div>
     </div>
   );
-}
-
-async function AccountStatus() {
-  const initialAccountStatus: PlatformStatusItem[] = await getPlatformStatusUseCase();
-
-  return <AccountStatusClient initialStatus={initialAccountStatus} />;
 }
