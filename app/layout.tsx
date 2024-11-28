@@ -34,7 +34,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         serviceName="jiwon-sync-frontend"
         tracingOrigins
         networkRecording={{
-          enabled: true,
+          enabled: false,
           recordHeadersAndBody: true,
           urlBlocklist: [],
         }}
