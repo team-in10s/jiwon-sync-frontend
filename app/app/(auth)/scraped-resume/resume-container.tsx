@@ -15,6 +15,7 @@ import { MergedResumeData } from './types';
 import { getPlatformStatusClient } from '@/app/lib/api';
 import { HrPlatformName } from '@/app/lib/constants';
 import ScrapingLoadingOverlay from './scraping-loading-overlay';
+import LanguageCard from './language-card';
 
 export default function ResumeContainer() {
   const postMessage = MessageChannel.usePostMessage();
@@ -133,12 +134,14 @@ export default function ResumeContainer() {
 
           <EducationCard data={mergedData.resumeEducations} onClick={handleClickCard} />
 
-          <div className="w-full">
+          <div className="mb-5 w-full">
             <div className="mb-1.5 text-lg font-semibold">자격/수상/교육</div>
             <CertificationCard data={mergedData.resumeCertificates} onClick={handleClickCard} />
             {/* <AwardCard data={mergedData.resumeAwards} onClick={handleClickCard} /> */}
             {/* <CourseCard data={mergedData.resume_courses} onClick={handleClickCard} /> */}
           </div>
+
+          <LanguageCard data={mergedData.resumeLanguages} onClick={handleClickCard} />
         </>
       )}
     </>
