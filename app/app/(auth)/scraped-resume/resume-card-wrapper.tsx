@@ -28,7 +28,10 @@ const ResumeCardWrapper: React.FC<ResumeCardWrapperProps> = ({ platform, childre
   const c = bgColors[platform as keyof typeof bgColors];
 
   return (
-    <div className={clsx('flex flex-col overflow-hidden rounded-xl border-2', b)} onClick={onClick}>
+    <div
+      className={clsx('mb-1.5 flex flex-col overflow-hidden rounded-xl border-2', b)}
+      onClick={onClick}
+    >
       <div
         className={clsx(
           'py-1 text-center text-xs font-medium',
