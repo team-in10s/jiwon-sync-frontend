@@ -1,8 +1,10 @@
 import React from 'react';
 import clsx from 'clsx';
+import { PLATFORM_CONFIG } from '@/app/lib/constants';
+import { HrPlatformName } from '@/app/lib/constants';
 
 type ResumeCardWrapperProps = {
-  platform: string;
+  platform: HrPlatformName;
   children: React.ReactNode;
   onClick: () => void;
 };
@@ -39,7 +41,7 @@ const ResumeCardWrapper: React.FC<ResumeCardWrapperProps> = ({ platform, childre
           platform === 'incruit' ? 'text-gray-02' : 'text-white'
         )}
       >
-        {platform}에서 가져왔어요
+        {PLATFORM_CONFIG[platform]?.displayName}에서 가져왔어요
       </div>
       <div className="p-4">{children}</div>
     </div>
