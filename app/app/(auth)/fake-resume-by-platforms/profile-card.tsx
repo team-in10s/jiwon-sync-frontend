@@ -1,18 +1,10 @@
 import React from 'react';
 import ResumeCardWrapper from './resume-card-wrapper';
+import { ResumeProfile } from './types';
 
 type ProfileProps = {
-  data: {
-    platform: string;
-    isSelected: boolean;
-    name: string;
-    email: string;
+  data: ResumeProfile[];
 
-    phone: string;
-    birthday: string;
-    gender: string;
-    address: string;
-  }[];
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (data: any) => void;
 };
@@ -20,29 +12,24 @@ type ProfileProps = {
 const ProfileCard: React.FC<ProfileProps> = ({ data, onClick }) => (
   <div className="mb-5 w-full">
     <div className="mb-1.5 text-lg font-semibold">프로필</div>
-    {data
-      .filter((item) => item.isSelected)
-      .map((item) => (
-        <ResumeCardWrapper
-          platform={item.platform}
-          onClick={() => onClick(item)}
-          key={item.platform}
-        >
-          <div className="">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            {/* <img src={item.avatar} alt="Avatar" className="mr-4 size-14 rounded-full" /> */}
-            {/* <p className="font-bold">{item.name}</p>
-            <p>{item.email}</p>
-            <p>{item.phone}</p>
-            <p>{item.birthday}</p>
-            <p>{item.gender}</p>
-            <p>{item.address}</p> */}
-
-            {/* 임시. 값 확인용. */}
-            <p>{data.toString()}</p>
-          </div>
-        </ResumeCardWrapper>
-      ))}
+    {Array.isArray(data) &&
+      data
+        .filter((item) => item.isSelected)
+        .map((item) => (
+          <ResumeCardWrapper
+            key={item.platform}
+            platform={item.platform}
+            onClick={() => onClick(item)}
+          >
+            <div>
+              <p>Title: {item.resumeTitle}</p>
+              <p>Name: {item.name}</p>
+              <p>Email: {item.email}</p>
+              <p>Phone: {item.phoneNumber}</p>
+              <p>Experience: {item.totalExperienceYears} years</p>
+            </div>
+          </ResumeCardWrapper>
+        ))}
   </div>
 );
 

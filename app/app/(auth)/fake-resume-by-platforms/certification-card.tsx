@@ -1,15 +1,10 @@
 import React from 'react';
 import ResumeCardWrapper from './resume-card-wrapper';
+import { ResumeCertificate } from './types';
 
 type CertificationProps = {
-  data: {
-    platform: string;
-    isSelected: boolean;
-    name: string;
-    date: string;
-    description: string;
-    issuedBy: string;
-  }[];
+  data: ResumeCertificate[];
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (data: any) => void;
 };
@@ -25,12 +20,11 @@ const CertificationCard: React.FC<CertificationProps> = ({ data, onClick }) => (
           key={item.platform}
         >
           <div>
-            {/* <p className="font-bold">{item.name}</p>
-            <p>{item.issuedBy}</p>
-            <p>{item.date}</p>
-            <p>{item.description}</p> */}
-            {/* 임시. 값 확인용. */}
-            <p>{data.toString()}</p>
+            <p className="font-bold">{item.certificateName}</p>
+            <p>{item.issuer}</p>
+            <p>
+              {item.acquisitionYear}/{item.acquisitionMonth}
+            </p>
           </div>
         </ResumeCardWrapper>
       ))}

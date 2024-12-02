@@ -1,17 +1,10 @@
 import React from 'react';
 import ResumeCardWrapper from './resume-card-wrapper';
+import { ResumeExperience } from './types';
 
 type WorkExperienceProps = {
-  data: {
-    platform: string;
-    isSelected: boolean;
-    companyName: string;
-    position: string;
-    startDate: string;
-    endDate: string;
-    description: string;
-    isCurrent: boolean;
-  }[];
+  data: ResumeExperience[];
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   onClick: (data: any) => void;
 };
@@ -28,17 +21,22 @@ const WorkExperienceCard: React.FC<WorkExperienceProps> = ({ data, onClick }) =>
           key={item.platform}
         >
           <div className="flex items-center">
-            {/* <div className="mr-4 size-14 rounded-full bg-gray-200"></div>
+            <div className="mr-4 size-14 rounded-full bg-gray-200"></div>
             <div>
-              <p className="font-bold">{item.position}</p>
+              <p className="font-bold">{item.jobTitle}</p>
               <p>{item.companyName}</p>
+              <p>{item.companySize}</p>
+              <p>{item.companyType}</p>
+              <p>{item.department}</p>
+              <p>{item.industryType}</p>
+              <p>{item.isCurrent}</p>
+              <p>{item.salary}</p>
+              <p>{item.workType}</p>
               <p>
-                {item.startDate} - {item.endDate}
+                {item.startYear}/{item.startMonth} - {item.endYear}/{item.endMonth}
               </p>
-              <p>{item.description}</p>
-            </div> */}
-            {/* 임시. 값 확인용. */}
-            <p>{data.toString()}</p>
+              <p>{item.responsibilities}</p>
+            </div>
           </div>
         </ResumeCardWrapper>
       ))}
