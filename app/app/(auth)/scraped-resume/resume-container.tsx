@@ -15,6 +15,7 @@ import { getPlatformStatusClient } from '@/app/lib/api';
 import { HrPlatformName } from '@/app/lib/constants';
 import ScrapingLoadingOverlay from './scraping-loading-overlay';
 import LanguageCard from './language-card';
+// import { PlatformStatusItem } from '../../(users)/account-status/types';
 
 export default function ResumeContainer() {
   const postMessage = MessageChannel.usePostMessage();
@@ -40,18 +41,19 @@ export default function ResumeContainer() {
 
     try {
       const platforms = await getPlatformStatusClient();
-      const completedPlatforms = platforms.filter((platform) => platform.status === 'completed');
 
-      setCurrentPlatformName(completedPlatforms[progress].platform);
-      //   completedPlatforms = [
-      //     { platform: 'incruit', status: 'completed' },
-      //     { platform: 'wanted', status: 'completed' },
-      //     { platform: 'jobkorea', status: 'completed' },
-      //     { platform: 'remember', status: 'completed' },
-      //   ];
+      const completedPlatforms = platforms.filter((platform) => platform.status === 'completed');
+      // const completedPlatforms: PlatformStatusItem[] = [
+      //   { platform: 'incruit', status: 'completed' },
+      //   { platform: 'wanted', status: 'completed' },
+      //   { platform: 'jobkorea', status: 'completed' },
+      //   { platform: 'remember', status: 'completed' },
+      // ];
 
       for (const { platform } of completedPlatforms) {
         try {
+          setCurrentPlatformName(completedPlatforms[progress].platform);
+
           const result = await postMessage({
             isAsync: true,
             message: {
