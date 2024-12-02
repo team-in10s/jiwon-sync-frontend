@@ -38,7 +38,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           recordHeadersAndBody: true,
           urlBlocklist: [],
         }}
-        excludedHostnames={['localhost']} // skip localhost tracking
+        excludedHostnames={['localhost', '10.0.2.2']} // skip localhost tracking
         consoleMethodsToRecord={['warn', 'error']}
         debug
       />
