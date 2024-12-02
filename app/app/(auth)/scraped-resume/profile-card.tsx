@@ -21,12 +21,13 @@ const ProfileCard: React.FC<ProfileProps> = ({ data, onClick }) => (
             platform={item.platform}
             onClick={() => onClick(item)}
           >
-            <div>
-              <p>Title: {item.resumeTitle}</p>
-              <p>Name: {item.name}</p>
-              <p>Email: {item.email}</p>
-              <p>Phone: {item.phoneNumber}</p>
-              <p>Experience: {item.totalExperienceYears} years</p>
+            <div className="font-semibold">
+              {/* <p>Title: {item.resumeTitle}</p> */}
+              <p>이름: {item.name}</p>
+              <p>전화번호: {item.phoneNumber}</p>
+              <p>이메일: {item.email}</p>
+
+              {/* <p>Experience: {item.totalExperienceYears} years</p> */}
             </div>
           </ResumeCardWrapper>
         ))}
