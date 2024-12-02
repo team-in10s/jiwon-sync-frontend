@@ -19,13 +19,14 @@ const LanguageCard: React.FC<LanguageProps> = ({ data, onClick }) => (
           onClick={() => onClick(item)}
           key={item.platform}
         >
-          <div className="flex items-center">
-            <div className="mr-4 size-14 rounded-full bg-gray-200">{item.language}</div>
+          <div>
+            <p className="font-semibold">{item.language}</p>
             <div>
-              <p className="font-bold">{item.testName}</p>
-              <p>{item.speakingLevel}</p>
-              <p>{item.score}</p>
+              <span>{item.testName}</span>
+              <span> - </span>
+              <span>{item.score}</span>
             </div>
+            <p>{item.speakingLevel}</p>
           </div>
         </ResumeCardWrapper>
       ))}

@@ -19,17 +19,17 @@ const EducationCard: React.FC<EducationProps> = ({ data, onClick }) => (
           onClick={() => onClick(item)}
           key={item.platform}
         >
-          <div className="flex items-center">
-            <div className="mr-4 size-14 rounded-full bg-gray-200">{item.schoolName}</div>
-            <div>
-              <p className="font-bold">{item.schoolName}</p>
-              <p>{item.major}</p>
-              <p>
-                {item.startYear} - {item.endYear}
-              </p>
-              <p>{item.educationLevel}</p>
-              <p>{item.graduationStatus}</p>
+          <div>
+            <p className="font-semibold">{item.schoolName}</p>
+            <div className="font-semibold">
+              <span>{item.major}</span>
+              <span> - </span>
+              <span>{item.educationLevel}</span>
             </div>
+            <p>
+              {item.startYear} - {item.endYear}
+            </p>
+            <p>{item.graduationStatus}</p>
           </div>
         </ResumeCardWrapper>
       ))}

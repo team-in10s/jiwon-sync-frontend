@@ -20,10 +20,10 @@ const CertificationCard: React.FC<CertificationProps> = ({ data, onClick }) => (
           key={item.platform}
         >
           <div>
-            <p className="font-bold">{item.certificateName}</p>
-            <p>{item.issuer}</p>
+            <p className="font-semibold">{item.certificateName}</p>
+            <p className="font-semibold">{item.issuer}</p>
             <p>
-              {item.acquisitionYear}/{item.acquisitionMonth}
+              {item.acquisitionYear}.{item.acquisitionMonth}
             </p>
           </div>
         </ResumeCardWrapper>
