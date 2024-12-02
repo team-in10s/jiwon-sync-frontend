@@ -38,8 +38,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           recordHeadersAndBody: true,
           urlBlocklist: [],
         }}
-        excludedHostnames={['localhost']} // skip localhost tracking
-        consoleMethodsToRecord={['warn', 'error']}
+        excludedHostnames={['localhost', '10.0.2.2']} // skip localhost tracking
+        consoleMethodsToRecord={['error']}
         debug
       />
       <html lang="en" className={localFonts.variable}>
