@@ -10,7 +10,6 @@ import MessageChannel from 'jiwon-message-channel';
 import { convertIIFEString } from '@/app/lib/utils';
 import { mapToMergedFormat, scrapeResumeData } from './util';
 import { ORIGINAL_LOGIN_JOB_ID, SCRAPE_RESUME_URL } from '../../(users)/constants';
-import { PlatformStatusItem } from '../../(users)/account-status/types';
 import { MergedResumeData } from './types';
 import { getPlatformStatusClient } from '@/app/lib/api';
 import { HrPlatformName } from '@/app/lib/constants';
@@ -27,10 +26,6 @@ export default function ResumeContainer() {
   const [currentPlatformName, setCurrentPlatformName] = useState<HrPlatformName | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const scrapeResults: any[] = [];
-  let completedPlatforms: PlatformStatusItem[] = [];
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleClickCard = (data: any) => {
     console.log('data? ', data);
     setSelectedData(data);
@@ -40,9 +35,12 @@ export default function ResumeContainer() {
   const handleScrapeResume = async () => {
     if (!MessageChannel.isEnabled()) return;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const scrapeResults: any[] = [];
+
     try {
       const platforms = await getPlatformStatusClient();
-      completedPlatforms = platforms.filter((platform) => platform.status === 'completed');
+      const completedPlatforms = platforms.filter((platform) => platform.status === 'completed');
 
       setCurrentPlatformName(completedPlatforms[progress].platform);
       //   completedPlatforms = [
