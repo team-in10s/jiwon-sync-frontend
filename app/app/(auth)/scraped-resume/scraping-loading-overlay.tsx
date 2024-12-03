@@ -1,9 +1,10 @@
 import Image from 'next/image';
-import { NUMBER_TO_KOREAN } from './util';
+import { NUMBER_TO_KOREAN, PLATFORM_LOGO_PATH } from './util';
+import { HrPlatformName } from '@/app/lib/constants';
 
 type ScrapingLoadingOverlayProps = {
   progress: number;
-  currentPlatformName: string | null;
+  currentPlatformName: HrPlatformName | null;
 };
 
 const ScrapingLoadingOverlay: React.FC<ScrapingLoadingOverlayProps> = ({
@@ -25,7 +26,8 @@ const ScrapingLoadingOverlay: React.FC<ScrapingLoadingOverlayProps> = ({
         {currentPlatformName && (
           <Image
             className="rounded-full"
-            src={`/assets/platform_logo/${currentPlatformName}_logo.png`}
+            // src={`/assets/platform_logo/${currentPlatformName}_logo.png`}
+            src={PLATFORM_LOGO_PATH[currentPlatformName as keyof typeof PLATFORM_LOGO_PATH]}
             alt="플랫폼 로고"
             width={100}
             height={100}

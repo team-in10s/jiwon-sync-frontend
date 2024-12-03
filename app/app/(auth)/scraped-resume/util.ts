@@ -22,6 +22,14 @@ export const NUMBER_TO_KOREAN = [
   '열번째',
 ];
 
+export const PLATFORM_LOGO_PATH: Record<Exclude<HrPlatformName, 'jumpit'>, string> = {
+  incruit: '/assets/platform_logo/incruit_logo.png',
+  jobkorea: '/assets/platform_logo/jobkorea_logo.png',
+  remember: '/assets/platform_logo/remember_logo.png',
+  saramin: '/assets/platform_logo/saramin_logo.png',
+  wanted: '/assets/platform_logo/wanted_logo.png',
+};
+
 export async function scrapeResumeData(scriptUrl: string) {
   const script = document.createElement('script');
   script.src = scriptUrl;

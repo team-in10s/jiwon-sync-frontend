@@ -52,7 +52,8 @@ export default function ResumeContainer() {
 
       for (const { platform } of completedPlatforms) {
         try {
-          setCurrentPlatformName(completedPlatforms[progress].platform);
+          // setCurrentPlatformName(completedPlatforms[progress]['platform']);
+          setCurrentPlatformName(platform);
 
           const result = await postMessage({
             isAsync: true,
