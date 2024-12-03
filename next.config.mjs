@@ -19,6 +19,10 @@ const nextConfig = {
           source: "/_inblog/:path*",
           destination: "https://inblog.ai/jiwon-team/_inblog/:path*",
         },
+        {
+          source: "/biz",
+          destination: "https://friendly-decade-038255.framer.app/biz",
+        },
       ],
       afterFiles: [
         {
