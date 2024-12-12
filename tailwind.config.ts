@@ -35,6 +35,7 @@ const config: Config = {
         'purple-03': '#8A64F5',
         'purple-04': '#6634F3',
         'purple-05': '#4C1ECD',
+        'purple-06': '#dad1fe',
 
         // Milky Sky
         'sky-01': '#E2F7F3',

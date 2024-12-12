@@ -1,69 +1,86 @@
-@tailwind base;
+@import "tailwindcss/base";
+@import "@radix-ui/themes/styles.css";
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --primary-color: #4C1ECD;
-  --secondary-color: #1a1a1a;
-  --tertiary-color: #ffffff;
-  --accent-color: #ff6b6b;
-  --text-color: #ffffff;
+    --primary-color: #4C1ECD;
+    --secondary-color: #1a1a1a;
+    --tertiary-color: #ffffff;
+    --accent-color: #ff6b6b;
+    --text-color: #ffffff;
+    --purple-9: #8a64f5;
 }
 
 body {
-  font-family: var(--font-myFont), sans-serif;
+    font-family: var(--font-myFont), sans-serif;
+    [data-rsbs-root='true'] {
+        @import "@radix-ui/themes/styles.css";
+        /*background-color: red;*/
+    }
 }
 
+
 @layer utilities {
-  .text-gradient {
-    background: linear-gradient(135deg, #1D93B5, var(--primary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    display: inline-block;
-    line-height: 1.2;
-    padding-bottom: 0.1em;
-  }
+    .text-gradient {
+        background: linear-gradient(135deg, #1D93B5, var(--primary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        display: inline-block;
+        line-height: 1.2;
+        padding-bottom: 0.1em;
+    }
 
-  .btn-gradient {
-    background: linear-gradient(135deg, #1D93B5, var(--primary-color));
-    color: var(--tertiary-color);
-    transition:
-      transform 0.2s ease-in-out,
-      box-shadow 0.2s ease-in-out;
-  }
-  .btn-gradient:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
+    .btn-gradient {
+        background: linear-gradient(135deg, #1D93B5, var(--primary-color));
+        color: var(--tertiary-color);
+        transition: transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
+    }
 
-  .btn-elevate:hover {
-    transform: translateY(-1.5px);
-  }
+    .btn-gradient:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-  .card {
-    border: 3px solid var(--primary-color);
-    border-radius: 0.5rem;
-    transition: all 0.3s ease;
-  }
+    .btn-elevate:hover {
+        transform: translateY(-1.5px);
+    }
+
+    .card {
+        border: 3px solid var(--primary-color);
+        border-radius: 0.5rem;
+        transition: all 0.3s ease;
+    }
 }
 
 @keyframes shine {
-  0% {
-    background-position: -200%;
-  }
-  100% {
-    background-position: 200%;
-  }
+    0% {
+        background-position: -200%;
+    }
+    100% {
+        background-position: 200%;
+    }
 }
 
 .shiny-text {
-  background: linear-gradient(90deg, #00ff9d, #00ccff, #00ff9d);
-  background-size: 200%;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  font-weight: bold;
-  animation: shine 3s linear infinite;
-  display: inline-block;
+    background: linear-gradient(90deg, #00ff9d, #00ccff, #00ff9d);
+    background-size: 200%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    font-weight: bold;
+    animation: shine 3s linear infinite;
+    display: inline-block;
+}
+
+div:has([role='listbox']) {
+    z-index: 9 !important;
+    height: fit-content !important;
+}
+
+[data-placeholder]:empty:before {
+    content: attr(data-placeholder);
+    color: gray;
 }

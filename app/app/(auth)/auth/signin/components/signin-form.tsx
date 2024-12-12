@@ -29,7 +29,6 @@ export default function SigninForm() {
 
     try {
       const res = await signinApi(email, credentials);
-
       if ('user' in res) {
         setUserAuth(res.user, credentials);
 
@@ -38,13 +37,14 @@ export default function SigninForm() {
           const { available } = await getVirtualAvailability();
 
           toast.success('로그인 성공!');
-
           if (available) {
             // virtual mail이 있으면 onboarding으로 이동
             router.push('/app/onboarding');
+            router.refresh();
           } else {
             // virtual mail이 없으면 resume로 이동
             router.push('/app/resume');
+            router.refresh();
           }
         } catch (error) {
           toast.error('네트워크 오류입니다. 잠시 후에 다시 시도해 주세요.');

@@ -1,29 +1,51 @@
 // app/layout.tsx
 /* eslint-disable @next/next/no-img-element */
-import type { Metadata } from 'next';
-import { ReactNode } from 'react';
-import Script from 'next/script';
-import { HighlightInit } from '@highlight-run/next/client';
+import type {Metadata} from "next";
+import {ReactNode} from "react";
+import Script from "next/script";
+import {HighlightInit} from "@highlight-run/next/client";
+import "react-spring-bottom-sheet/dist/style.css";
 
-import './globals.css';
+import "./globals.css";
 
-import localFont from 'next/font/local';
+import localFont from "next/font/local";
+import {Theme} from "@radix-ui/themes";
 
 const localFonts = localFont({
   src: [
-    { path: '../public/fonts/NanumSquareNeoTTF-aLt.woff2', weight: '300', style: 'light' },
-    { path: '../public/fonts/NanumSquareNeoTTF-bRg.woff2', weight: '400', style: 'regular' },
-    { path: '../public/fonts/NanumSquareNeoTTF-cBd.woff2', weight: '500', style: 'bold' },
-    { path: '../public/fonts/NanumSquareNeoTTF-dEb.woff2', weight: '600', style: 'extrabold' },
-    { path: '../public/fonts/NanumSquareNeoTTF-eHv.woff2', weight: '700', style: 'heavy' },
+    {
+      path: "../public/fonts/NanumSquareNeoTTF-aLt.woff2",
+      weight: "300",
+      style: "light",
+    },
+    {
+      path: "../public/fonts/NanumSquareNeoTTF-bRg.woff2",
+      weight: "400",
+      style: "regular",
+    },
+    {
+      path: "../public/fonts/NanumSquareNeoTTF-cBd.woff2",
+      weight: "500",
+      style: "bold",
+    },
+    {
+      path: "../public/fonts/NanumSquareNeoTTF-dEb.woff2",
+      weight: "600",
+      style: "extrabold",
+    },
+    {
+      path: "../public/fonts/NanumSquareNeoTTF-eHv.woff2",
+      weight: "700",
+      style: "heavy",
+    },
   ],
-  variable: '--font-myFont',
+  variable: "--font-myFont",
 });
 
 export const metadata: Metadata = {
-  title: '지원전에 - 효율적인 채용 플랫폼 통합 관리 | 스카우트 제안',
+  title: "지원전에 - 효율적인 채용 플랫폼 통합 관리 | 스카우트 제안",
   description:
-    '여러 채용 사이트 이력서를 자동으로 동기화하여 시간을 절약하고, 한 곳에서 효율적으로 커리어를 관리합니다. 이어지는 스카우트 제안 관리로 더 많은 커리어 기회를 만나세요.',
+    "여러 채용 사이트 이력서를 자동으로 동기화하여 시간을 절약하고, 한 곳에서 효율적으로 커리어를 관리합니다. 이어지는 스카우트 제안 관리로 더 많은 커리어 기회를 만나세요.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -38,8 +60,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           recordHeadersAndBody: true,
           urlBlocklist: [],
         }}
-        excludedHostnames={['localhost', '10.0.2.2']} // skip localhost tracking
-        consoleMethodsToRecord={['warn', 'error']}
+        excludedHostnames={["localhost", "10.0.2.2"]} // skip localhost tracking
+        consoleMethodsToRecord={["warn", "error"]}
         debug
       />
       <html lang="en" className={localFonts.variable}>
@@ -96,18 +118,20 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           `}
           </Script>
         </head>
-        <body className="bg-white">
-          {children}
-          {/* NoScript part of Meta Pixel */}
-          <noscript>
-            <img
-              height="1"
-              width="1"
-              style={{ display: 'none' }}
-              src="https://www.facebook.com/tr?id=1620393688508165&ev=PageView&noscript=1"
-              alt=""
-            />
-          </noscript>
+        <body className="bg-white radix-themes">
+          <Theme>
+            {children}
+            {/* NoScript part of Meta Pixel */}
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                src="https://www.facebook.com/tr?id=1620393688508165&ev=PageView&noscript=1"
+                alt=""
+              />
+            </noscript>
+          </Theme>
         </body>
       </html>
     </>

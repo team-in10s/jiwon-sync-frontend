@@ -10,6 +10,7 @@ import AppFooter from './app/components/app-footer';
 import UserBtnTemp from './components/user_button_temp';
 import Link from 'next/link';
 
+
 export default function Home() {
   // redirect('https://jiwon-sync.in10s.co/');
   // const filePath = path.join(process.cwd(), 'public', 'index.html');
